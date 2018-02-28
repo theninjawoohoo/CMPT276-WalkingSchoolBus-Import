@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MonitorActivity" />
+        <activity android:name=".MonitoredByActivity"></activity>
     </application>
 
 </manifest>
