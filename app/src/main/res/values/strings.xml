@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">A Walking Schoolbus</string>
+    <string name="app_name">A Walking School bus</string>
+    <string name="name">Name:</string>
+    <string name="members">Members:</string>
+    <string name="destination">Destination:</string>
+    <string name="meeting">Meeting:</string>
+    <string name="group_name">GroupName</string>
+    <string name="cancel">Cancel</string>
+    <string name="create_group">Create Group</string>
 </resources>
