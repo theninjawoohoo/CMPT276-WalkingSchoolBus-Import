@@ -20,9 +20,9 @@ public class GroupInfoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
-        populateFields(tempName, R.id.hlinear_layout_group_name);
-        populateFields(tempDestination, R.id.hlinear_layout_group_destination);
-        populateFields(tempMeeting, R.id.hlinear_layout_group_meeting);
+        populateFields(tempName, R.id.linearLayout_GroupInfoActivity_groupName);
+        populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
+        populateFields(tempMeeting, R.id.linearLayout_GroupInfoActivity_Meeting);
         populateList();
     }
 
