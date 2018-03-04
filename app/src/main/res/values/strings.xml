@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">A Walking Schoolbus</string>
+
+
+    <string name = "api_key">AIzaSyBjWnTojaIlgU7XUYoLdpIGz9xQjNGmZCI</string>
+    <string name="tap_me_for_map">Tap Me for map</string>
+    <string name="switch_to_groupView">Switch To Group View</string>
 </resources>
