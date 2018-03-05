@@ -26,9 +26,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_REQUEST_CODE = 1010;
 
-
     private boolean mLocationPermissionGranted = false;
     private GoogleMap Gmap;
+
 
 
     @Override
@@ -108,6 +108,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    private void switchToMapViewFragment() {
+
+    }
+
+    private void switchToGroupViewFragment() {
+
+    }
 
 
 }

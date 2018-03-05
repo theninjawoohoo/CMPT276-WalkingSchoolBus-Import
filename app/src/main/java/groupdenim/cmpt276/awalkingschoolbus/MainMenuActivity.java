@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-public class PlaceHolderMainTest extends AppCompatActivity {
+public class MainMenuActivity extends AppCompatActivity {
 
     //Some const ints
     private static final String TAG = "MainActivity";
@@ -28,18 +28,20 @@ public class PlaceHolderMainTest extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_menu);
 
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
+
+
 
     }
 
     public boolean doesGoogleMapsWork() {
         Log.d(TAG, "doesGoogleMapsWork(): checking the api key and current version");
 
-        int apiAvaliable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(PlaceHolderMainTest.this);
+        int apiAvaliable = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(MainMenuActivity.this);
         if(apiAvaliable == ConnectionResult.SUCCESS) {
             //The user should be able to make google maps requests
             Log.d(TAG, "doesGoogleMapsWork(): Google Play Map services is functional.");
@@ -49,7 +51,7 @@ public class PlaceHolderMainTest extends AppCompatActivity {
         else if(GoogleApiAvailability.getInstance().isUserResolvableError(apiAvaliable)) {
             //An error has occured but it's most likely an outdated api.
             Log.d(TAG, "doesGoogleMapsWork():An error has occured but it can be fixed");
-            Dialog dialogBox = GoogleApiAvailability.getInstance().getErrorDialog(PlaceHolderMainTest.this,
+            Dialog dialogBox = GoogleApiAvailability.getInstance().getErrorDialog(MainMenuActivity.this,
                                                                                 apiAvaliable,
                                                                                 ERROR_DIALOG_REQUEST);
             dialogBox.show();
@@ -66,7 +68,7 @@ public class PlaceHolderMainTest extends AppCompatActivity {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PlaceHolderMainTest.this, MapActivity.class);
+                Intent intent = new Intent(MainMenuActivity.this, MapActivity.class);
                 startActivity(intent);
             }
         });
