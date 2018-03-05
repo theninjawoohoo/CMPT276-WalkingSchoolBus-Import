@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:text="@string/name"
+                android:text="@string/name_colon"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
-            android:text="@string/members"
+            android:text="@string/members_colon"
             android:textSize="24sp" />
 
         <ListView
@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:text="@string/destination"
+                android:text="@string/destination_colon"
                 android:textSize="24sp" />
         </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:text="@string/meeting"
+                android:text="@string/meeting_colon"
                 android:textSize="24sp" />
         </LinearLayout>
 

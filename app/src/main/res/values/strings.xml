@@ -1,10 +1,16 @@
 <resources>
     <string name="app_name">A Walking School bus</string>
-    <string name="name">Name:</string>
-    <string name="members">Members:</string>
-    <string name="destination">Destination:</string>
-    <string name="meeting">Meeting:</string>
+    <string name="name_colon">Name: </string>
+    <string name="members_colon">Members: </string>
+    <string name="destination_colon">Destination: </string>
+    <string name="meeting_colon">Meeting: </string>
+    <string name="destination">Destination</string>
+    <string name="meeting">Meeting</string>
     <string name="group_name">GroupName</string>
     <string name="cancel">Cancel</string>
     <string name="create_group">Create Group</string>
+    <string name="leave">Leave</string>
+    <string name="join">Join</string>
+    <string name="add">Add</string>
+    <string name="remove">Remove</string>
 </resources>
