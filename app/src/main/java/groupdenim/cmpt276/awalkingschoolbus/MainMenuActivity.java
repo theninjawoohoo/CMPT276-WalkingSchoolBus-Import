@@ -29,7 +29,7 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-
+        initializeMonitor();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
@@ -74,5 +74,15 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeMonitor() {
+        Button btnMonitor = (Button) findViewById(R.id.btn_monitor);
+        btnMonitor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
 }

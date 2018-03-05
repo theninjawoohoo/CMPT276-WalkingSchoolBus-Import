@@ -34,7 +34,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     //Intent to go back to main Activity
     public static Intent makeIntent(Context context){
-        return new Intent(context, MainActivity.class);
+        return new Intent(context, MainMenuActivity.class);
     }
 
 
