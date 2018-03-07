@@ -9,18 +9,14 @@ import java.util.List;
 
 class User {
 
+    private long id=0;
     private String email="";   //most likely the primary key/identifier for each member
     private String memberName="";
-    private String memberLastName="";
-    private String GPSCoordinates="";   //not sure about this, will change later
 
     private List<Integer> groups=new ArrayList<>(); //what groups is the person a part of, marked by a number
     private List<String> peopleUserIsMonitoring=new ArrayList<>();  //we can add and removed people from here
     private List<String> peopleMonitoringUser=new ArrayList<>();
 
-    private boolean isChild=true;   //false -> parent
-    private boolean isBeingMonitored=false;
-    private boolean isMonitoringOthers=false;
 
     public User(){
     }
@@ -33,9 +29,6 @@ class User {
         return memberName;
     }
 
-    public String getMemberLastName() {
-        return memberLastName;
-    }
 
     public List<Integer> getGroups() {
         return groups;
@@ -49,17 +42,7 @@ class User {
         return peopleMonitoringUser;
     }
 
-    public boolean isChild() {
-        return isChild;
-    }
 
-    public boolean isBeingMonitored() {
-        return isBeingMonitored;
-    }
-
-    public boolean isMonitoringOthers() {
-        return isMonitoringOthers;
-    }
 
     public void setEmail(String email) {
         this.email = email;
@@ -69,19 +52,4 @@ class User {
         this.memberName = memberName;
     }
 
-    public void setMemberLastName(String memberLastName) {
-        this.memberLastName = memberLastName;
-    }
-
-    public void setChild(boolean child) {
-        isChild = child;
-    }
-
-    public void setBeingMonitored(boolean beingMonitored) {
-        isBeingMonitored = beingMonitored;
-    }
-
-    public void setMonitoringOthers(boolean monitoringOthers) {
-        isMonitoringOthers = monitoringOthers;
-    }
 }
