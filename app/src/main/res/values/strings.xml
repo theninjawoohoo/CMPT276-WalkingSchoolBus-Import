@@ -12,6 +12,7 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="api_key">394ECE0B-5BF9-41C4-B9F6-261B0678ED23</string>
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
