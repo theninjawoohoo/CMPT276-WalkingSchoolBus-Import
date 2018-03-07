@@ -65,6 +65,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -275,28 +276,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
 
             // TODO: attempt authentication against a network service.
-            Response.Listener<String> loginListener = new Response.Listener<String>() {
-                @Override
-                public void onResponse(String response) {
-                    //Message back from server.
-                    //Define what you want to do after you receive said message.
-                    Toast.makeText(LoginActivity.this,"User Logged In!", Toast.LENGTH_SHORT).show();
-                    Log.i("TEST", response);
-
-                }
-            };
-
-            LoginRequest loginRequest = new LoginRequest(mEmail, mPassword, loginListener, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(LoginActivity.this,"Username or Password invalid.", Toast.LENGTH_LONG).show();
-                }
-            });
-
-            RequestQueue queue =  Volley.newRequestQueue(LoginActivity.this);
-
-            queue.add(loginRequest);
-
 
             return true;
         }
@@ -307,7 +286,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             showProgress(false);
 
             if (success) {
-                //finish();
+                finish();
             } else {
                 mPasswordView.setError(getString(R.string.error_incorrect_password));
                 mPasswordView.requestFocus();
