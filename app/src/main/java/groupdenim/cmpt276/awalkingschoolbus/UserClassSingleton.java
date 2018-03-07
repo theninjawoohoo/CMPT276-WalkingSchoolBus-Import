@@ -10,13 +10,13 @@ import java.util.List;
 public class UserClassSingleton
 {
 
-    private static List<Member> memberList =new ArrayList<>();
+    private static List<User> userList =new ArrayList<>();
 
-    public static List<Member> getInstance() {
-        if (memberList == null) {
-            memberList = new ArrayList<>();
+    public static List<User> getInstance() {
+        if (userList == null) {
+            userList = new ArrayList<>();
         }
-        return memberList;
+        return userList;
     }
 
 

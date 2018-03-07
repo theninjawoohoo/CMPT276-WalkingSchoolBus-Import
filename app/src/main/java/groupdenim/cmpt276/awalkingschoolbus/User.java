@@ -7,7 +7,7 @@ import java.util.List;
  * Created by niragmehta on 2018-03-06.
  */
 
-class Member {
+class User {
 
     private String email="";   //most likely the primary key/identifier for each member
     private String memberName="";
@@ -22,7 +22,7 @@ class Member {
     private boolean isBeingMonitored=false;
     private boolean isMonitoringOthers=false;
 
-    public Member(){
+    public User(){
     }
 
     public String getEmail() {
