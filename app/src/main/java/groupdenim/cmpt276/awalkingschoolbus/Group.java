@@ -42,8 +42,8 @@ public class Group {
         members.add(userEmail);
     }
 
-    public void removeMember(int userId) {
-        members.remove(userId);
+    public void removeMember(String userEmail) {
+        members.remove(userEmail);
     }
 
     public String getDestination() {
