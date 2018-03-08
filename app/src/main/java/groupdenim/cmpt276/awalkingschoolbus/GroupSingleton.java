@@ -1,14 +1,10 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
-import java.util.ArrayList;
-import java.util.List;
-
-/**
- * Created by Adrian Joziak on 3/3/2018.
- */
+import java.util.HashMap;
+import java.util.Map;
 
 public class GroupSingleton {
-    private List<Group> groups = new ArrayList<>();
+    private Map<String, Group> groups = new HashMap<>(); //groupName, Group
     private static GroupSingleton instance;
 
     private GroupSingleton() {}
@@ -21,6 +17,18 @@ public class GroupSingleton {
     }
 
     public void addGroup(Group group) {
-        groups.add(group);
+        groups.put(group.getGroupName(), group);
+    }
+
+    public void removeGroup(String groupName) {
+        groups.remove(groupName);
+    }
+
+    public Group getGroup(String groupName) {
+        return groups.get(groupName);
+    }
+
+    public void setGroup(String groupName, Group group) {
+        groups.put(groupName, group);
     }
 }
