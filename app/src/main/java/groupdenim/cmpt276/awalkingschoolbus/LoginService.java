@@ -13,22 +13,25 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Header;
+import retrofit2.http.Headers;
 
 
 /**
  * Created by Farhan on 2018-03-06.
  */
 
-public class RegisterService extends IntentService {
+public class LoginService extends IntentService {
     public static final String SERVICE = "Register Service";
     public final String USER = "UserReturned";
     boolean result = false;
 
-    public RegisterService() {
+    public LoginService() {
         super("RegisterService");
     }
 
@@ -42,38 +45,39 @@ public class RegisterService extends IntentService {
         WebService webService = WebService.retrofit.create(WebService.class);
 
         //get data from intent
-        String name = intent.getStringExtra("name");
         String email = intent.getStringExtra("email");
         String password = intent.getStringExtra("password");
 
 
-        //create user to pass into call
+//        //create user to pass into call
         User user = new User();
         user.setEmail(email);
-        user.setName(name);
         user.setPassword(password);
 
 
         //make call
-        Call<User> callRegister = webService.registerUser(user);
+        Call<Void> callRegister = webService.getLogin(user);
 
         //get response
-        callRegister.enqueue(new Callback<User>() {
+        callRegister.enqueue(new Callback<Void>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                Log.i("bn", "onResponse: got Response from server");
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                Log.i("bn", "onResponse: response from server");
                 if (response.isSuccessful()) {
-                    final User userToReturn = response.body();
-                    messageToReturn.putExtra("name", userToReturn.getName());
+                    okhttp3.Headers header =  response.headers();
+                    String auth = header.get("Authorization");
+
+                    Log.i("gotHeader", "onResponse: " + header);
+                    Log.i("H", "onResponse: " + auth);
                     result = true;
-                    Log.i("bbb", "onResponse: response successful");
+                    Log.i("bbb", "onResponse: isSuccessful has run");
                 } else {
-                    Log.i("aaa", "onResponse: made it");
+                    Log.i("aaa", "onResponse: else if not isSuccessful");
                     try {
 
-                        Log.i("f", "onResponse: nope not successful ");
+                        Log.i("f", "onResponse: nope ");
                         JSONObject error = new JSONObject(response.errorBody().string());
-                        Toast.makeText(RegisterService.this,error.getString("message"),Toast.LENGTH_LONG).show();
+                        Toast.makeText(LoginService.this,error.getString("message"),Toast.LENGTH_LONG).show();
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
@@ -84,9 +88,9 @@ public class RegisterService extends IntentService {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<Void> call, Throwable t) {
                 Log.i("ERROR:", "onFailure: " + t);
-                Toast.makeText(RegisterService.this,t.getMessage(),Toast.LENGTH_SHORT);
+                Toast.makeText(LoginService.this,t.getMessage(),Toast.LENGTH_SHORT);
                 return;
             }
         });

@@ -18,6 +18,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity"></activity>
         <service android:enabled="true" android:name="groupdenim.cmpt276.awalkingschoolbus.RegisterService"></service>
+        <service android:enabled="true" android:name="groupdenim.cmpt276.awalkingschoolbus.LoginService"></service>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />

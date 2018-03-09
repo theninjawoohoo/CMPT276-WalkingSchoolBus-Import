@@ -3,10 +3,14 @@ package groupdenim.cmpt276.awalkingschoolbus;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
@@ -61,6 +65,31 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+
+    private BroadcastReceiver broadcastReceiver2 = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            //check to see if service completed as expected
+            boolean result = intent.getBooleanExtra("result",false);
+
+            //if service was successful
+            if (result) {
+
+                Toast.makeText(LoginActivity.this,
+                        "Success, User Logged in!",
+                        Toast.LENGTH_LONG).show();
+                finish();
+            } else {
+                Log.i("e", "onReceive: help, user not logged in" );
+            }
+
+            //stop service
+            Intent login = new Intent(LoginActivity.this,LoginService.class);
+            stopService(login);
+        }
+
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +111,24 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+        setupRegisterButton();
+        setupLoginButton();
+
+        mLoginFormView = findViewById(R.id.login_form);
+        mProgressView = findViewById(R.id.login_progress);
+    }
+
+    private void setupLoginButton() {
+        Button login = (Button) findViewById(R.id.Button_login);
+        login.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                attemptLogin();
+            }
+        });
+    }
+
+    private void setupRegisterButton() {
         Button register = (Button) findViewById(R.id.Button_register);
         register.setOnClickListener(new OnClickListener() {
             @Override
@@ -90,14 +137,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 startActivity(intent);
             }
         });
-
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
     }
 
     private void populateAutoComplete() {
 
         getLoaderManager().initLoader(0, null, this);
+    }
+
+    private void setBroadCastReceiver() {
+        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiver2, new IntentFilter(LoginService.SERVICE));
     }
 
 
@@ -276,6 +324,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected Boolean doInBackground(Void... params) {
 
             // TODO: attempt authentication against a network service.
+            Intent login = new Intent(LoginActivity.this,LoginService.class);
+            login.putExtra("email", mEmail);
+            login.putExtra("password",mPassword);
+            Log.i("a", "onClick: doinbackgrounlogin");
+            startService(login);
 
             return true;
         }

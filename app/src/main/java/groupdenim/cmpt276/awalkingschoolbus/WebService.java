@@ -30,8 +30,9 @@ public interface WebService {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-    @GET(FEED_LOGIN)
-    Call<Void> getLogin();
+    @Headers("apiKey: " + APIKEY)
+    @POST(FEED_LOGIN)
+    Call<Void> getLogin(@Body User user);
 
     @Headers("apiKey: " + APIKEY)
     @POST(FEED_REGISTER)
