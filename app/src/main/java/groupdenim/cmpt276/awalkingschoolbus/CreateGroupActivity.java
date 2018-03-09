@@ -40,7 +40,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                 //TODO: make it validate input then store input in new group
                 getInput();
                 if (isInputValid()) {
-                    sendInput();
+                    //sendInput();
                     finish();
                 }
             }
@@ -72,10 +72,12 @@ public class CreateGroupActivity extends AppCompatActivity {
         return false;
     }
 
+    /*
     private void sendInput() {
         Group group = new Group(destination, groupName, meetingPlace);
         GroupSingleton groupSingleton = GroupSingleton.getInstance();
         groupSingleton.addGroup(group);
     }
+    */
 }
 

@@ -13,7 +13,7 @@
     <string name="join">Join</string>
     <string name="add">Add</string>
     <string name="remove">Remove</string>
-    <string name = "api_key">AIzaSyBjWnTojaIlgU7XUYoLdpIGz9xQjNGmZCI</string>
+    <string name="api_key">AIzaSyBjWnTojaIlgU7XUYoLdpIGz9xQjNGmZCI</string>
     <string name="switch_to_groupView">Switch To Group View</string>
     <string name="switch_to_mapView">Grouping</string>
     <string name="switch_to_logout">Logout</string>

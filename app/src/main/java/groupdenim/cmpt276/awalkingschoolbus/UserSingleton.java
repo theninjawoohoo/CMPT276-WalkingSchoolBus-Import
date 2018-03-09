@@ -3,29 +3,49 @@ package groupdenim.cmpt276.awalkingschoolbus;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class UserSingleton {
-    private static UserSingleton instance;
-    private static Map<String, User> userMap = new HashMap<>(); //userEmail, User
+
+
+    private static Map<String, User> userMap ; //userEmail, User
+
     private static String currentUserEmail = "tempEmail"; //get it from the login
+    private static String currentUserToken="";
 
     private UserSingleton() {}
 
-    public static UserSingleton getInstance() {
-        if (instance == null) {
-            instance = new UserSingleton();
-        }
-        return instance;
+
+    public static void addStuff()
+    {
+        currentUserEmail="jack@";
+        User userOne=new User("Jack",currentUserEmail);
+        userOne.getGroups().add("1");
+        userOne.getPeopleUserIsMonitoring().add("iris@"); userOne.getPeopleUserIsMonitoring().add("paul@");
+        userOne.getPeopleMonitoringUser().add("brian@");  userOne.getPeopleMonitoringUser().add("josh@");
+
+
+        User userTwo=new User("Iris","iris@");
+
+        User userThree=new User("Paul","paul@");
+
+        userMap.put("jack@",userOne);
+        userMap.put("iris@",userTwo);
+        userMap.put("paul@",userThree);
+
+
     }
 
-    public Map<String, User> getUserMap() {
+    public static Map<String, User> getUserMap() {
+        if(userMap==null) {
+            userMap = new HashMap<>();
+            addStuff();
+        }
+
         return userMap;
     }
 
-    public String getCurrentUserEmail() {
+    public static String getCurrentUserEmail() {
         return currentUserEmail;
     }
 
-    public void addUser(User user) {
-        userMap.put(user.getEmail(), user);
-    }
 }

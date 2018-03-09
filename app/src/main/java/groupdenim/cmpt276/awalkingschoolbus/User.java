@@ -5,14 +5,17 @@ package groupdenim.cmpt276.awalkingschoolbus;
 
 class User {
     private String email;
-    private String userName;
+    private String name;
+
 
     private List<String> groups = new ArrayList<>(); //what groups is the person a part of (by name)
-    private List<String> peopleUserIsMonitoring = new ArrayList<>();
-    private List<String> peopleMonitoringUser = new ArrayList<>();
+
+    
+    private List<String> peopleUserIsMonitoring = new ArrayList<>();    //uses email
+    private List<String> peopleMonitoringUser = new ArrayList<>();      //uses email
 
     public User(String userName, String email){
-        this.userName = userName;
+        this.name = userName;
         this.email = email;
     }
 
@@ -21,7 +24,7 @@ class User {
     }
 
     public String getUserName() {
-        return userName;
+        return name;
     }
 
     public List<String> getGroups() {
@@ -41,7 +44,7 @@ class User {
     }
 
     public void setUserName(String userName) {
-        this.userName = userName;
+        this.name = userName;
     }
 
     public void removeFromGroup(String groupName) {
