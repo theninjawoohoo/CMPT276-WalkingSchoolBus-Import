@@ -19,6 +19,7 @@ public class MonitorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_monitor);
 
         ListView listView=findViewById(R.id.listViewMonitor);
+
         //Buttons
         Button monitorSomeone=findViewById(R.id.btnMonitorSomeone);
         Button seeWhoIsMonitoringYou=findViewById(R.id.btnSeeWhoIsMonitoringYou);
@@ -36,7 +37,6 @@ public class MonitorActivity extends AppCompatActivity {
     public static Intent makeIntent(Context context){
         return new Intent(context, MainMenuActivity.class);
     }
-
 
 
 }
