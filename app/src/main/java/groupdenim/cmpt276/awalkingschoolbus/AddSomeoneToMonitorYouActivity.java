@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.List;
 import java.util.Map;
 
 public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
@@ -28,18 +29,18 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!checkEmailValidity(emailInput))
+                if(!checkEmailValidity(emailInput,currentUser,masterMap))
                     return;
 
                 currentUser.getPeopleMonitoringUser().add(emailInput.getText().toString());
 
-                /*
-                only implemented after checkEmailValidity works
+
+                //only implemented after checkEmailValidity works
 
                 //adds current user to list of that particular user you want to be monitored by
-                User someoneMonitoringCurrentUser=masterMap.get(emailInput);
+                User someoneMonitoringCurrentUser=masterMap.get(emailInput.getText().toString());
                 someoneMonitoringCurrentUser.getPeopleUserIsMonitoring().add(currentUserEmail);
-                */
+
 
                 Intent intent=new Intent(AddSomeoneToMonitorYouActivity.this,MonitorActivity.class);
                 startActivity(intent);
@@ -56,10 +57,24 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
 
     }
 
-    public boolean checkEmailValidity(EditText emailInput)
+    public boolean checkEmailValidity(EditText emailInput,User currentUser,Map<String,User> masterMap)
     {
         //add code here to check if email exists from map/list or if already a part of user's list
 
+
+        //checks if input email even exists
+        User userExistenseCheck=masterMap.get(emailInput.getText().toString());
+        if(userExistenseCheck==null)
+            return false;
+
+
+        //checks for duplicate within existing user's list
+        List<String> list=currentUser.getPeopleMonitoringUser();
+        for(int i=0;i<list.size();i++)
+        {
+            if(emailInput.getText().toString().equals(list.get(i)))
+                return false;
+        }
 
 
         return true;    //only for now

@@ -25,12 +25,16 @@ public class UserSingleton {
 
 
         User userTwo=new User("Iris","iris@");
-
         User userThree=new User("Paul","paul@");
+        User userFour=new User("Brian","brian@");
+        User userFive=new User("Josh","josh@");
 
         userMap.put("jack@",userOne);
         userMap.put("iris@",userTwo);
         userMap.put("paul@",userThree);
+        userMap.put("josh@",userFive);
+
+        userMap.put("brian@",userFour);
 
 
     }
