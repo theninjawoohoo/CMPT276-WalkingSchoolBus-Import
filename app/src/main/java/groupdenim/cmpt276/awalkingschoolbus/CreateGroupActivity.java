@@ -73,7 +73,9 @@ public class CreateGroupActivity extends AppCompatActivity {
     }
 
     private void sendInput() {
-        Group group = new Group(destination, groupName, meetingPlace);
+        //TODO: need to figure out what to do with coordinates:
+        Coordinate tempCoord = new Coordinate(0, 0);
+        Group group = new Group(destination, groupName, meetingPlace, tempCoord, tempCoord);
         GroupSingleton groupSingleton = GroupSingleton.getInstance();
         groupSingleton.addGroup(group);
     }

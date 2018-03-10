@@ -57,4 +57,12 @@ class User {
     public void addToGroup(String groupName) {
         groups.add(groupName);
     }
+
+    public void addPersonToMonitor(String userName) {
+        peopleUserIsMonitoring.add(userName);
+    }
+
+    public void addMonitor(String userName) {
+        peopleMonitoringUser.add(userName);
+    }
 }

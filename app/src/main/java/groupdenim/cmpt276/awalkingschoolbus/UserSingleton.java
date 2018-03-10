@@ -28,4 +28,8 @@ public class UserSingleton {
     public void addUser(User user) {
         userMap.put(user.getEmail(), user);
     }
+
+    public User getUser(String userEmail) {
+        return userMap.get(userEmail);
+    }
 }
