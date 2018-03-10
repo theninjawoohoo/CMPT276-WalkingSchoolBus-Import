@@ -28,14 +28,14 @@ public class UserSingleton {
         User userThree=new User("Paul","paul@");
         User userFour=new User("Brian","brian@");
         User userFive=new User("Josh","josh@");
+        User userSix=new User("Steve","steve@");
 
         userMap.put("jack@",userOne);
         userMap.put("iris@",userTwo);
         userMap.put("paul@",userThree);
         userMap.put("josh@",userFive);
-
         userMap.put("brian@",userFour);
-
+        userMap.put("steve@",userSix);
 
     }
 

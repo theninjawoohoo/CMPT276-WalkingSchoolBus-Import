@@ -31,12 +31,19 @@ public class MonitorActivity extends AppCompatActivity {
         Button seeWhoIsMonitoringYou=findViewById(R.id.btnSeeWhoIsMonitoringYou);
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
 
+        //list studentsBeingMonitored is temporary
         List<String> studentsBeingMonitored=currentUser.getPeopleUserIsMonitoring();
+        //the list below is to concatenate name and email
+        List<String> studentsBeingMonitoredWithName=new ArrayList<>();
+        for(int i=0;i<studentsBeingMonitored.size();i++)
+            studentsBeingMonitoredWithName.add(masterMap.get(studentsBeingMonitored.get(i)).getUserName()+"\t\t\t\t\t\t\t"+studentsBeingMonitored.get(i));
 
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,
-                R.layout.student_in_list,studentsBeingMonitored );
+                R.layout.student_in_list,studentsBeingMonitoredWithName );
         listView.setAdapter(adapter);
 
+
+        //Buttons to switch activities on clicking them
         switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou);
 
     }

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,12 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
         //checks if input email even exists
         User userExistenseCheck=masterMap.get(emailInput.getText().toString());
         if(userExistenseCheck==null)
+        {
+            Toast toast = Toast.makeText(this,"User email does not exist",Toast.LENGTH_SHORT);
+            toast.show();
             return false;
+        }
+
 
 
         //checks for duplicate within existing user's list
@@ -73,7 +79,11 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
         for(int i=0;i<list.size();i++)
         {
             if(emailInput.getText().toString().equals(list.get(i)))
+            {
+                Toast toast = Toast.makeText(this,"User email already exists in your list",Toast.LENGTH_SHORT);
+                toast.show();
                 return false;
+            }
         }
 
 

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -25,10 +26,16 @@ public class MonitoredByActivity extends AppCompatActivity {
         String currentUserEmail=UserSingleton.getCurrentUserEmail();
         User currentUser=masterMap.get(currentUserEmail);
 
+        //list peopleMonitoringUser is temporary
         List<String> peopleMonitoringUser=currentUser.getPeopleMonitoringUser();
+        //the list below is to concatenate name and email
+        List<String> peopleMonitoringUserWithName=new ArrayList<>();
+        for(int i=0;i<peopleMonitoringUser.size();i++)
+            peopleMonitoringUserWithName.add(masterMap.get(peopleMonitoringUser.get(i)).getUserName()+"\t\t\t\t\t\t\t"+peopleMonitoringUser.get(i));
+
 
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,
-                R.layout.student_in_list,peopleMonitoringUser );
+                R.layout.student_in_list,peopleMonitoringUserWithName );
         listView.setAdapter(adapter);
 
 
