@@ -26,7 +26,7 @@ import retrofit2.Response;
 public class RegisterService extends IntentService {
     public static final String SERVICE = "Register Service";
     public final String USER = "UserReturned";
-    boolean result = false;
+//    boolean result = false;
 
     public RegisterService() {
         super("RegisterService");
@@ -36,7 +36,7 @@ public class RegisterService extends IntentService {
     protected void onHandleIntent(Intent intent) {
 
         final Intent messageToReturn = new Intent(SERVICE);
-        //result = false;
+        boolean result = false;
 
         //Initialize webservice
         WebService webService = WebService.retrofit.create(WebService.class);
@@ -65,12 +65,17 @@ public class RegisterService extends IntentService {
                 if (response.isSuccessful()) {
                     final User userToReturn = response.body();
                     messageToReturn.putExtra("name", userToReturn.getName());
-                    result = true;
+                    messageToReturn.putExtra("result", true);
                     Log.i("bbb", "onResponse: response successful");
+
+                    LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+                    manager.sendBroadcast(messageToReturn);
+
+                    
                 } else {
                     Log.i("aaa", "onResponse: made it");
                     try {
-
+                        messageToReturn.putExtra("result",false);
                         Log.i("f", "onResponse: nope not successful ");
                         JSONObject error = new JSONObject(response.errorBody().string());
                         Toast.makeText(RegisterService.this,error.getString("message"),Toast.LENGTH_LONG).show();
@@ -92,9 +97,9 @@ public class RegisterService extends IntentService {
         });
 
         //return data
-        messageToReturn.putExtra("result",result);
-        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-        manager.sendBroadcast(messageToReturn);
+//        messageToReturn.putExtra("result",result);
+//        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
+//        manager.sendBroadcast(messageToReturn);
 
     }
 }
