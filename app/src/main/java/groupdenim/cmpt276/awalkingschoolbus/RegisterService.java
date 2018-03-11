@@ -68,10 +68,12 @@ public class RegisterService extends IntentService {
                     messageToReturn.putExtra("result", true);
                     Log.i("bbb", "onResponse: response successful");
 
+
+                    //return data
                     LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
                     manager.sendBroadcast(messageToReturn);
 
-                    
+
                 } else {
                     Log.i("aaa", "onResponse: made it");
                     try {
@@ -96,10 +98,6 @@ public class RegisterService extends IntentService {
             }
         });
 
-        //return data
-//        messageToReturn.putExtra("result",result);
-//        LocalBroadcastManager manager = LocalBroadcastManager.getInstance(getApplicationContext());
-//        manager.sendBroadcast(messageToReturn);
 
     }
 }
