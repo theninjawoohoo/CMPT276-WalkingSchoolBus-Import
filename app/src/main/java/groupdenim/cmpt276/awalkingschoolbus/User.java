@@ -9,13 +9,34 @@ public class User {
     private String email;
     private String password;
 
+    private List<User> leadsGroups = new ArrayList<>();
+
+    private List<User> memberOfGroups = new ArrayList<>();
+
     private List<User> monitoredByUsers = new ArrayList<>();
+
     private List<User> monitorsUsers = new ArrayList<>();
-    //private List<Void> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
 
     private String href;
-
     public User() {
+
+    }
+
+    public List<User> getLeadsGroups() {
+        return leadsGroups;
+    }
+
+    public void setLeadsGroups(List<User> leadsGroups) {
+        this.leadsGroups = leadsGroups;
+    }
+
+    //private List<Void> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
+    public List<User> getMemberOfGroups() {
+        return memberOfGroups;
+    }
+
+    public void setMemberOfGroups(List<User> memberOfGroups) {
+        this.memberOfGroups = memberOfGroups;
     }
     public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
         this.id = id;

@@ -25,16 +25,16 @@ public interface WebService {
     String FEED_REGISTER = "/users/signup";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
-    Retrofit retrofit = new Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build();
+//    Retrofit retrofit = new Retrofit.Builder()
+//            .baseUrl(BASE_URL)
+//            .addConverterFactory(GsonConverterFactory.create())
+//            .build();
 
-    @Headers("apiKey: " + APIKEY)
+    //@Headers("apiKey: " + APIKEY)
     @POST(FEED_LOGIN)
     Call<Void> getLogin(@Body User user);
 
-    @Headers("apiKey: " + APIKEY)
+    //@Headers("apiKey: " + APIKEY)
     @POST(FEED_REGISTER)
     Call<User> registerUser(@Body User user);
 }

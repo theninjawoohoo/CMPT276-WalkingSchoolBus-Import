@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import retrofit2.Call;
+
 public class RegisterActivity extends AppCompatActivity {
 
     //set up fields
@@ -25,30 +27,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText password;
     private EditText email;
     private View mProgressView;
+    private WebService proxy;
 
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            //check to see if service completed as expected
-            boolean result = intent.getBooleanExtra("result",false);
-
-            //if service was successful
-            if (result) {
-                String name = intent.getStringExtra("name");
-                Toast.makeText(RegisterActivity.this,
-                        "Success, User: " + name + " created!",
-                        Toast.LENGTH_LONG).show();
-                finish();
-            } else {
-                Log.i("e", "onReceive: help" );
-            }
-
-            //stop service
-            Intent register = new Intent(RegisterActivity.this,RegisterService.class);
-            stopService(register);
-        }
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,10 +41,51 @@ public class RegisterActivity extends AppCompatActivity {
         password = findViewById(R.id.EditText_pass);
         email = findViewById(R.id.EditText_email);
         mProgressView = findViewById(R.id.login_progress2);
-        setBroadCastReceiver();
+
+
+        proxy = ProxyBuilder.getProxy(getString(R.string.api_key), null);
         setButton();
 
     }
+
+    private void setButton() {
+        register.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                showProgress(true);
+                //get text from screen
+                String name = username.getText().toString();
+                String pass = password.getText().toString();
+                String mail = email.getText().toString();
+
+                User user = new User();
+                user.setName(name);
+                user.setPassword(pass);
+                user.setEmail(mail);
+
+                Call<User> caller = proxy.registerUser(user);
+                ProxyBuilder.callProxy(RegisterActivity.this, caller, returnedUser -> response(returnedUser));
+
+
+            }
+        });
+    }
+
+    private void response(User user) {
+        Log.w("TAG", "Server replied with user: " + user.toString());
+        showProgress(false);
+        finish();
+    }
+
+
+
+
+
+
+
+
+
 
     /**
      * Shows the progress UI and hides the login form.
@@ -100,35 +121,6 @@ public class RegisterActivity extends AppCompatActivity {
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             password.setVisibility(show ? View.GONE : View.VISIBLE);
         }
-    }
-
-    private void setBroadCastReceiver() {
-        LocalBroadcastManager.getInstance(getApplicationContext()).registerReceiver(broadcastReceiver, new IntentFilter(RegisterService.SERVICE));
-    }
-
-    private void setButton() {
-        register.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Log.i("a", " created!");
-                //get text from screen
-                String name = username.getText().toString();
-                String pass = password.getText().toString();
-                String mail = email.getText().toString();
-
-
-                Intent register = new Intent(RegisterActivity.this,RegisterService.class);
-                register.putExtra("name",name);
-                register.putExtra("email", mail);
-                register.putExtra("password",pass);
-                Log.i("a", "onClick: made it this far");
-                startService(register);
-                showProgress(true);
-
-
-            }
-        });
     }
 
 }
