@@ -74,7 +74,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -89,10 +88,11 @@ public class LoginActivity extends AppCompatActivity {
         proxy = ProxyBuilder.getProxy(getString(R.string.api_key), null);
         setupRegisterButton();
         setupLoginButton();
-
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
     }
+
+
 
     private void setupLoginButton() {
         Button login = (Button) findViewById(R.id.Button_login);
@@ -171,6 +171,8 @@ public class LoginActivity extends AppCompatActivity {
     private void response(Void nothing) {
         Log.i("HEADERRESPONSE", "response: " );
         showProgress(false);
+        //start new activity
+
     }
 
     private void response(String token) {

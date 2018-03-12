@@ -5,6 +5,8 @@ import com.google.gson.JsonElement;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,12 +25,10 @@ public interface WebService {
     String BASE_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443";
     String FEED_LOGIN = "/login";
     String FEED_REGISTER = "/users/signup";
+    String FEED_GETUSERLIST = "/users";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
-//    Retrofit retrofit = new Retrofit.Builder()
-//            .baseUrl(BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build();
+
 
     //@Headers("apiKey: " + APIKEY)
     @POST(FEED_LOGIN)
@@ -37,4 +37,9 @@ public interface WebService {
     //@Headers("apiKey: " + APIKEY)
     @POST(FEED_REGISTER)
     Call<User> registerUser(@Body User user);
+
+    @GET(FEED_GETUSERLIST)
+    Call<List<User>> getUserList();
+
+
 }

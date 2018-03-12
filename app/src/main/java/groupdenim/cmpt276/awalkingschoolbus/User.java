@@ -110,4 +110,13 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        String json = "{ \n name: " + name + ","
+                + "\nemail: " + email + ","
+                + "\nid: " + id
+                + "\n}";
+        return json;
+    }
 }
