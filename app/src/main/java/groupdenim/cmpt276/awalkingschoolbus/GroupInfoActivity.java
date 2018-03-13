@@ -15,7 +15,7 @@ import java.util.List;
 
 public class GroupInfoActivity extends AppCompatActivity {
     private String tempName = "TestGroup";
-    private Group group = GroupSingleton.getInstance().getGroup(tempName); //Name should be passed in
+    //private Group group = GroupSingleton.getInstance().getGroup(tempName); //Name should be passed in
     private String[] tempMembers = {"Name1", "Name2", "Name3", "Name4", "Name5", "Name6",
             "Name7", "Name8", "Name9",};
     private String tempDestination = "School";
@@ -74,35 +74,35 @@ public class GroupInfoActivity extends AppCompatActivity {
 
     private void createAppropriateButtons() {
         LinearLayout layout = findViewById(R.id.hlinear_layout_group_buttons);
-
-        UserSingleton userSingleton = UserSingleton.getInstance();
-        final String userEmail = userSingleton.getCurrentUserEmail();
-        User user = userSingleton.getUserMap().get(userEmail);
-
-        final int USER_GROUPS_SIZE = user.getGroups().size();
-        boolean isInGroup = (USER_GROUPS_SIZE > 0);
-        if (isInGroup) {
-            createLeaveButton(layout);
-        } else {
-            createJoinButton(layout);
-        }
-
-        List<String> monitoringList = user.getPeopleUserIsMonitoring();
-        final int USER_CHILDREN_SIZE = monitoringList.size();
-        boolean hasChildren = (USER_CHILDREN_SIZE > 0);
-        if (hasChildren) {
-            createAddButton(layout);
-        }
-
-        boolean hasChildrenInGroup = false;
-        for (String child : monitoringList) {
-            for (String member : group.getMembers()) {
-                if (child.equals(member)) {
-                    hasChildrenInGroup = true;
-                    break;
-                }
-            }
-        }
+//
+//        UserSingleton userSingleton = UserSingleton.getInstance();
+//        final String userEmail = userSingleton.getCurrentUserEmail();
+//        User user = userSingleton.getUserMap().get(userEmail);
+//
+//        final int USER_GROUPS_SIZE = user.getGroups().size();
+//        boolean isInGroup = (USER_GROUPS_SIZE > 0);
+//        if (isInGroup) {
+//            createLeaveButton(layout);
+//        } else {
+//            createJoinButton(layout);
+//        }
+//
+//        List<String> monitoringList = user.getPeopleUserIsMonitoring();
+//        final int USER_CHILDREN_SIZE = monitoringList.size();
+//        boolean hasChildren = (USER_CHILDREN_SIZE > 0);
+//        if (hasChildren) {
+//            createAddButton(layout);
+//        }
+//
+//        boolean hasChildrenInGroup = false;
+//        for (String child : monitoringList) {
+//            for (String member : group.getMembers()) {
+//                if (child.equals(member)) {
+//                    hasChildrenInGroup = true;
+//                    break;
+//                }
+//            }
+//        }
         //if (hasChildrenInGroup) {
             createRemoveButton(layout);
         //}

@@ -84,8 +84,9 @@ public class MainMenuActivity extends AppCompatActivity {
         btnMonitor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
-                startActivity(intent);
+                //uncomment after
+//                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
+//                startActivity(intent);
             }
         });
     }

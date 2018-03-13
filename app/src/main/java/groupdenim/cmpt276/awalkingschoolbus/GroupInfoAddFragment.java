@@ -39,16 +39,19 @@ public class GroupInfoAddFragment extends AppCompatDialogFragment {
     }
 
     private void populateList(View v){
+
+        //uncomment after
+
         //Display all children who are not already in this group
-        UserSingleton userSingleton = UserSingleton.getInstance();
-        String userEmail = userSingleton.getCurrentUserEmail();
-        User user = userSingleton.getUser(userEmail);
-        //TODO: make it so only the children who are not already in the group are displayed
-        String[] children = user.getPeopleUserIsMonitoring().toArray(new String[0]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.person_user_is_monitoring, children);
-        ListView list = v.findViewById(R.id.ListView_GroupInfoAddFragment_children);
-        list.setAdapter(adapter);
+//        UserSingleton userSingleton = UserSingleton.getInstance();
+//        String userEmail = userSingleton.getCurrentUserEmail();
+//        User user = userSingleton.getUser(userEmail);
+//        //TODO: make it so only the children who are not already in the group are displayed
+//        String[] children = user.getPeopleUserIsMonitoring().toArray(new String[0]);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+//                R.layout.person_user_is_monitoring, children);
+//        ListView list = v.findViewById(R.id.ListView_GroupInfoAddFragment_children);
+//        list.setAdapter(adapter);
     }
 
     private void registerOnClickCallBack(View v) {
@@ -86,15 +89,17 @@ public class GroupInfoAddFragment extends AppCompatDialogFragment {
                 if (selectedChildren.size() > 0) {
                     //Add all selected users to the group
                     //Note: this will only work if the users are real users in the UserSingleton userMap
-                    UserSingleton userSingleton = UserSingleton.getInstance();
-                    GroupSingleton groupSingleton = GroupSingleton.getInstance();
-                    Group group = groupSingleton.getGroup(groupName);
 
-                    for (String userEmail : selectedChildren) {
-                        User currentUser = userSingleton.getUser(userEmail);
-                        currentUser.addToGroup(groupName);
-                        group.addMember(userEmail);
-                    }
+                    //uncomment after
+//                    UserSingleton userSingleton = UserSingleton.getInstance();
+//                    GroupSingleton groupSingleton = GroupSingleton.getInstance();
+//                    Group group = groupSingleton.getGroup(groupName);
+//
+//                    for (String userEmail : selectedChildren) {
+//                        User currentUser = userSingleton.getUser(userEmail);
+//                        currentUser.addToGroup(groupName);
+//                        group.addMember(userEmail);
+//                    }
 
                     //Update activity UI to display new users
                     ((GroupInfoActivity)getActivity()).updateUi();

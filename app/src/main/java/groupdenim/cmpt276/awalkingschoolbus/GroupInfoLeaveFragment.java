@@ -30,16 +30,17 @@ public class GroupInfoLeaveFragment extends AppCompatDialogFragment {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Remove user from group
-                        UserSingleton userSingleton = UserSingleton.getInstance();
-                        final String userEmail = userSingleton.getCurrentUserEmail();
-                        GroupSingleton groupSingleton = GroupSingleton.getInstance();
-                        Group group = groupSingleton.getGroup(groupName);
-                        group.removeMember(userEmail);
-                        groupSingleton.setGroup(groupName, group);
-
-                        //Remove group from user's group list
-                        User user = userSingleton.getUserMap().get(userEmail);
-                        user.removeFromGroup(groupName);
+                        //uncomment after
+//                        UserSingleton userSingleton = UserSingleton.getInstance();
+//                        final String userEmail = userSingleton.getCurrentUserEmail();
+//                        GroupSingleton groupSingleton = GroupSingleton.getInstance();
+//                        Group group = groupSingleton.getGroup(groupName);
+//                        group.removeMember(userEmail);
+//                        groupSingleton.setGroup(groupName, group);
+//
+//                        //Remove group from user's group list
+//                        User user = userSingleton.getUserMap().get(userEmail);
+//                        user.removeFromGroup(groupName);
 
                         //Update activity UI
                         ((GroupInfoActivity)getActivity()).updateUi();

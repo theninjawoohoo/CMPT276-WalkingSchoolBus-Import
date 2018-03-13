@@ -30,16 +30,18 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
                 switch (which) {
                     case DialogInterface.BUTTON_POSITIVE:
                         //Add user to group
-                        UserSingleton userSingleton = UserSingleton.getInstance();
-                        final String userEmail = userSingleton.getCurrentUserEmail();
-                        GroupSingleton groupSingleton = GroupSingleton.getInstance();
-                        Group group = groupSingleton.getGroup(groupName);
-                        group.addMember(userEmail);
-                        groupSingleton.setGroup(groupName, group);
 
-                        //Add group to user's group list
-                        User user = userSingleton.getUserMap().get(userEmail);
-                        user.addToGroup(groupName);
+                        //uncomment after
+//                        UserSingleton userSingleton = UserSingleton.getInstance();
+//                        final String userEmail = userSingleton.getCurrentUserEmail();
+//                        GroupSingleton groupSingleton = GroupSingleton.getInstance();
+//                        Group group = groupSingleton.getGroup(groupName);
+//                        group.addMember(userEmail);
+//                        groupSingleton.setGroup(groupName, group);
+//
+//                        //Add group to user's group list
+//                        User user = userSingleton.getUserMap().get(userEmail);
+//                        user.addToGroup(groupName);
 
                         //Update activity UI
                         ((GroupInfoActivity)getActivity()).updateUi();

@@ -40,15 +40,16 @@ public class GroupInfoRemoveFragment extends AppCompatDialogFragment {
 
     private void populateList(View v){
         //Display all children who are in this group
-        UserSingleton userSingleton = UserSingleton.getInstance();
-        String userEmail = userSingleton.getCurrentUserEmail();
-        User user = userSingleton.getUser(userEmail);
-        //TODO: make it so only the children who are in the group are displayed
-        String[] children = user.getPeopleUserIsMonitoring().toArray(new String[0]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
-                R.layout.person_user_is_monitoring, children);
-        ListView list = v.findViewById(R.id.ListView_GroupInfoRemoveFragment_children);
-        list.setAdapter(adapter);
+        //uncomment after
+//        UserSingleton userSingleton = UserSingleton.getInstance();
+//        String userEmail = userSingleton.getCurrentUserEmail();
+//        User user = userSingleton.getUser(userEmail);
+//        //TODO: make it so only the children who are in the group are displayed
+//        String[] children = user.getPeopleUserIsMonitoring().toArray(new String[0]);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+//                R.layout.person_user_is_monitoring, children);
+//        ListView list = v.findViewById(R.id.ListView_GroupInfoRemoveFragment_children);
+//        list.setAdapter(adapter);
     }
 
     private void registerOnClickCallBack(View v) {
@@ -86,15 +87,16 @@ public class GroupInfoRemoveFragment extends AppCompatDialogFragment {
                 if (selectedChildren.size() > 0) {
                     //Remove all selected users from the group
                     //Note: this will only work if the users are real users in the UserSingleton userMap
-                    UserSingleton userSingleton = UserSingleton.getInstance();
-                    GroupSingleton groupSingleton = GroupSingleton.getInstance();
-                    Group group = groupSingleton.getGroup(groupName);
-
-                    for (String userEmail : selectedChildren) {
-                        User currentUser = userSingleton.getUser(userEmail);
-                        currentUser.removeFromGroup(groupName);
-                        group.removeMember(userEmail);
-                    }
+                    //uncomment after
+//                    UserSingleton userSingleton = UserSingleton.getInstance();
+//                    GroupSingleton groupSingleton = GroupSingleton.getInstance();
+//                    Group group = groupSingleton.getGroup(groupName);
+//
+//                    for (String userEmail : selectedChildren) {
+//                        User currentUser = userSingleton.getUser(userEmail);
+//                        currentUser.removeFromGroup(groupName);
+//                        group.removeMember(userEmail);
+//                    }
 
                     //Update activity UI to display new users
                     ((GroupInfoActivity)getActivity()).updateUi();
