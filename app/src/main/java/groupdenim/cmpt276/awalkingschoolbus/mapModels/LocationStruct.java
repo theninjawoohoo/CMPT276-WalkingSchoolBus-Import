@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.mapModels;
 
 /**
  * Created by wwwfl on 2018-03-09.

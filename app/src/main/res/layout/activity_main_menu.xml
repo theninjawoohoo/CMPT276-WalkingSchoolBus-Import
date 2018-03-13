@@ -10,13 +10,13 @@
         android:id="@+id/btnMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="144dp"
+        android:layout_marginEnd="160dp"
         android:text="@string/switch_to_mapView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.427"
-        android:layout_marginRight="144dp" />
+        app:layout_constraintVertical_bias="0.43"
+        android:layout_marginRight="160dp" />
 
     <Button
         android:id="@+id/btn_monitor"

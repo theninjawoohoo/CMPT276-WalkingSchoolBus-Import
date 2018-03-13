@@ -13,9 +13,12 @@
     <string name="join">Join</string>
     <string name="add">Add</string>
     <string name="remove">Remove</string>
-    <string name = "api_key">AIzaSyBjWnTojaIlgU7XUYoLdpIGz9xQjNGmZCI</string>
+    <string name="api_key">AIzaSyBjWnTojaIlgU7XUYoLdpIGz9xQjNGmZCI</string>
     <string name="switch_to_groupView">Switch To Group View</string>
-    <string name="switch_to_mapView">Grouping</string>
+    <string name="switch_to_mapView">Map View</string>
     <string name="switch_to_logout">Logout</string>
-    <string name="switch_to_monitoring">Monitor</string>
+    <string name="switch_to_monitoring">Monitor View</string>
+    <string name="enter_an_address">Enter an Address</string>
+    <string name="ask_user_search">Please Enter a Location</string>
+    <string name="map_switch">Switch to map</string>
 </resources>
