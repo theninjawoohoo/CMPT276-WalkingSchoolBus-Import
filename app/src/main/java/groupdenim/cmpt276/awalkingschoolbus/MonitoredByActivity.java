@@ -19,9 +19,9 @@ import java.util.Map;
 
 public class MonitoredByActivity extends AppCompatActivity {
 
-    Map<String,User> masterMap=UserSingleton.getUserMap();
-    String currentUserEmail=UserSingleton.getCurrentUserEmail();
-    User currentUserServer =masterMap.get(currentUserEmail);
+    Map<String,User> masterMap= ServerSingleton.getUserMap();
+    String currentUserEmail= ServerSingleton.getCurrentUserEmail();
+    User currentUser=masterMap.get(currentUserEmail);
     List<String> peopleMonitoringUserWithName;  //list to be displayed
     ArrayAdapter<String> adapter;
 

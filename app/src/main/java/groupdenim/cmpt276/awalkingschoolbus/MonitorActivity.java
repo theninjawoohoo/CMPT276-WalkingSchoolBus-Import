@@ -19,9 +19,9 @@ import java.util.Map;
 
 public class MonitorActivity extends AppCompatActivity {
 
-    Map<String,User> masterMap=UserSingleton.getUserMap();
-    String currentUserEmail=UserSingleton.getCurrentUserEmail();
-    User currentUserServer =masterMap.get(currentUserEmail);
+    Map<String,User> masterMap= ServerSingleton.getUserMap();
+    String currentUserEmail= ServerSingleton.getCurrentUserEmail();
+    User currentUser=masterMap.get(currentUserEmail);
     ArrayAdapter<String> adapter;
     List<String> studentsBeingMonitoredWithName;
 
@@ -40,7 +40,7 @@ public class MonitorActivity extends AppCompatActivity {
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
 
         //list studentsBeingMonitored is temporary
-        List<String> studentsBeingMonitored= currentUserServer.getPeopleUserIsMonitoring();
+        List<String> studentsBeingMonitored=currentUser.getPeopleUserIsMonitoring();
 
         //the list below is to concatenate name and email
         studentsBeingMonitoredWithName=new ArrayList<>();
@@ -72,11 +72,11 @@ public class MonitorActivity extends AppCompatActivity {
         {
             case R.id.delete:
                 //deletes current user from other person's list
-                User someoneBeingMonitoredByCurrentUserServer =masterMap.get(currentUserServer.getPeopleUserIsMonitoring().get(obj.position));
-                someoneBeingMonitoredByCurrentUserServer.getPeopleMonitoringUser().remove(currentUserEmail);
+                User someoneBeingMonitoredByCurrentUser=masterMap.get(currentUser.getPeopleUserIsMonitoring().get(obj.position));
+                someoneBeingMonitoredByCurrentUser.getPeopleMonitoringUser().remove(currentUserEmail);
 
                 //delete from current user's list
-                currentUserServer.getPeopleUserIsMonitoring().remove(obj.position);
+                currentUser.getPeopleUserIsMonitoring().remove(obj.position);
                 //delete from display list
                 studentsBeingMonitoredWithName.remove(obj.position);
 

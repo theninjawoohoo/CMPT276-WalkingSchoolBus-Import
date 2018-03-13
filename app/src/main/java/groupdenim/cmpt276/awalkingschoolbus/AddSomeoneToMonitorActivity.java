@@ -18,9 +18,9 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_someone_to_monitor);
 
-        final Map<String,User> masterMap=UserSingleton.getUserMap();
-        final String currentUserEmail=UserSingleton.getCurrentUserEmail();
-        final User currentUserServer =masterMap.get(currentUserEmail);
+        final Map<String,User> masterMap= ServerSingleton.getUserMap();
+        final String currentUserEmail= ServerSingleton.getCurrentUserEmail();
+        final User currentUser=masterMap.get(currentUserEmail);
 
         final EditText emailInput=findViewById(R.id.tetxtEmailInput);
         Button back=findViewById(R.id.btnBack);
@@ -30,19 +30,19 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!checkEmailValidity(emailInput, currentUserServer,masterMap))
+                if (!checkEmailValidity(emailInput,currentUser,masterMap))
                     return;
 
                 //continue
-                currentUserServer.getPeopleUserIsMonitoring().add(emailInput.getText().toString());
+                currentUser.getPeopleUserIsMonitoring().add(emailInput.getText().toString());
 
 
 
                 //only implemented after checkEmailValidity works
 
                 //add current user to the user being monitored by someone else
-                User someoneBeingMonitoredByCurrentUserServer =masterMap.get(emailInput.getText().toString());
-                someoneBeingMonitoredByCurrentUserServer.getPeopleMonitoringUser().add(currentUserEmail);
+                User someoneBeingMonitoredByCurrentUser=masterMap.get(emailInput.getText().toString());
+                someoneBeingMonitoredByCurrentUser.getPeopleMonitoringUser().add(currentUserEmail);
 
 
                 Intent intent=new Intent(AddSomeoneToMonitorActivity.this,MonitorActivity.class);
@@ -63,28 +63,28 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
 
     //we check if emailInput is valid or not
-    public boolean checkEmailValidity(EditText emailInput, User currentUserServer, Map<String,User> masterMap)
+    public boolean checkEmailValidity(EditText emailInput,User currentUser,Map<String,User> masterMap)
     {
         //add code here to check if email exists from map/list or if already a part of user's list
 
 
         //checks if input email even exists
-        User userServerExistenseCheck =masterMap.get(emailInput.getText().toString());
-        if(userServerExistenseCheck ==null)
+        User userExistenseCheck=masterMap.get(emailInput.getText().toString());
+        if(userExistenseCheck==null)
         {
-            Toast toast = Toast.makeText(this,"UserServer email does not exist",Toast.LENGTH_SHORT);
+            Toast toast = Toast.makeText(this,"User email does not exist",Toast.LENGTH_SHORT);
             toast.show();
             return false;
         }
 
 
         //checks for duplicate within existing user's list
-        List<String> list= currentUserServer.getPeopleUserIsMonitoring();
+        List<String> list=currentUser.getPeopleUserIsMonitoring();
         for(int i=0;i<list.size();i++)
         {
             if(emailInput.getText().toString().equals(list.get(i)))
             {
-                Toast toast = Toast.makeText(this,"UserServer email already exists in your list",Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(this,"User email already exists in your list",Toast.LENGTH_SHORT);
                 toast.show();
                 return false;
             }

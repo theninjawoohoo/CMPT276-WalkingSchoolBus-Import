@@ -18,7 +18,7 @@
     <string name="switch_to_mapView">Grouping</string>
     <string name="switch_to_logout">Logout</string>
     <string name="switch_to_monitoring">Monitor</string>
-    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_login">Login</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
