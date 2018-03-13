@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by Farhan on 2018-03-06.
@@ -32,7 +33,6 @@ public interface WebService {
     @GET(FEED_GETUSERLIST)
     Call<List<UserServer>> getUserList();
 
-    
-
-
+    @GET("/users/{id}")
+    Call<User> getUserById(@Path("id") Long userId);
 }
