@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,8 +19,8 @@ import java.util.Map;
 
 public class MonitorActivity extends AppCompatActivity {
 
-    Map<String,User> masterMap=UserSingleton.getUserMap();
-    String currentUserEmail=UserSingleton.getCurrentUserEmail();
+    Map<String,User> masterMap= ServerSingleton.getUserMap();
+    String currentUserEmail= ServerSingleton.getCurrentUserEmail();
     User currentUser=masterMap.get(currentUserEmail);
     ArrayAdapter<String> adapter;
     List<String> studentsBeingMonitoredWithName;

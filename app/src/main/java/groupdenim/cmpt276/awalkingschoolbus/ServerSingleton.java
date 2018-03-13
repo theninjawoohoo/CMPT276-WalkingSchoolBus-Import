@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class UserSingleton {
+public class ServerSingleton {
 
 
     private static Map<String, User> userMap ; //userEmail, User
@@ -12,7 +12,7 @@ public class UserSingleton {
     private static String currentUserEmail = "tempEmail"; //get it from the login
     private static String currentUserToken="";
 
-    private UserSingleton() {}
+    private ServerSingleton() {}
 
 
     public static void addStuff()

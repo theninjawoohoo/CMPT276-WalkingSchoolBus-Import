@@ -18,8 +18,8 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_someone_to_monitor);
 
-        final Map<String,User> masterMap=UserSingleton.getUserMap();
-        final String currentUserEmail=UserSingleton.getCurrentUserEmail();
+        final Map<String,User> masterMap= ServerSingleton.getUserMap();
+        final String currentUserEmail= ServerSingleton.getCurrentUserEmail();
         final User currentUser=masterMap.get(currentUserEmail);
 
         final EditText emailInput=findViewById(R.id.tetxtEmailInput);
