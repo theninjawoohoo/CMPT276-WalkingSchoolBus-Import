@@ -24,6 +24,11 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
+    private Group group = new Group("School", "TestGroup", "MyHouse",
+            new Coordinate(0, 0), new Coordinate(0, 0));
+
+    private User user = new User("tempUserName", "tempEmail");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +38,19 @@ public class MainMenuActivity extends AppCompatActivity {
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
+        initializeCreateButton();
+        initializeInfoButton();
 
-
-
+        UserSingleton userSingleton = UserSingleton.getInstance();
+        user.addPersonToMonitor("ChildEmail1");
+        user.addPersonToMonitor("ChildEmail2");
+        user.addPersonToMonitor("ChildEmail3");
+        user.addPersonToMonitor("ChildEmail4");
+        user.addPersonToMonitor("ChildEmail5");
+        user.addPersonToMonitor("ChildEmail6");
+        userSingleton.addUser(user);
+        GroupSingleton groupSingleton = GroupSingleton.getInstance();
+        groupSingleton.addGroup(group);
     }
 
     public boolean doesGoogleMapsWork() {
@@ -85,4 +100,25 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeInfoButton() {
+        Button button = findViewById(R.id.temp_button_info);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, GroupInfoActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initializeCreateButton() {
+        Button button = findViewById(R.id.temp_button_create);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, CreateGroupActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }

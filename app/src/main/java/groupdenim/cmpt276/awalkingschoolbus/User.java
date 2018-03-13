@@ -165,11 +165,5 @@ public class User {
 
     }
 
-    public void addPersonToMonitor(String userName) {
-        peopleUserIsMonitoring.add(userName);
-    }
 
-    public void addMonitor(String userName) {
-        peopleMonitoringUser.add(userName);
-    }
 }
