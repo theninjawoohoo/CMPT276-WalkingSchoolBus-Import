@@ -21,7 +21,7 @@ public class MonitoredByActivity extends AppCompatActivity {
 
     Map<String,User> masterMap=UserSingleton.getUserMap();
     String currentUserEmail=UserSingleton.getCurrentUserEmail();
-    User currentUser=masterMap.get(currentUserEmail);
+    User currentUserServer =masterMap.get(currentUserEmail);
     List<String> peopleMonitoringUserWithName;  //list to be displayed
     ArrayAdapter<String> adapter;
 
@@ -33,7 +33,7 @@ public class MonitoredByActivity extends AppCompatActivity {
         ListView listView=findViewById(R.id.listViewBeingMonitoredBy);
 
         //list peopleMonitoringUser is temporary
-        List<String> peopleMonitoringUser=currentUser.getPeopleMonitoringUser();
+        List<String> peopleMonitoringUser= currentUserServer.getPeopleMonitoringUser();
         //the list below is to concatenate name and email
         peopleMonitoringUserWithName=new ArrayList<>();
         for(int i=0;i<peopleMonitoringUser.size();i++)
@@ -63,10 +63,10 @@ public class MonitoredByActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.delete:
-                User someoneMonitoringCurrentUser=masterMap.get(currentUser.getPeopleMonitoringUser().get(obj.position));
-                someoneMonitoringCurrentUser.getPeopleUserIsMonitoring().remove(currentUserEmail);
+                User someoneMonitoringCurrentUserServer =masterMap.get(currentUserServer.getPeopleMonitoringUser().get(obj.position));
+                someoneMonitoringCurrentUserServer.getPeopleUserIsMonitoring().remove(currentUserEmail);
 
-                currentUser.getPeopleMonitoringUser().remove(obj.position);
+                currentUserServer.getPeopleMonitoringUser().remove(obj.position);
                 peopleMonitoringUserWithName.remove(obj.position);
 
                 adapter.notifyDataSetChanged();

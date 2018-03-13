@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,7 +21,7 @@ public class MonitorActivity extends AppCompatActivity {
 
     Map<String,User> masterMap=UserSingleton.getUserMap();
     String currentUserEmail=UserSingleton.getCurrentUserEmail();
-    User currentUser=masterMap.get(currentUserEmail);
+    User currentUserServer =masterMap.get(currentUserEmail);
     ArrayAdapter<String> adapter;
     List<String> studentsBeingMonitoredWithName;
 
@@ -41,7 +40,7 @@ public class MonitorActivity extends AppCompatActivity {
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
 
         //list studentsBeingMonitored is temporary
-        List<String> studentsBeingMonitored=currentUser.getPeopleUserIsMonitoring();
+        List<String> studentsBeingMonitored= currentUserServer.getPeopleUserIsMonitoring();
 
         //the list below is to concatenate name and email
         studentsBeingMonitoredWithName=new ArrayList<>();
@@ -73,11 +72,11 @@ public class MonitorActivity extends AppCompatActivity {
         {
             case R.id.delete:
                 //deletes current user from other person's list
-                User someoneBeingMonitoredByCurrentUser=masterMap.get(currentUser.getPeopleUserIsMonitoring().get(obj.position));
-                someoneBeingMonitoredByCurrentUser.getPeopleMonitoringUser().remove(currentUserEmail);
+                User someoneBeingMonitoredByCurrentUserServer =masterMap.get(currentUserServer.getPeopleUserIsMonitoring().get(obj.position));
+                someoneBeingMonitoredByCurrentUserServer.getPeopleMonitoringUser().remove(currentUserEmail);
 
                 //delete from current user's list
-                currentUser.getPeopleUserIsMonitoring().remove(obj.position);
+                currentUserServer.getPeopleUserIsMonitoring().remove(obj.position);
                 //delete from display list
                 studentsBeingMonitoredWithName.remove(obj.position);
 

@@ -1,83 +1,43 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
-<<<<<<< HEAD
-        import java.util.ArrayList;
-        import java.util.List;
-
-class User {
-    private String email;
-    private String name;
-
-
-    private List<String> groups = new ArrayList<>(); //what groups is the person a part of (by name)
-
-    
-    private List<String> peopleUserIsMonitoring = new ArrayList<>();    //uses email
-    private List<String> peopleMonitoringUser = new ArrayList<>();      //uses email
-
-    public User(String userName, String email){
-        this.name = userName;
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUserName() {
-        return name;
-    }
-
-    public List<String> getGroups() {
-        return groups;
-    }
-
-    public List<String> getPeopleUserIsMonitoring() {
-        return peopleUserIsMonitoring;
-    }
-
-    public List<String> getPeopleMonitoringUser() {
-        return peopleMonitoringUser;
-=======
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public class UserServer {
     private Long id;
     private String name;
     private String email;
     private String password;
 
-    private List<User> leadsGroups = new ArrayList<>();
+    private List<UserServer> leadsGroups = new ArrayList<>();
 
-    private List<User> memberOfGroups = new ArrayList<>();
+    private List<UserServer> memberOfGroups = new ArrayList<>();
 
-    private List<User> monitoredByUsers = new ArrayList<>();
+    private List<UserServer> monitoredByUsers = new ArrayList<>();
 
-    private List<User> monitorsUsers = new ArrayList<>();
+    private List<UserServer> monitorsUsers = new ArrayList<>();
 
     private String href;
-    public User() {
-
+    public UserServer() {
     }
 
-    public List<User> getLeadsGroups() {
+    public List<UserServer> getLeadsGroups() {
         return leadsGroups;
     }
 
-    public void setLeadsGroups(List<User> leadsGroups) {
+    public void setLeadsGroups(List<UserServer> leadsGroups) {
         this.leadsGroups = leadsGroups;
     }
 
     //private List<Void> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
-    public List<User> getMemberOfGroups() {
+    public List<UserServer> getMemberOfGroups() {
         return memberOfGroups;
     }
 
-    public void setMemberOfGroups(List<User> memberOfGroups) {
+    public void setMemberOfGroups(List<UserServer> memberOfGroups) {
         this.memberOfGroups = memberOfGroups;
     }
-    public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
+    public UserServer(Long id, String name, String email, String password, List<UserServer> monitorsUsers, List<UserServer> monitoredByUsers) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -86,19 +46,19 @@ public class User {
         this.monitorsUsers = monitorsUsers;
     }
 
-    public List<User> getMonitoredByUsers() {
+    public List<UserServer> getMonitoredByUsers() {
         return monitoredByUsers;
     }
 
-    public void setMonitoredByUsers(List<User> monitoredByUsers) {
+    public void setMonitoredByUsers(List<UserServer> monitoredByUsers) {
         this.monitoredByUsers = monitoredByUsers;
     }
 
-    public List<User> getMonitorsUsers() {
+    public List<UserServer> getMonitorsUsers() {
         return monitorsUsers;
     }
 
-    public void setMonitorsUsers(List<User> monitorsUsers) {
+    public void setMonitorsUsers(List<UserServer> monitorsUsers) {
         this.monitorsUsers = monitorsUsers;
     }
 
@@ -136,31 +96,12 @@ public class User {
 
     public String getEmail() {
         return email;
->>>>>>> RetrofitProxyServer
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
 
-<<<<<<< HEAD
-    public void setUserName(String userName) {
-        this.name = userName;
-    }
-
-    public void removeFromGroup(String groupName) {
-        for ( int i = 0;  i < groups.size(); i++){
-            String currentGroupName = groups.get(i);
-            if (currentGroupName.equals(groupName)){
-                groups.remove(i);
-                break;
-            }
-        }
-    }
-
-    public void addToGroup(String groupName) {
-        groups.add(groupName);
-=======
     public String getPassword() {
         return password;
     }
@@ -176,6 +117,6 @@ public class User {
                 + "\nid: " + id
                 + "\n}";
         return json;
->>>>>>> RetrofitProxyServer
     }
 }
+

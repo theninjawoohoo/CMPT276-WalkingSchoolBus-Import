@@ -1,19 +1,10 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
-import com.google.gson.JsonElement;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 import retrofit2.Call;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 
 /**
@@ -32,14 +23,16 @@ public interface WebService {
 
     //@Headers("apiKey: " + APIKEY)
     @POST(FEED_LOGIN)
-    Call<Void> getLogin(@Body User user);
+    Call<Void> getLogin(@Body UserServer userServer);
 
     //@Headers("apiKey: " + APIKEY)
     @POST(FEED_REGISTER)
-    Call<User> registerUser(@Body User user);
+    Call<UserServer> registerUser(@Body UserServer userServer);
 
     @GET(FEED_GETUSERLIST)
-    Call<List<User>> getUserList();
+    Call<List<UserServer>> getUserList();
+
+    
 
 
 }

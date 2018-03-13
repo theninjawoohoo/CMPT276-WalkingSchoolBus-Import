@@ -7,7 +7,7 @@ import java.util.Map;
 public class UserSingleton {
 
 
-    private static Map<String, User> userMap ; //userEmail, User
+    private static Map<String, User> userMap ; //userEmail, UserServer
 
     private static String currentUserEmail = "tempEmail"; //get it from the login
     private static String currentUserToken="";
@@ -18,24 +18,24 @@ public class UserSingleton {
     public static void addStuff()
     {
         currentUserEmail="jack@";
-        User userOne=new User("Jack",currentUserEmail);
-        userOne.getGroups().add("1");
-        userOne.getPeopleUserIsMonitoring().add("iris@"); userOne.getPeopleUserIsMonitoring().add("paul@");
-        userOne.getPeopleMonitoringUser().add("brian@");  userOne.getPeopleMonitoringUser().add("josh@");
+        User userServerOne =new User("Jack",currentUserEmail);
+        userServerOne.getGroups().add("1");
+        userServerOne.getPeopleUserIsMonitoring().add("iris@"); userServerOne.getPeopleUserIsMonitoring().add("paul@");
+        userServerOne.getPeopleMonitoringUser().add("brian@");  userServerOne.getPeopleMonitoringUser().add("josh@");
 
 
-        User userTwo=new User("Iris","iris@");
-        User userThree=new User("Paul","paul@");
-        User userFour=new User("Brian","brian@");
-        User userFive=new User("Josh","josh@");
-        User userSix=new User("Steve","steve@");
+        User userServerTwo =new User("Iris","iris@");
+        User userServerThree =new User("Paul","paul@");
+        User userServerFour =new User("Brian","brian@");
+        User userServerFive =new User("Josh","josh@");
+        User userServerSix =new User("Steve","steve@");
 
-        userMap.put("jack@",userOne);
-        userMap.put("iris@",userTwo);
-        userMap.put("paul@",userThree);
-        userMap.put("josh@",userFive);
-        userMap.put("brian@",userFour);
-        userMap.put("steve@",userSix);
+        userMap.put("jack@", userServerOne);
+        userMap.put("iris@", userServerTwo);
+        userMap.put("paul@", userServerThree);
+        userMap.put("josh@", userServerFive);
+        userMap.put("brian@", userServerFour);
+        userMap.put("steve@", userServerSix);
 
     }
 
