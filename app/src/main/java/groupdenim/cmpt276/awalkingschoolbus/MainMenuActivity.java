@@ -41,16 +41,6 @@ public class MainMenuActivity extends AppCompatActivity {
         initializeCreateButton();
         initializeInfoButton();
 
-        UserSingleton userSingleton = UserSingleton.getInstance();
-        user.addPersonToMonitor("ChildEmail1");
-        user.addPersonToMonitor("ChildEmail2");
-        user.addPersonToMonitor("ChildEmail3");
-        user.addPersonToMonitor("ChildEmail4");
-        user.addPersonToMonitor("ChildEmail5");
-        user.addPersonToMonitor("ChildEmail6");
-        userSingleton.addUser(user);
-        GroupSingleton groupSingleton = GroupSingleton.getInstance();
-        groupSingleton.addGroup(group);
     }
 
     public boolean doesGoogleMapsWork() {

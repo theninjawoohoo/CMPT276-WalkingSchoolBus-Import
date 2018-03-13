@@ -34,7 +34,7 @@
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-        <activity android:name=".MainActivty"/>
+
         <activity android:name=".RegisterActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".MonitorActivity" />
@@ -43,6 +43,7 @@
         <activity android:name=".CreateGroupActivity" />
         <activity android:name=".AddSomeoneToMonitorActivity" />
         <activity android:name=".AddSomeoneToMonitorYouActivity"></activity>
+        <activity android:name=".MainMenuActivity" />
     </application>
 
 </manifest>

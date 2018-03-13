@@ -60,8 +60,9 @@ public class User {
     private List<Integer> monitorsUsers = new ArrayList<>();
 
     private String href;
-    public User() {
-
+    public User(String name,String email) {
+        this.name=name;
+        this.email=email;
     }
 
     public List<Integer> getLeadsGroups() {
