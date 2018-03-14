@@ -52,6 +52,15 @@ public class ServerSingleton {
         return currentUser;
     }
 
+    public void getUserListFromServer(Context context, ProxyBuilder.SimpleCallback<List<User>> callback) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<List<User>> caller = proxy.getUserList();
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
     public void getUserById(Context context, ProxyBuilder.SimpleCallback<User> callback, long id) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
@@ -60,12 +69,31 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
-    public void getUserListFromServer(Context context, ProxyBuilder.SimpleCallback<List<User>> callback) {
+    public void getUserByEmail(Context context, ProxyBuilder.SimpleCallback<User> callback, String email) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
         }
 
-        Call<List<User>> caller = proxy.getUserList();
+        Call<User> caller = proxy.getUserByEmail(email);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void getMonitorUsers(Context context, ProxyBuilder.SimpleCallback<List<User>> callback, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<List<User>> caller = proxy.getMonitorUser(id);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void monitorUsers(Context context, ProxyBuilder.SimpleCallback<List<User>> callback, long currentId, long toAddId) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        User user = new User();
+        user.setId(toAddId);
+        Call<List<User>> caller = proxy.monitorUser(currentId, user);
         ProxyBuilder.callProxy(context, caller, callback);
 
     }

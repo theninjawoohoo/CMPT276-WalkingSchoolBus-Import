@@ -7,6 +7,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 /**
  * Created by Farhan on 2018-03-06.
@@ -18,8 +19,12 @@ public interface WebService {
     String FEED_LOGIN = "/login";
     String FEED_REGISTER = "/users/signup";
     String FEED_GETUSERLIST = "/users";
-    final String FEED_GETGROUPBYID = "/groups/{id}";
-    final String FEED_GROUPS = "/groups";
+    String FEED_GETGROUPBYID = "/groups/{id}";
+    String FEED_GROUPS = "/groups";
+    String FEED_GETUSERBYID = "/users/{id}";
+    String FEED_GETUSERBYEMAIL = "/users/byEmail";
+    String FEED_GETMONITORUSERS = "/users/{id}/monitorsUsers";
+    String FEED_MONITORUSER = "/users/{id}/monitorsUsers";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -35,7 +40,7 @@ public interface WebService {
     @GET(FEED_GETUSERLIST)
     Call<List<User>> getUserList();
 
-    @GET("/users/{id}")
+    @GET(FEED_GETUSERBYID)
     Call<User> getUserById(@Path("id") Long userId);
 
     @POST(FEED_GROUPS)
@@ -50,4 +55,16 @@ public interface WebService {
     @POST(FEED_GETGROUPBYID)
     Call<Group> updateGroupById(@Path("id") Long groupId,
                                 @Body Group group);
+
+    @GET(FEED_GETUSERBYEMAIL)
+    Call<User> getUserByEmail(@Query("email") String email);
+
+    @GET(FEED_GETMONITORUSERS)
+    Call<List<User>> getMonitorUser(@Path("id") Long id);
+
+    @POST(FEED_MONITORUSER)
+    Call<List<User>> monitorUser(
+            @Path("id") long currentUserid,
+            @Body User user);
+
 }
