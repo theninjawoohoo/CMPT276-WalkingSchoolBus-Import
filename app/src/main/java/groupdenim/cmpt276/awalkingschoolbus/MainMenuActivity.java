@@ -45,6 +45,8 @@ public class MainMenuActivity extends AppCompatActivity {
         createNewGroup();
         //testUserList();
         //getuserbyId();
+        //getMonitorUser();
+        monitorUser();
         initializeMonitor();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
@@ -54,17 +56,47 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
+    private void monitorUser() {
+        contexta = this.getApplicationContext();
+        String email = "317";
+        long id = 473;
+        long aa = 318;
+        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitor(userList);
+        //306 should be nini
+        ServerSingleton.getInstance().monitorUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+    }
+
+    private void monitor(List<User> userList) {
+        Log.i("aagairwgjoirwjg", "monitor: " + userList);
+    }
+
+//    private void getMonitorUser() {
+//        contexta = this.getApplicationContext();
+//        String email = "yout@yout.ca";
+//        long id = 318;
+//        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> getMonitor(userList);
+//        //306 should be nini
+//        ServerSingleton.getInstance().getMonitorUsers(contexta,callback, id);
+//        Log.i("ag", "testUserList: asaogjaiorwjg");
+//    }
+//
+//    private void getMonitor(List<User> userList) {
+//        Log.i("MONITOR", "getMonitor: " + userList);
+//    }
+//
 //    private void getuserbyId() {
 //        contexta = this.getApplicationContext();
+//        String email = "yout@yout.ca";
 //        ProxyBuilder.SimpleCallback<User> callback = userList -> getuserId(userList);
 //        //306 should be nini
-//        ServerSingleton.getInstance().getUserById(contexta,callback, 306);
+//        ServerSingleton.getInstance().getUserByEmail(contexta,callback, email);
 //        Log.i("ag", "testUserList: asaogjaiorwjg");
 //    }
 //
 //    private void getuserId(User usera) {
-//        Log.i(TAG, "getuserId: " + usera);
-//    }
+//        Log.i(TAG, "getuserId: " + usera.toString());
+//
+    //}
 
 //    private void testUserList() {
 //        contexta = this.getApplicationContext();

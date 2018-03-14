@@ -3,6 +3,7 @@ package groupdenim.cmpt276.awalkingschoolbus;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 
@@ -137,13 +138,25 @@ public class LoginActivity extends AppCompatActivity {
         userServer.setPassword(password);
         Call<Void> caller = proxy.getLogin(userServer);
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
-        ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+        ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email));
     }
 
-    private void response(Void nothing) {
+    private void response(Void nothing, String email) {
         Log.i("HEADERRESPONSE", "response: " );
         showProgress(false);
         //start new activity
+        populateCurrentUser(email);
+
+    }
+
+    private void populateCurrentUser(String email) {
+        Context context = this.getApplicationContext();
+        ProxyBuilder.SimpleCallback<User> callback = user -> getuser(user);
+        ServerSingleton.getInstance().getUserByEmail(context,callback, email);
+    }
+    private void getuser(User user) {
+        Log.i("a", "getuser: " + user);
+        CurrentUserSingleton.setFields(user);
         Intent mainMenu = new Intent(LoginActivity.this, MainMenuActivity.class);
         startActivity(mainMenu);
     }
