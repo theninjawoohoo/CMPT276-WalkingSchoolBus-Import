@@ -14,7 +14,7 @@ class CurrentUserSingleton {
 
     private static Context context;
 
-    private long id;
+    private Long id;
     private String name;
     private String email;
     private String password;
@@ -41,7 +41,7 @@ class CurrentUserSingleton {
 
     public static void updateUserSingleton(Context context)
     {
-        ProxyBuilder.SimpleCallback<User> callback = userList -> setFields(userList);
+        ProxyBuilder.SimpleCallback<User> callback = userObj -> setFields(userObj);
         //306 should be nini
         ServerSingleton.getInstance().getUserById(context,callback, instance.id);
 
@@ -96,7 +96,7 @@ class CurrentUserSingleton {
     }
 
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public String getName() {

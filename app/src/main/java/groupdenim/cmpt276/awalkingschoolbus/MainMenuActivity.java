@@ -47,6 +47,12 @@ public class MainMenuActivity extends AppCompatActivity {
         //getMonitorUser();
         //monitorUser();
         //initializeMonitor();
+        //monitorUser();
+        //monitoredUser();
+        //getMonitored();
+        //stopMonitoring();
+
+        initializeMonitor();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
@@ -55,19 +61,53 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-    private void monitorUser() {
-        contexta = this.getApplicationContext();
-        String email = "317";
-        long id = 473;
-        long aa = 318;
-        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitor(userList);
-        //306 should be nini
-        ServerSingleton.getInstance().monitorUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
-    }
+//    private void stopMonitoring() {
+//        contexta = this.getApplicationContext();
+//        String email = "317";
+//        long id = 473;
+//        long aa = 306;
+//        ProxyBuilder.SimpleCallback<Void> callback = userList -> stopMonit(userList);
+//        //306 should be nini
+//        ServerSingleton.getInstance().stopMonitoringUser(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+//    }
+//
+//    private void stopMonit(Void nothing) {
+//        getuserbyId();
+//    }
 
-    private void monitor(List<User> userList) {
-        Log.i("aagairwgjoirwjg", "monitor: " + userList);
-    }
+
+//    private void monitoredUser() {
+//        contexta = this.getApplicationContext();
+//        String email = "317";
+//        long id = 473;
+//        long aa = 318;
+//        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitored(userList);
+//        //306 should be nini
+//        ServerSingleton.getInstance().monitoredByUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+//    }
+
+//    private void monitored(List<User> userList) {
+//        //Log.i(TAG, "monitored: " + userList);
+//        Log.i(TAG, "monitored: " + CurrentUserSingleton.getInstance(this).getMonitoredByUsers());
+//    }
+//    private void getMonitored() {
+//        //Log.i(TAG, "monitored: " + userList);
+//        Log.i(TAG, "monitored: " + CurrentUserSingleton.getInstance(this).getMonitoredByUsers());
+//    }
+
+//    private void monitorUser() {
+//        contexta = this.getApplicationContext();
+//        String email = "317";
+//        long id = 473;
+//        long aa = 318;
+//        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitor(userList);
+//        //306 should be nini
+//        ServerSingleton.getInstance().monitorUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+//    }
+//
+//    private void monitor(List<User> userList) {
+//        Log.i("aagairwgjoirwjg", "monitor: " + userList);
+//    }
 
 //    private void getMonitorUser() {
 //        contexta = this.getApplicationContext();
@@ -88,14 +128,14 @@ public class MainMenuActivity extends AppCompatActivity {
 //        String email = "yout@yout.ca";
 //        ProxyBuilder.SimpleCallback<User> callback = userList -> getuserId(userList);
 //        //306 should be nini
-//        ServerSingleton.getInstance().getUserByEmail(contexta,callback, email);
+//        ServerSingleton.getInstance().getUserByEmail(contexta,callback, CurrentUserSingleton.getInstance(this).getEmail());
 //        Log.i("ag", "testUserList: asaogjaiorwjg");
 //    }
 //
 //    private void getuserId(User usera) {
 //        Log.i(TAG, "getuserId: " + usera.toString());
 //
-    //}
+//    }
 
 //    private void testUserList() {
 //        contexta = this.getApplicationContext();
@@ -152,8 +192,8 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //uncomment after
-//                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
+                startActivity(intent);
             }
         });
     }
