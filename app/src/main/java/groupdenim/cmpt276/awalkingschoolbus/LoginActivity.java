@@ -137,10 +137,10 @@ public class LoginActivity extends AppCompatActivity {
         userServer.setPassword(password);
         Call<Void> caller = proxy.getLogin(userServer);
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
-        ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+        ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email));
     }
 
-    private void response(Void nothing) {
+    private void response(Void nothing, String email) {
         Log.i("HEADERRESPONSE", "response: " );
         showProgress(false);
         //start new activity
