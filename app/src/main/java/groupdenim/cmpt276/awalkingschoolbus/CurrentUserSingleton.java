@@ -1,6 +1,7 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ class CurrentUserSingleton {
 
     private static Context context;
 
-    private Long id;
+    private long id;
     private String name;
     private String email;
     private String password;
@@ -40,13 +41,13 @@ class CurrentUserSingleton {
 
     public static void updateUserSingleton(Context context)
     {
-        ProxyBuilder.SimpleCallback<User> callback = userList -> getuserId(userList);
+        ProxyBuilder.SimpleCallback<User> callback = userList -> setFields(userList);
         //306 should be nini
-        ServerSingleton.getInstance().getUserById(context,callback, 318);
+        ServerSingleton.getInstance().getUserById(context,callback, instance.id);
 
     }
 
-    public static void getuserId(User user)
+    public static void setFields(User user)
     {
         instance.setEmail(user.getEmail());
         instance.setName(user.getName());
@@ -56,7 +57,7 @@ class CurrentUserSingleton {
         instance.setMemberOfGroups(user.getMemberOfGroups());
         instance.setMonitorsUsers(user.getMonitorsUsers());
         instance.setMonitoredByUsers(user.getMonitoredByUsers());
-
+        Log.i("a", "setFields: aaaa");
     }
 
     public void setMemberOfGroups(List<User> memberOfGroups) {
@@ -76,7 +77,7 @@ class CurrentUserSingleton {
     }
 
     public void setId(Long id) {
-        this.id = id;
+        instance.id = id;
     }
 
     public void setName(String name) {
@@ -95,7 +96,7 @@ class CurrentUserSingleton {
     }
 
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public String getName() {

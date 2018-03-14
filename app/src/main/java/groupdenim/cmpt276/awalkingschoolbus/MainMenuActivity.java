@@ -28,9 +28,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-    private Group group = new Group("School", "TestGroup", "MyHouse",
-            new Coordinate(0, 0), new Coordinate(0, 0));
-
     private User user = new User("tempUserName", "tempEmail");
 
 
@@ -58,7 +55,7 @@ public class MainMenuActivity extends AppCompatActivity {
         long aa = 318;
         ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitor(userList);
         //306 should be nini
-        ServerSingleton.getInstance().monitorUsers(contexta,callback,id,aa);
+        ServerSingleton.getInstance().monitorUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
     }
 
     private void monitor(List<User> userList) {
