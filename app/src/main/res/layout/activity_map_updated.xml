@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="groupdenim.cmpt276.awalkingschoolbus.MapActivity">
+
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/searchBarLayout"
+        android:layout_marginBottom="1dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/searchBarLayout"
+        tools:context=".MapsActivity" />
+
+    <Button
+        android:id="@+id/btn_group_view_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginEnd="16dp"
+        android:text="@string/switch_to_groupView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginRight="16dp" />
+
+    <Button
+        android:id="@+id/btn_helpUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:text="@string/help_user"
+        app:layout_constraintBottom_toTopOf="@+id/searchBarLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="16dp" />
+
+    <RelativeLayout
+        android:id="@+id/searchBarLayout"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/btn_group_view_switch"
+        android:layout_marginBottom="31dp"
+        android:layout_marginTop="48dp"
+        android:background="@drawable/white_border"
+        android:elevation="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/ic_addMeetingSpot"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/ic_magnify"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_magnifying_glass" />
+
+        <AutoCompleteTextView
+            android:id="@+id/input_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/ic_magnify"
+            android:layout_toRightOf="@+id/ic_magnify"
+            android:background="@null"
+            android:hint="@string/ask_user_search"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            android:textColor="#000"
+            android:textSize="15sp" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/ic_gps"
+        android:layout_width="46dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="4dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_gps"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ic_info"
+        android:layout_marginRight="16dp" />
+
+    <ImageView
+        android:id="@+id/ic_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="209dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_info"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/ic_gps"
+        app:layout_constraintStart_toStartOf="@+id/ic_gps"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/ic_nearby"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_nearby"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_info"
+        app:layout_constraintEnd_toEndOf="@+id/ic_info"
+        app:layout_constraintStart_toStartOf="@+id/ic_info"
+        app:layout_constraintTop_toTopOf="@+id/ic_addMeetingSpot" />
+
+    <ImageView
+        android:id="@+id/ic_addMeetingSpot"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="81dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_addmeetingspot"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/ic_info"
+        app:layout_constraintEnd_toEndOf="@+id/ic_nearby"
+        app:layout_constraintStart_toStartOf="@+id/ic_nearby"
+        app:layout_constraintTop_toBottomOf="@+id/btn_group_view_switch" />
+</android.support.constraint.ConstraintLayout>
