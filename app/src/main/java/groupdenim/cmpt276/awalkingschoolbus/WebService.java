@@ -24,14 +24,14 @@ public interface WebService {
 
     //@Headers("apiKey: " + APIKEY)
     @POST(FEED_LOGIN)
-    Call<Void> getLogin(@Body UserServer userServer);
+    Call<Void> getLogin(@Body User userServer);
 
     //@Headers("apiKey: " + APIKEY)
     @POST(FEED_REGISTER)
-    Call<UserServer> registerUser(@Body UserServer userServer);
+    Call<User> registerUser(@Body User userServer);
 
     @GET(FEED_GETUSERLIST)
-    Call<List<UserServer>> getUserList();
+    Call<List<User>> getUserList();
 
     @GET("/users/{id}")
     Call<User> getUserById(@Path("id") Long userId);

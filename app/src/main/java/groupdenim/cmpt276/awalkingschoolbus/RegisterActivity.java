@@ -53,12 +53,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String pass = password.getText().toString();
                 String mail = email.getText().toString();
 
-                UserServer userServer = new UserServer();
+                User userServer = new User();
                 userServer.setName(name);
                 userServer.setPassword(pass);
                 userServer.setEmail(mail);
 
-                Call<UserServer> caller = proxy.registerUser(userServer);
+                Call<User> caller = proxy.registerUser(userServer);
                 ProxyBuilder.callProxy(RegisterActivity.this, caller, returnedUser -> response(returnedUser));
 
 
@@ -66,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void response(UserServer userServer) {
+    private void response(User userServer) {
         Log.w("TAG", "Server replied with userServer: " + userServer.toString());
         showProgress(false);
         finish();

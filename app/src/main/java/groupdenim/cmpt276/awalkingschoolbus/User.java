@@ -81,6 +81,9 @@ public class User {
     public void setMemberOfGroups(List<Integer> memberOfGroups) {
         this.memberOfGroups = memberOfGroups;
     }
+    public User() {
+
+    }
     public User(Long id, String name, String email, String password, List<Integer> monitorsUsers, List<Integer> monitoredByUsers) {
         this.id = id;
         this.name = name;

@@ -6,6 +6,7 @@ package groupdenim.cmpt276.awalkingschoolbus;
 //https://www.youtube.com/watch?v=M0bYvXlhgSI
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,8 +18,11 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.List;
+
 public class MainMenuActivity extends AppCompatActivity {
 
+    private Context contexta;
     //Some const ints
     private static final String TAG = "MainActivity";
 
@@ -34,6 +38,8 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        //testUserList();
+        //getuserbyId();
         initializeMonitor();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
@@ -42,6 +48,31 @@ public class MainMenuActivity extends AppCompatActivity {
         initializeInfoButton();
 
     }
+
+//    private void getuserbyId() {
+//        contexta = this.getApplicationContext();
+//        ProxyBuilder.SimpleCallback<User> callback = userList -> getuserId(userList);
+//        //306 should be nini
+//        ServerSingleton.getInstance().getUserById(contexta,callback, 306);
+//        Log.i("ag", "testUserList: asaogjaiorwjg");
+//    }
+//
+//    private void getuserId(User usera) {
+//        Log.i(TAG, "getuserId: " + usera);
+//    }
+
+//    private void testUserList() {
+//        contexta = this.getApplicationContext();
+//        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> getUserList(userList);
+//        ServerSingleton.getInstance().getUserListFromServer(contexta,callback);
+//        Log.i("ag", "testUserList: asaogjaiorwjg");
+//
+//    }
+//
+//    private void getUserList(List<User> userList) {
+//        Log.i("aa", "getUserList: " + userList);
+//
+//    }
 
     public boolean doesGoogleMapsWork() {
         Log.d(TAG, "doesGoogleMapsWork(): checking the api key and current version");

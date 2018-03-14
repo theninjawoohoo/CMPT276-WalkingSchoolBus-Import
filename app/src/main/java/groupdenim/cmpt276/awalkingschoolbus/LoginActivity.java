@@ -132,7 +132,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendLoginRequest(String email, String password) {
-        UserServer userServer = new UserServer();
+        User userServer = new User();
         userServer.setEmail(email);
         userServer.setPassword(password);
         Call<Void> caller = proxy.getLogin(userServer);
@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void response(String token) {
         TOKEN = token;
+        ServerSingleton.getInstance().setToken(token);
         Log.i("DIDWEGETTOKEN", "response: " + token);
     }
 
