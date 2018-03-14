@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -24,6 +25,8 @@ public interface WebService {
     String FEED_GETMONITORUSERS = "/users/{id}/monitorsUsers";
     String FEED_MONITORUSER = "/users/{id}/monitorsUsers";
     String FEED_MONITOREDBYUSER = "/users/{id}/monitoredByUsers";
+    String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
+    String FEED_DELETEGROUP = "/groups/{id}";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -57,6 +60,14 @@ public interface WebService {
     Call<List<User>> addMonitoredBy(
             @Path("id") long otherUser,
             @Body User currentUser);
+
+    @DELETE(FEED_STOPMONITORING)
+    Call<Void> stopMonitoring(
+            @Path("idA") long currentUser,
+            @Path("idB")long otherUser);
+
+    @DELETE(FEED_DELETEGROUP)
+    Call<Void> deleteGroup(@Path("id") long groupId);
 
 
 }

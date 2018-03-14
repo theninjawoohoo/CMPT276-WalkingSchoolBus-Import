@@ -93,6 +93,12 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
             return;
         }
+        else if (!isNameValid(name)) {
+            username_et.setError(getString(R.string.error_invalid_email));
+            showProgress(false);
+            cancel = true;
+            return;
+        }
 
 
         if (!cancel) {
@@ -113,6 +119,12 @@ public class RegisterActivity extends AppCompatActivity {
     private boolean isPasswordValid(String password) {
         return password.length() >= 4;
     }
+
+    private boolean isNameValid(String password) {
+        return password.length() >= 4;
+    }
+
+
 
     private void response(User userServer) {
         Log.w("TAG", "Server replied with userServer: " + userServer.toString());
