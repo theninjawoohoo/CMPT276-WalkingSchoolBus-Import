@@ -18,26 +18,35 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class MainMenuActivity extends AppCompatActivity {
 
     private Context contexta;
+    private String TOKEN;
     //Some const ints
+    private User currentUser = new User();
     private static final String TAG = "MainActivity";
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
-
-    private User user = new User("tempUserName", "tempEmail");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(MainMenuActivity.this);
+        //getUser();
+        //getGroupList();
+        //currentUser.setId((long)318);
         //testUserList();
         //getuserbyId();
         //getMonitorUser();
+        //monitorUser();
+        //initializeMonitor();
         //monitorUser();
         //monitoredUser();
         //getMonitored();
@@ -211,4 +220,52 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getUser() {
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> response(returnedUser);
+        ServerSingleton serverSingleton = ServerSingleton.getInstance();
+        CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(this);
+        serverSingleton.getUserById(this, callback, currentUserSingleton.getId());
+    }
+
+    private void createNewGroup() {
+        double[] routeLatArray = new double[2];
+        double[] routeLngArray = new double[2];
+        Group group = new Group("testGroup", null, routeLatArray,
+               routeLngArray, currentUser);
+
+        Log.i("LEADER_ID", "Leader id: " + currentUser.getId());
+
+        ProxyBuilder.SimpleCallback<Group> callback = returnedGroup -> response(returnedGroup);
+        ServerSingleton serverSingleton = ServerSingleton.getInstance();
+        serverSingleton.createNewGroup(MainMenuActivity.this, callback, group);
+    }
+
+    /*private void getGroupList() {
+        ProxyBuilder.SimpleCallback<List<Group>> callback = returnedList -> response(returnedList);
+        ServerSingleton serverSingleton = ServerSingleton.getInstance();
+        serverSingleton.getUserById(MainMenuActivity.this, callback);
+    }*/
+
+
+    private void response(Group group) {
+        Log.i("GROUPRESPONSE", "response: " + group.toString());
+    }
+
+    private void response(List<Group> groups) {
+        Log.i("GROUP_LIST_RESPONSE", "response: " + groups.toString());
+    }
+
+    private void response(User user) {
+        Log.i("USERRESPONSE", "response: " + user.toString());
+        currentUser = user;
+        createNewGroup();
+    }
+
+    private void response(String token) {
+        TOKEN = token;
+        ServerSingleton.getInstance().setToken(token);
+        Log.i("DIDWEGETTOKEN", "response: " + token);
+    }
+
 }
