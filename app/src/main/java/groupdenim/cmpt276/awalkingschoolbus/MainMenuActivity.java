@@ -51,15 +51,48 @@ public class MainMenuActivity extends AppCompatActivity {
         //monitoredUser();
         //getMonitored();
         //stopMonitoring();
+        createGroup();
         initializeMonitor();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
         initializeCreateButton();
         initializeInfoButton();
+        initializeLogout();
 
     }
 
+    private void initializeLogout() {
+        Button logout = findViewById(R.id.btnLogout);
+        
+    }
+
+    private void createGroup() {
+        Group group = new Group();
+        group.setGroupDescription("my group");
+        group.setId(3);
+        User user = new User();
+        user.setId(CurrentUserSingleton.getInstance(this).getId());
+        group.setLeader(user);
+        ProxyBuilder.SimpleCallback<Group> callback = groupa -> create(groupa);
+//        //306 should be nini
+        ServerSingleton.getInstance().createNewGroup(contexta,callback,group);
+    }
+
+    private void create(Group group) {
+        Log.i("createdGroup", "create: "+ group);
+        listGroups();
+    }
+
+    private void listGroups() {
+        ProxyBuilder.SimpleCallback<List<Group>> callback = groupa -> listGrp(groupa);
+//        //306 should be nini
+        ServerSingleton.getInstance().getGroupList(this,callback);
+    }
+
+    private void listGrp(List<Group> groupa) {
+        Log.i(TAG, "listGrp: " + groupa);
+    }
 
 
 //    private void stopMonitoring() {
@@ -221,25 +254,25 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
-    private void getUser() {
-        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> response(returnedUser);
-        ServerSingleton serverSingleton = ServerSingleton.getInstance();
-        CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(this);
-        serverSingleton.getUserById(this, callback, currentUserSingleton.getId());
-    }
+//    private void getUser() {
+//        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> response(returnedUser);
+//        ServerSingleton serverSingleton = ServerSingleton.getInstance();
+//        CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(this);
+//        serverSingleton.getUserById(this, callback, currentUserSingleton.getId());
+//    }
 
-    private void createNewGroup() {
-        double[] routeLatArray = new double[2];
-        double[] routeLngArray = new double[2];
-        Group group = new Group("testGroup", null, routeLatArray,
-               routeLngArray, currentUser);
-
-        Log.i("LEADER_ID", "Leader id: " + currentUser.getId());
-
-        ProxyBuilder.SimpleCallback<Group> callback = returnedGroup -> response(returnedGroup);
-        ServerSingleton serverSingleton = ServerSingleton.getInstance();
-        serverSingleton.createNewGroup(MainMenuActivity.this, callback, group);
-    }
+//    private void createNewGroup() {
+//        double[] routeLatArray = new double[2];
+//        double[] routeLngArray = new double[2];
+//        Group group = new Group("testGroup", null, routeLatArray,
+//               routeLngArray, currentUser);
+//
+//        Log.i("LEADER_ID", "Leader id: " + currentUser.getId());
+//
+//        ProxyBuilder.SimpleCallback<Group> callback = returnedGroup -> response(returnedGroup);
+//        ServerSingleton serverSingleton = ServerSingleton.getInstance();
+//        serverSingleton.createNewGroup(MainMenuActivity.this, callback, group);
+//    }
 
     /*private void getGroupList() {
         ProxyBuilder.SimpleCallback<List<Group>> callback = returnedList -> response(returnedList);
@@ -248,19 +281,19 @@ public class MainMenuActivity extends AppCompatActivity {
     }*/
 
 
-    private void response(Group group) {
-        Log.i("GROUPRESPONSE", "response: " + group.toString());
-    }
+//    private void response(Group group) {
+//        Log.i("GROUPRESPONSE", "response: " + group.toString());
+//    }
+//
+//    private void response(List<Group> groups) {
+//        Log.i("GROUP_LIST_RESPONSE", "response: " + groups.toString());
+//    }
 
-    private void response(List<Group> groups) {
-        Log.i("GROUP_LIST_RESPONSE", "response: " + groups.toString());
-    }
-
-    private void response(User user) {
-        Log.i("USERRESPONSE", "response: " + user.toString());
-        currentUser = user;
-        createNewGroup();
-    }
+//    private void response(User user) {
+//        Log.i("USERRESPONSE", "response: " + user.toString());
+//        currentUser = user;
+//        createNewGroup();
+//    }
 
     private void response(String token) {
         TOKEN = token;

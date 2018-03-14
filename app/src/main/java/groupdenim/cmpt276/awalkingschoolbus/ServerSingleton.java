@@ -135,8 +135,6 @@ public class ServerSingleton {
     }
 
 
-
-
     public void createNewGroup(Context context, ProxyBuilder.SimpleCallback<Group> callback, Group group) {
         if (TOKEN != null) {
             updateProxy(TOKEN);

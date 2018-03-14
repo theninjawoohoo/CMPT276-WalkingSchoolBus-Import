@@ -152,6 +152,12 @@ public class LoginActivity extends AppCompatActivity {
         Call<Void> caller = proxy.getLogin(userServer);
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
         ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email, password));
+        resetscreen();
+    }
+
+    private void resetscreen() {
+        showProgress(false);
+        return;
     }
 
     private void response(Void nothing, String email, String password) {
