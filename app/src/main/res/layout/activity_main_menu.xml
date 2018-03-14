@@ -10,12 +10,13 @@
         android:id="@+id/btnMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="144dp"
+        android:layout_marginEnd="160dp"
         android:text="@string/switch_to_mapView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.427" />
+        app:layout_constraintVertical_bias="0.43"
+        android:layout_marginRight="160dp" />
 
     <Button
         android:id="@+id/btn_monitor"
@@ -34,22 +35,4 @@
         android:text="@string/switch_to_logout"
         app:layout_constraintStart_toStartOf="@+id/btn_monitor"
         app:layout_constraintTop_toBottomOf="@+id/btn_monitor" />
-
-    <Button
-        android:id="@+id/temp_button_info"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:text="Group Info"
-        app:layout_constraintStart_toStartOf="@+id/btnLogout"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
-
-    <Button
-        android:id="@+id/temp_button_create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
-        android:text="Create group"
-        app:layout_constraintStart_toStartOf="@+id/temp_button_info"
-        app:layout_constraintTop_toBottomOf="@+id/temp_button_info" />
 </android.support.constraint.ConstraintLayout>
