@@ -20,15 +20,25 @@ import java.util.Map;
 public class MonitorActivity extends AppCompatActivity {
 
 
-    User currentUser;
+    CurrentUserSingleton currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
+
     ArrayAdapter<String> adapter;
+
     List<String> studentsBeingMonitoredWithName=new ArrayList<>();
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
+        for(int i=0;i<currentUser.getMonitorsUsers().size();i++)
+        {
+            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"  "+currentUser.getMonitorsUsers().get(i).getEmail());
+        }
 
         ListView listView=findViewById(R.id.listViewMonitor);
 
