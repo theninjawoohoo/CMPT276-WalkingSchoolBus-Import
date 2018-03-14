@@ -20,6 +20,8 @@ public interface WebService {
     String FEED_LOGIN = "/login";
     String FEED_REGISTER = "/users/signup";
     String FEED_GETUSERLIST = "/users";
+    String FEED_GETGROUPBYID = "/groups/{id}";
+    String FEED_GROUPS = "/groups";
     String FEED_GETUSERBYID = "/users/{id}";
     String FEED_GETUSERBYEMAIL = "/users/byEmail";
     String FEED_GETMONITORUSERS = "/users/{id}/monitorsUsers";
@@ -71,4 +73,17 @@ public interface WebService {
     Call<Void> deleteGroup(@Path("id") long groupId);
 
 
+    @POST(FEED_GROUPS)
+    Call<Group> createNewGroup(@Body Group group);
+
+    @GET(FEED_GROUPS)
+    Call<List<Group>> getGroupList();
+
+    @GET(FEED_GETGROUPBYID)
+    Call<Group> getGroupById(@Path("id") Long groupId);
+
+    @POST(FEED_GETGROUPBYID)
+    Call<Group> updateGroupById(@Path("id") Long groupId,
+                                @Body Group group);
+//
 }
