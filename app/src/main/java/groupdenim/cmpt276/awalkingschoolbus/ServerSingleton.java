@@ -70,7 +70,22 @@ public class ServerSingleton {
 
     }
 
+    public void getGroupById(Context context, ProxyBuilder.SimpleCallback<Group> callback, long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
 
+        Call<Group> caller = proxy.getGroupById(id);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
 
+    public void createNewGroup(Context context, ProxyBuilder.SimpleCallback<Group> callback, Group group) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<Group> caller = proxy.createNewGroup(group);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
 
 }
