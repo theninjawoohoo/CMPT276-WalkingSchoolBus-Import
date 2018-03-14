@@ -42,7 +42,7 @@ class CurrentUserSingleton {
     {
         ProxyBuilder.SimpleCallback<User> callback = userList -> getuserId(userList);
         //306 should be nini
-        ServerSingleton.getInstance().getUserById(context,callback, 306);
+        ServerSingleton.getInstance().getUserById(context,callback, 318);
 
     }
 
