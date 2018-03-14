@@ -115,7 +115,7 @@ public class ServerSingleton {
         Call<Void> caller = proxy.stopMonitoring(currentUser, otherUser);
         ProxyBuilder.callProxy(context, caller, callback);
     }
-    
+
     public void deleteGroup(Context context, ProxyBuilder.SimpleCallback<Void> callback, long groupId) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
