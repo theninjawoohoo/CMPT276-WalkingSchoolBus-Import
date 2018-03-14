@@ -23,11 +23,7 @@ public class MonitorActivity extends AppCompatActivity {
     CurrentUserSingleton currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
 
     ArrayAdapter<String> adapter;
-
-    List<String> studentsBeingMonitoredWithName=new ArrayList<>();
-
-
-
+    List<String> studentsBeingMonitoredWithName;
 
 
     @Override
@@ -35,10 +31,7 @@ public class MonitorActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
-        for(int i=0;i<currentUser.getMonitorsUsers().size();i++)
-        {
-            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"  "+currentUser.getMonitorsUsers().get(i).getEmail());
-        }
+        updateListWhichDisplaysUsers();
 
         ListView listView=findViewById(R.id.listViewMonitor);
 
@@ -62,6 +55,15 @@ public class MonitorActivity extends AppCompatActivity {
         //Buttons to switch activities on clicking them
         switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou);
 
+    }
+
+    public void updateListWhichDisplaysUsers()
+    {
+        studentsBeingMonitoredWithName=new ArrayList<>();
+        for(int i=0;i<currentUser.getMonitorsUsers().size();i++)
+        {
+            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"  "+currentUser.getMonitorsUsers().get(i).getEmail());
+        }
     }
 
     //these two Over-ridden methods are to delete people
