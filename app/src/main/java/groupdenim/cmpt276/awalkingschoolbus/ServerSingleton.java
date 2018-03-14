@@ -97,6 +97,18 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+    public void monitoredByUsers(Context context, ProxyBuilder.SimpleCallback<List<User>> callback, long otherId, long currentUser) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        User user = new User();
+        user.setId(currentUser);
+        Call<List<User>> caller = proxy.addMonitoredBy(otherId, user);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+
+
 
 
 

@@ -38,7 +38,8 @@ public class MainMenuActivity extends AppCompatActivity {
         //testUserList();
         //getuserbyId();
         //getMonitorUser();
-        monitorUser();
+        //monitorUser();
+        monitoredUser();
         initializeMonitor();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
@@ -48,19 +49,34 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
-    private void monitorUser() {
+    private void monitoredUser() {
         contexta = this.getApplicationContext();
         String email = "317";
         long id = 473;
         long aa = 318;
-        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitor(userList);
+        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitored(userList);
         //306 should be nini
-        ServerSingleton.getInstance().monitorUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+        ServerSingleton.getInstance().monitoredByUsers(contexta,callback,aa,CurrentUserSingleton.getInstance(contexta).getId());
     }
 
-    private void monitor(List<User> userList) {
-        Log.i("aagairwgjoirwjg", "monitor: " + userList);
+    private void monitored(List<User> userList) {
+        Log.i(TAG, "monitored: " + userList);
+        Log.i(TAG, "monitored: " + CurrentUserSingleton.getInstance(this).getMonitoredByUsers());
     }
+
+//    private void monitorUser() {
+//        contexta = this.getApplicationContext();
+//        String email = "317";
+//        long id = 473;
+//        long aa = 318;
+//        ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitor(userList);
+//        //306 should be nini
+//        ServerSingleton.getInstance().monitorUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+//    }
+//
+//    private void monitor(List<User> userList) {
+//        Log.i("aagairwgjoirwjg", "monitor: " + userList);
+//    }
 
 //    private void getMonitorUser() {
 //        contexta = this.getApplicationContext();

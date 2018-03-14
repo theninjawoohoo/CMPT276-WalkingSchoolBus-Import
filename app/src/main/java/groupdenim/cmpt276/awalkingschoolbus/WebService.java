@@ -23,6 +23,7 @@ public interface WebService {
     String FEED_GETUSERBYEMAIL = "/users/byEmail";
     String FEED_GETMONITORUSERS = "/users/{id}/monitorsUsers";
     String FEED_MONITORUSER = "/users/{id}/monitorsUsers";
+    String FEED_MONITOREDBYUSER = "/users/{id}/monitoredByUsers";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -50,6 +51,12 @@ public interface WebService {
     @POST(FEED_MONITORUSER)
     Call<List<User>> monitorUser(
             @Path("id") long currentUserid,
-            @Body User user);
+            @Body User otherUser);
+
+    @POST(FEED_MONITOREDBYUSER)
+    Call<List<User>> addMonitoredBy(
+            @Path("id") long otherUser,
+            @Body User currentUser);
+
 
 }
