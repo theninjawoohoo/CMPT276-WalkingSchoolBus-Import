@@ -186,6 +186,7 @@ public class LoginActivity extends AppCompatActivity {
         CurrentUserSingleton.setFields(user);
         Intent mainMenu = new Intent(LoginActivity.this, MainMenuActivity.class);
         startActivity(mainMenu);
+        finish();
     }
 
     private void response(String token) {

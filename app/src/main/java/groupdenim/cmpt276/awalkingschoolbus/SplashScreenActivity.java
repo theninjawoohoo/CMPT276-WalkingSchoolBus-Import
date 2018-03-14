@@ -7,6 +7,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import static android.system.Os.kill;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     @Override
@@ -32,6 +34,7 @@ public class SplashScreenActivity extends AppCompatActivity {
             public void onAnimationEnd(Animation animation) {
                 Intent intent = new Intent(SplashScreenActivity.this, LoginActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override

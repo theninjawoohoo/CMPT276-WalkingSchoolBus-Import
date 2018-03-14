@@ -105,8 +105,6 @@ public class RegisterActivity extends AppCompatActivity {
             Call<User> caller = proxy.registerUser(userServer);
             ProxyBuilder.callProxy(RegisterActivity.this, caller, returnedUser -> response(returnedUser));
         }
-
-
     }
 
     private boolean isEmailValid(String email) {

@@ -8,6 +8,7 @@ package groupdenim.cmpt276.awalkingschoolbus;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,7 +31,7 @@ public class MainMenuActivity extends AppCompatActivity {
     //Some const ints
     private User currentUser = new User();
     private static final String TAG = "MainActivity";
-
+    private static final String LOGIN = "";
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
     @Override
@@ -64,7 +65,20 @@ public class MainMenuActivity extends AppCompatActivity {
 
     private void initializeLogout() {
         Button logout = findViewById(R.id.btnLogout);
-        
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+    }
+
+    private void logout() {
+        SharedPreferences sharedPrefs = getSharedPreferences(LOGIN, 0);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString("email","");
+        editor.putString("password","");
+        editor.commit();
     }
 
     private void createGroup() {
