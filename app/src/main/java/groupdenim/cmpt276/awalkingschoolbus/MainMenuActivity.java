@@ -145,8 +145,8 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //uncomment after
-//                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
+                startActivity(intent);
             }
         });
     }

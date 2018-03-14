@@ -87,6 +87,7 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+
     public void monitorUsers(Context context, ProxyBuilder.SimpleCallback<List<User>> callback, long currentId, long toAddId) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
@@ -96,10 +97,5 @@ public class ServerSingleton {
         Call<List<User>> caller = proxy.monitorUser(currentId, user);
         ProxyBuilder.callProxy(context, caller, callback);
     }
-
-
-
-
-
 
 }
