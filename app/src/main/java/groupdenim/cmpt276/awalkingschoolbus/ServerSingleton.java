@@ -13,6 +13,7 @@ import static java.lang.Thread.sleep;
 
 
 public class ServerSingleton {
+
     private static ServerSingleton instance;
     private User currentUser;
     private String TOKEN;
@@ -64,7 +65,6 @@ public class ServerSingleton {
         if (TOKEN != null) {
             updateProxy(TOKEN);
         }
-
         Call<User> caller = proxy.getUserById(id);
         ProxyBuilder.callProxy(context, caller, callback);
     }

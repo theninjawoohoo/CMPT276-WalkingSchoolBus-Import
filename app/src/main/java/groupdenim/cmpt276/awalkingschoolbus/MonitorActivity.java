@@ -20,16 +20,18 @@ import java.util.Map;
 public class MonitorActivity extends AppCompatActivity {
 
 
-    User currentUser;
+    CurrentUserSingleton currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
+
     ArrayAdapter<String> adapter;
     List<String> studentsBeingMonitoredWithName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
-
+        updateListWhichDisplaysUsers();
 
         ListView listView=findViewById(R.id.listViewMonitor);
 
@@ -38,8 +40,9 @@ public class MonitorActivity extends AppCompatActivity {
         Button seeWhoIsMonitoringYou=findViewById(R.id.btnSeeWhoIsMonitoringYou);
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
 
-        //list studentsBeingMonitored is temporary
+
         //Acquire List here
+
 
         //the list below is to concatenate name and email
 
@@ -52,6 +55,15 @@ public class MonitorActivity extends AppCompatActivity {
         //Buttons to switch activities on clicking them
         switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou);
 
+    }
+
+    public void updateListWhichDisplaysUsers()
+    {
+        studentsBeingMonitoredWithName=new ArrayList<>();
+        for(int i=0;i<currentUser.getMonitorsUsers().size();i++)
+        {
+            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"  "+currentUser.getMonitorsUsers().get(i).getEmail());
+        }
     }
 
     //these two Over-ridden methods are to delete people
