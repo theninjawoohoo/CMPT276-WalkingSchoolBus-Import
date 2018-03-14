@@ -22,13 +22,12 @@ public class MonitorActivity extends AppCompatActivity {
 
     User currentUser;
     ArrayAdapter<String> adapter;
-    List<String> studentsBeingMonitoredWithName;
+    List<String> studentsBeingMonitoredWithName=new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
-
 
 
         ListView listView=findViewById(R.id.listViewMonitor);
@@ -38,8 +37,9 @@ public class MonitorActivity extends AppCompatActivity {
         Button seeWhoIsMonitoringYou=findViewById(R.id.btnSeeWhoIsMonitoringYou);
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
 
-        //list studentsBeingMonitored is temporary
+
         //Acquire List here
+
 
         //the list below is to concatenate name and email
 
