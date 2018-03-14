@@ -38,8 +38,6 @@ public class MainMenuActivity extends AppCompatActivity {
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
-        initializeCreateButton();
-        initializeInfoButton();
 
     }
 
@@ -87,28 +85,6 @@ public class MainMenuActivity extends AppCompatActivity {
                 //uncomment after
 //                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
 //                startActivity(intent);
-            }
-        });
-    }
-
-    private void initializeInfoButton() {
-        Button button = findViewById(R.id.temp_button_info);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, GroupInfoActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void initializeCreateButton() {
-        Button button = findViewById(R.id.temp_button_create);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, CreateGroupActivity.class);
-                startActivity(intent);
             }
         });
     }

@@ -72,15 +72,6 @@ public class RegisterActivity extends AppCompatActivity {
         finish();
     }
 
-
-
-
-
-
-
-
-
-
     /**
      * Shows the progress UI and hides the login form.
      */

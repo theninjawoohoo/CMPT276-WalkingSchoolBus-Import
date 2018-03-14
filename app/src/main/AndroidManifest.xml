@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/api_key" />
+            android:value="@string/map_api_key" />
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -38,6 +38,7 @@
         </activity>
         <activity android:name=".MainMenuActivity" />
         <activity android:name=".MapActivity" />
+        <activity android:name=".RegisterActivity"/>
         <activity android:name=".MonitorActivity" />
         <activity android:name=".MonitoredByActivity" />
         <activity android:name=".GroupInfoActivity" />
