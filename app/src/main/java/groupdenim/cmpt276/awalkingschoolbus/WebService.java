@@ -18,6 +18,8 @@ public interface WebService {
     String FEED_LOGIN = "/login";
     String FEED_REGISTER = "/users/signup";
     String FEED_GETUSERLIST = "/users";
+    final String FEED_GETGROUPBYID = "/groups/{id}";
+    final String FEED_GROUPS = "/groups";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -35,4 +37,17 @@ public interface WebService {
 
     @GET("/users/{id}")
     Call<User> getUserById(@Path("id") Long userId);
+
+    @POST(FEED_GROUPS)
+    Call<Group> createNewGroup(@Body Group group);
+
+    @GET(FEED_GROUPS)
+    Call<List<Group>> getGroupList();
+
+    @GET(FEED_GETGROUPBYID)
+    Call<Group> getGroupById(@Path("id") Long groupId);
+
+    @POST(FEED_GETGROUPBYID)
+    Call<Group> updateGroupById(@Path("id") Long groupId,
+                                @Body Group group);
 }

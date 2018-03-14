@@ -18,18 +18,20 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
 
 public class MainMenuActivity extends AppCompatActivity {
 
     private Context contexta;
+    private String TOKEN;
     //Some const ints
+    private User currentUser;
     private static final String TAG = "MainActivity";
 
     private static final int ERROR_DIALOG_REQUEST = 9001;
-
-    private Group group = new Group("School", "TestGroup", "MyHouse",
-            new Coordinate(0, 0), new Coordinate(0, 0));
 
     private User user = new User("tempUserName", "tempEmail");
 
@@ -38,6 +40,9 @@ public class MainMenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+
+        getUser();
+        createNewGroup();
         //testUserList();
         //getuserbyId();
         initializeMonitor();
@@ -143,4 +148,36 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void getUser() {
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser -> response(returnedUser);
+        ServerSingleton serverSingleton = ServerSingleton.getInstance();
+        serverSingleton.getUserById(MainMenuActivity.this, callback, currentUser.getId());
+    }
+
+    private void createNewGroup() {
+        double[] routeLatArray = new double[2];
+        double[] routeLngArray = new double[2];
+        Group group = new Group("testGroup", new ArrayList<String>(), routeLatArray,
+                routeLngArray, currentUser);
+
+        ProxyBuilder.SimpleCallback<Group> callback = returnedGroup -> response(returnedGroup);
+        ServerSingleton serverSingleton = ServerSingleton.getInstance();
+        serverSingleton.createNewGroup(MainMenuActivity.this, callback, group);
+    }
+
+    private void response(Group group) {
+        Log.i("GROUPRESPONSE", "response: " + group.toString());
+    }
+
+    private void response(User user) {
+        Log.i("USERRESPONSE", "response: " + user.toString());
+    }
+
+    private void response(String token) {
+        TOKEN = token;
+        ServerSingleton.getInstance().setToken(token);
+        Log.i("DIDWEGETTOKEN", "response: " + token);
+    }
+
 }
