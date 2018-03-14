@@ -27,6 +27,7 @@ public interface WebService {
     String FEED_MONITOREDBYUSER = "/users/{id}/monitoredByUsers";
     String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
     String FEED_DELETEGROUP = "/groups/{id}";
+    String FEED_CREATEGROUP = "/groups";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 

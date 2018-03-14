@@ -42,7 +42,6 @@ public class MainMenuActivity extends AppCompatActivity {
         //monitoredUser();
         //getMonitored();
         //stopMonitoring();
-
         initializeMonitor();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
@@ -51,6 +50,8 @@ public class MainMenuActivity extends AppCompatActivity {
         initializeInfoButton();
 
     }
+
+
 
 //    private void stopMonitoring() {
 //        contexta = this.getApplicationContext();

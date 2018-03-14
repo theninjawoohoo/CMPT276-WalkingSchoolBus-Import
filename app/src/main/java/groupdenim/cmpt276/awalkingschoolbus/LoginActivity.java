@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
@@ -37,14 +38,13 @@ public class LoginActivity extends AppCompatActivity {
     private View mLoginFormView;
     private WebService proxy;
     private String TOKEN;
-
+    private static final String LOGIN = "";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -63,8 +63,21 @@ public class LoginActivity extends AppCompatActivity {
         setupLoginButton();
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+        checkIfLoggedIn();
     }
 
+    private void checkIfLoggedIn() {
+        SharedPreferences sharedPrefs = getSharedPreferences(LOGIN, 0);
+        String email = sharedPrefs.getString("email", "");
+        String password = sharedPrefs.getString("password", "");
+
+        if (email != "" && password!="") {
+            showProgress(true);
+            sendLoginRequest(email,password);
+//            Intent mainMenu = new Intent(LoginActivity.this, MainMenuActivity.class);
+//            startActivity(mainMenu);
+        }
+    }
 
 
     private void setupLoginButton() {
@@ -138,15 +151,23 @@ public class LoginActivity extends AppCompatActivity {
         userServer.setPassword(password);
         Call<Void> caller = proxy.getLogin(userServer);
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
-        ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email));
+        ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email, password));
     }
 
-    private void response(Void nothing, String email) {
+    private void response(Void nothing, String email, String password) {
         Log.i("HEADERRESPONSE", "response: " );
         showProgress(false);
         //start new activity
         populateCurrentUser(email);
+        saveLoginInfo(email,password);
+    }
 
+    private void saveLoginInfo(String email, String password) {
+        SharedPreferences sharedPrefs = getSharedPreferences(LOGIN, 0);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString("email",email);
+        editor.putString("password",password);
+        editor.commit();
     }
 
     private void populateCurrentUser(String email) {
