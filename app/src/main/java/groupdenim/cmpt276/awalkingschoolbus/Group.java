@@ -1,8 +1,11 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Group {
     private long id;
     private String groupDescription;
