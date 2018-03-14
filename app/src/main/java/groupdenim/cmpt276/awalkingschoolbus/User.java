@@ -51,13 +51,13 @@ public class User {
     private String email;
     private String password;
 
-    private List<Integer> leadsGroups = new ArrayList<>();
+    private List<User> leadsGroups = new ArrayList<>();
 
-    private List<Integer> memberOfGroups = new ArrayList<>();
+    private List<User> memberOfGroups = new ArrayList<>();
 
-    private List<Integer> monitoredByUsers = new ArrayList<>();
+    private List<User> monitoredByUsers = new ArrayList<>();
 
-    private List<Integer> monitorsUsers = new ArrayList<>();
+    private List<User> monitorsUsers = new ArrayList<>();
 
     private String href;
     public User(String name,String email) {
@@ -65,26 +65,26 @@ public class User {
         this.email=email;
     }
 
-    public List<Integer> getLeadsGroups() {
+    public List<User> getLeadsGroups() {
         return leadsGroups;
     }
 
-    public void setLeadsGroups(List<Integer> leadsGroups) {
+    public void setLeadsGroups(List<User> leadsGroups) {
         this.leadsGroups = leadsGroups;
     }
 
     //private List<Void> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
-    public List<Integer> getMemberOfGroups() {
+    public List<User> getMemberOfGroups() {
         return memberOfGroups;
     }
 
-    public void setMemberOfGroups(List<Integer> memberOfGroups) {
+    public void setMemberOfGroups(List<User> memberOfGroups) {
         this.memberOfGroups = memberOfGroups;
     }
     public User() {
 
     }
-    public User(Long id, String name, String email, String password, List<Integer> monitorsUsers, List<Integer> monitoredByUsers) {
+    public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -93,19 +93,19 @@ public class User {
         this.monitorsUsers = monitorsUsers;
     }
 
-    public List<Integer> getMonitoredByUsers() {
+    public List<User> getMonitoredByUsers() {
         return monitoredByUsers;
     }
 
-    public void setMonitoredByUsers(List<Integer> monitoredByUsers) {
+    public void setMonitoredByUsers(List<User> monitoredByUsers) {
         this.monitoredByUsers = monitoredByUsers;
     }
 
-    public List<Integer> getMonitorsUsers() {
+    public List<User> getMonitorsUsers() {
         return monitorsUsers;
     }
 
-    public void setMonitorsUsers(List<Integer> monitorsUsers) {
+    public void setMonitorsUsers(List<User> monitorsUsers) {
         this.monitorsUsers = monitorsUsers;
     }
 

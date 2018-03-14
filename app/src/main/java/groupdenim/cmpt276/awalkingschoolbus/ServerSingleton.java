@@ -11,6 +11,7 @@ import retrofit2.Call;
 
 import static java.lang.Thread.sleep;
 
+
 public class ServerSingleton {
     private static ServerSingleton instance;
     private User currentUser;
