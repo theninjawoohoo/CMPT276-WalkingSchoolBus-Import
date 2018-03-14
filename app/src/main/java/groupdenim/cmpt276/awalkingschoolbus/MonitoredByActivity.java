@@ -21,14 +21,17 @@ import java.util.Map;
 public class MonitoredByActivity extends AppCompatActivity {
 
 
-    User currentUser;
-    List<String> peopleMonitoringUserWithName;  //list to be displayed
+    CurrentUserSingleton currentUser;
+    List<String> studentsBeingMonitoredWithName;  //list to be displayed
     ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitored_by);
+
+        updateListWhichDisplaysUsers();
 
         ListView listView=findViewById(R.id.listViewBeingMonitoredBy);
 
@@ -37,13 +40,23 @@ public class MonitoredByActivity extends AppCompatActivity {
 
 
         adapter=new ArrayAdapter<String>(this,
-                R.layout.student_in_list,peopleMonitoringUserWithName );
+                R.layout.student_in_list,studentsBeingMonitoredWithName );
         listView.setAdapter(adapter);
         registerForContextMenu(listView);
 
         Button goBack=findViewById(R.id.goBackBtn);
         goBackButton(goBack);
 
+    }
+
+    public void updateListWhichDisplaysUsers()
+    {
+        CurrentUserSingleton.updateUserSingleton(getApplicationContext());
+        studentsBeingMonitoredWithName=new ArrayList<>();
+        for(int i=0;i<currentUser.getMonitoredByUsers().size();i++)
+        {
+            studentsBeingMonitoredWithName.add(currentUser.getMonitoredByUsers().get(i).getName() +"  "+currentUser.getMonitoredByUsers().get(i).getEmail());
+        }
     }
 
     @Override
@@ -76,12 +89,9 @@ public class MonitoredByActivity extends AppCompatActivity {
 
     public void goBackButton(Button goBack)
     {
-        goBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(MonitoredByActivity.this,MonitorActivity.class);
-                startActivity(intent);
-            }
+        goBack.setOnClickListener(view -> {
+            Intent intent=new Intent(MonitoredByActivity.this,MonitorActivity.class);
+            startActivity(intent);
         });
     }
 

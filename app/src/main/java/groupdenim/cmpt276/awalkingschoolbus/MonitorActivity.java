@@ -15,19 +15,17 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class MonitorActivity extends AppCompatActivity {
 
 
-    CurrentUserSingleton currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
-
-    ArrayAdapter<String> adapter;
+    CurrentUserSingleton currentUser;
     List<String> studentsBeingMonitoredWithName;
-
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
@@ -39,10 +37,6 @@ public class MonitorActivity extends AppCompatActivity {
         Button monitorSomeone=findViewById(R.id.btnAddMonitorSomeone);
         Button seeWhoIsMonitoringYou=findViewById(R.id.btnSeeWhoIsMonitoringYou);
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
-
-
-        //Acquire List here
-
 
         //the list below is to concatenate name and email
 
@@ -59,11 +53,15 @@ public class MonitorActivity extends AppCompatActivity {
 
     public void updateListWhichDisplaysUsers()
     {
+        //CurrentUserSingleton.updateUserSingleton(getApplicationContext());
         studentsBeingMonitoredWithName=new ArrayList<>();
         for(int i=0;i<currentUser.getMonitorsUsers().size();i++)
         {
-            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"  "+currentUser.getMonitorsUsers().get(i).getEmail());
+            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"\t\t"+currentUser.getMonitorsUsers().get(i).getEmail());
         }
+
+        //not sure if this is required, adding it anyways
+        //adapter.notifyDataSetChanged();
     }
 
     //these two Over-ridden methods are to delete people
