@@ -12,22 +12,18 @@ import com.google.android.gms.maps.model.LatLng;
 public class placeObject {
     private String name;
     private String address;
-    private String phoneNumber;
     private String id;
-    private Uri webSiteUri;
     private LatLng latlng;
-    private float rating;
-    private String attributions;
 
-    public placeObject(String name, String address, String phoneNumber, String id, Uri webSiteUri, LatLng latlng, float rating, String attributions) {
+    public placeObject(String name, String address, String id, LatLng latlng) {
         this.name = name;
         this.address = address;
-        this.phoneNumber = phoneNumber;
         this.id = id;
-        this.webSiteUri = webSiteUri;
         this.latlng = latlng;
-        this.rating = rating;
-        this.attributions = attributions;
+    }
+
+    public placeObject(LatLng someLocation) {
+        this.latlng = someLocation;
     }
 
     public placeObject() {
@@ -50,13 +46,6 @@ public class placeObject {
         this.address = address;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public String getId() {
         return id;
@@ -64,14 +53,6 @@ public class placeObject {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Uri getWebSiteUri() {
-        return webSiteUri;
-    }
-
-    public void setWebSiteUri(Uri webSiteUri) {
-        this.webSiteUri = webSiteUri;
     }
 
     public LatLng getLatlng() {
@@ -82,33 +63,14 @@ public class placeObject {
         this.latlng = latlng;
     }
 
-    public float getRating() {
-        return rating;
-    }
-
-    public void setRating(float rating) {
-        this.rating = rating;
-    }
-
-    public String getAttributions() {
-        return attributions;
-    }
-
-    public void setAttributions(String attributions) {
-        this.attributions = attributions;
-    }
 
     @Override
     public String toString() {
         return "placeObject{" +
                 "name='" + name + '\'' +
                 ", address='" + address + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
                 ", id='" + id + '\'' +
-                ", webSiteUri=" + webSiteUri +
                 ", latlng=" + latlng +
-                ", rating=" + rating +
-                ", attributions='" + attributions + '\'' +
                 '}';
     }
 }

@@ -77,4 +77,25 @@
         android:scaleType="centerCrop"
         android:src="@drawable/ic_gps"/>
 
+    <ImageView
+        android:id="@+id/ic_info"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="160dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_info"
+        android:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/ic_nearby"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_nearby"
+        android:visibility="visible" />
 </RelativeLayout>

@@ -8,18 +8,18 @@ import java.util.List;
  */
 
 public class MapSingleton {
-    List<LocationStruct> listOfMeetingSpots = new ArrayList<>();
+    private List<placeObject> listOfMeetingSpots = new ArrayList<>();
 
-    public void addAMeetingSpot(long latitude, long longitude) {
-        LocationStruct newLoc = new LocationStruct(latitude, longitude);
-        listOfMeetingSpots.add(newLoc);
+    public void addAMeetingSpot(placeObject aPlace) {
+        listOfMeetingSpots.add(aPlace);
     }
 
-    public void deleteAMeetingSpot(long latitude, long longitude) {
-        LocationStruct deleteThisMeeting = new LocationStruct(latitude, longitude);
-        listOfMeetingSpots.remove(deleteThisMeeting);
+    public void deleteAMeetingSpot(placeObject aPlace) {
+        listOfMeetingSpots.remove(aPlace);
     }
 
-
+    public List<placeObject> getList() {
+        return listOfMeetingSpots;
+    }
 
 }

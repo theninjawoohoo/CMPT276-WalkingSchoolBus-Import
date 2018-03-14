@@ -28,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -37,12 +39,14 @@ import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -103,15 +107,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     //Google map search bar widget
     private AutoCompleteTextView theSearchBox;
+    private ImageView jumpToCurrentLocation;
+    private ImageView displayInfoCurrentLocation;
+    private ImageView displayNearbyLocation;
 
     //Google maps objects
     private boolean mLocationPermissionGranted = false;
     private GoogleMap Gmap;
-    private ImageView jumpToCurrentLocation;
+
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
     private placeObject mPlace;
-
+    private Marker mMarker;
+    private int PLACE_PICKER_REQUEST = 1;
+    private Marker tempMarker;
 
     //This is an object that helps the user obtain a location
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -126,6 +135,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         theSearchBox = (AutoCompleteTextView) findViewById(R.id.input_search);
 
         jumpToCurrentLocation = (ImageView) findViewById(R.id.ic_gps);
+        displayInfoCurrentLocation = (ImageView) findViewById(R.id.ic_info);
+        displayNearbyLocation = (ImageView) findViewById(R.id.ic_nearby);
+
     }
 
     private void initializeMap() {
@@ -171,8 +183,44 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         jumpToCurrentLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG,"onClick: cliked gps icon");
+                Log.d(TAG,"onClick: clicked gps icon");
                 getCurrentLocation();
+            }
+        });
+
+        //This image will display the group view
+        //In the future we will show group details instead of the location details.
+        displayInfoCurrentLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: info has been displayed");
+                try{
+                    if(mMarker.isInfoWindowShown()) {
+                        mMarker.hideInfoWindow();
+                    }
+                    else {
+                        mMarker.showInfoWindow();
+                    }
+                }
+                catch (NullPointerException e) {
+                    Log.e(TAG, "onClick: nullPtrException found");
+                }
+            }
+        });
+
+        displayNearbyLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    startActivityForResult(builder.build(MapActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    Log.e(TAG, "GooglePlayServicesRepairableException: " + e.getMessage());
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    Log.e(TAG, "GooglePlayServicesNotAvailableException: " + e.getMessage());
+                }
             }
         });
 
@@ -180,7 +228,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         hideSoftKeyboard();
     }
 
-    //
+    //Code for nearby place picker
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(this, data);
+                PendingResult<PlaceBuffer> resultOfLocation = Places.GeoDataApi
+                        .getPlaceById(mGoogleApiClient, place.getId());
+                resultOfLocation.setResultCallback(mUpdatePlaceDetailsCallback);
+            }
+        }
+    }
+
+
     //Precondition: the user enters input into the search box
     private void geoLocate() {
         Log.d(TAG, "Searching for location");
@@ -304,10 +364,49 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             MarkerOptions options = new MarkerOptions()
                     .position(latlng)
                     .title(title);
-            Gmap.addMarker(options);
+            if(tempMarker != null) {
+                tempMarker.remove();
+            }
+            mMarker = Gmap.addMarker(options);
+            tempMarker = mMarker;
         }
     }
 
+    //Create a method to be able to move the camera around
+    //This method accepts a place to move to.
+    private void moveCamera(LatLng latlng, float zoom, placeObject thePlace) {
+        Log.d(TAG, "Camera moved to latitude" + latlng.latitude
+                + ", longitude " + latlng.longitude);
+        Gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
+
+        Gmap.setInfoWindowAdapter(new customWindow(MapActivity.this));
+
+        if(thePlace != null) {
+            try{
+                String markerInfo = "Address: " + thePlace.getAddress() + "\n";
+
+                MarkerOptions options = new MarkerOptions()
+                        .position(latlng)
+                        .title(thePlace.getName())
+                        .snippet(markerInfo);
+
+                if(tempMarker != null) {
+                    tempMarker.remove();
+                }
+                mMarker = Gmap.addMarker(options);
+                tempMarker = mMarker;
+            }
+            catch(NullPointerException e) {
+                Log.e(TAG, "moveCamera: NullPointerException " + e.getMessage());
+            }
+        }
+        else{
+            Gmap.addMarker(new MarkerOptions().position(latlng));
+        }
+
+    }
+
+    //Hides the keyboard upon searching/tapping.
     private void hideSoftKeyboard() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         assert imm != null;
@@ -359,6 +458,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     };
 
+    //Get's the place and stores it into a global placeObject.
     private ResultCallback<PlaceBuffer> mUpdatePlaceDetailsCallback = new ResultCallback<PlaceBuffer>() {
         @Override
         public void onResult(@NonNull PlaceBuffer places) {
@@ -372,7 +472,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             final Place place = places.get(0);
 
             //Set up a place object to initialize our global place to..
-
             try{
                 mPlace = new placeObject();
                 mPlace.setName(place.getName().toString());
@@ -387,32 +486,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 mPlace.setLatlng(place.getLatLng());
                 Log.d(TAG, "onResult: latlng: " + place.getLatLng());
 
-                mPlace.setRating(place.getRating());
-                Log.d(TAG, "onResult: rating: " + place.getRating());
-
-                mPlace.setPhoneNumber(place.getPhoneNumber().toString());
-                Log.d(TAG, "onResult: phone number: " + place.getPhoneNumber());
-
-                mPlace.setWebSiteUri(place.getWebsiteUri());
-                Log.d(TAG, "onResult: website uri: " + place.getWebsiteUri());
-
                 Log.d(TAG, "onResult: place: " + mPlace.toString());
             }catch (NullPointerException e){
                 Log.e(TAG, "onResult: NullPointerException: " + e.getMessage() );
             }
 
             moveCamera(new LatLng(place.getViewport().getCenter().latitude,
-                    place.getViewport().getCenter().longitude), DEFAULT_ZOOM, mPlace.getName());
+                    place.getViewport().getCenter().longitude), DEFAULT_ZOOM, mPlace);
 
             places.release();
         }
     };
-
-
-
-
-
-
 
 
     private void switchToMapViewFragment() {
