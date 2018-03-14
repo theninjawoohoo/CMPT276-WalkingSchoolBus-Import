@@ -26,6 +26,7 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         Button confirm=findViewById(R.id.btnConfirm);
 
 
+        //checks if the user input is valid. If not valid breaks out of function, else updates server and switches activity
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

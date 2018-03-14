@@ -1,47 +1,5 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
-/*
-import java.util.List;<<<<<<< HEAD
-        import java.util.ArrayList;
-        import java.util.List;
-
-class User {
-    private String email;
-    private String name;
-
-
-    private List<String> groups = new ArrayList<>(); //what groups is the person a part of (by name)
-
-
-    private List<String> peopleUserIsMonitoring = new ArrayList<>();    //uses email
-    private List<String> peopleMonitoringUser = new ArrayList<>();      //uses email
-
-    public User(String userName, String email){
-        this.name = userName;
-        this.email = email;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getUserName() {
-        return name;
-    }
-
-    public List<String> getGroups() {
-        return groups;
-    }
-
-    public List<String> getPeopleUserIsMonitoring() {
-        return peopleUserIsMonitoring;
-    }
-
-    public List<String> getPeopleMonitoringUser() {
-        return peopleMonitoringUser;
-
-*/
-
 import java.util.ArrayList;
 import java.util.List;
 
