@@ -7,10 +7,21 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.location.places.Place;
+
 public class CreateGroupActivity extends AppCompatActivity {
     private String destination;
-    private String groupName;
+    private String groupDescription;
+    private Place place;
     private String meetingPlace;
+    /*
+    private long id;
+    private String groupDescription;
+    private List<String> members = new ArrayList<>();
+    private double[] routeLatArray = new double[2];
+    private double[] routeLngArray = new double[2];
+    private User leader;
+    * */
     private final int MIN_TEXT_LENGTH = 3;
 
     @Override
@@ -52,7 +63,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         EditText editGroupName =  findViewById(R.id.editText_CreateGroupActivity_groupName);
         EditText editMeeting =  findViewById(R.id.editText_CreateGroupActivity_meeting);
         destination = editDestination.getText().toString();
-        groupName = editGroupName.getText().toString();
+        groupDescription = editGroupName.getText().toString();
         meetingPlace = editMeeting.getText().toString();
     }
 
@@ -60,7 +71,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         String errorMessage;
         if (destination.length() < MIN_TEXT_LENGTH) {
             errorMessage = "Destination must be at least " + MIN_TEXT_LENGTH + " characters long.";
-        } else if (groupName.length() < MIN_TEXT_LENGTH) {
+        } else if (groupDescription.length() < MIN_TEXT_LENGTH) {
             errorMessage = "Group name must be at least " + MIN_TEXT_LENGTH + " characters long.";
         } else if (meetingPlace.length() < MIN_TEXT_LENGTH) {
             errorMessage = "Meeting place must be at least " + MIN_TEXT_LENGTH + " characters long.";
@@ -76,7 +87,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     private void sendInput() {
         //TODO: need to figure out what to do with coordinates:
         Coordinate tempCoord = new Coordinate(0, 0);
-        Group group = new Group(destination, groupName, meetingPlace, tempCoord, tempCoord);
+        Group group = new Group(destination, groupDescription, meetingPlace, tempCoord, tempCoord);
         GroupSingleton groupSingleton = GroupSingleton.getInstance();
         groupSingleton.addGroup(group);
     }

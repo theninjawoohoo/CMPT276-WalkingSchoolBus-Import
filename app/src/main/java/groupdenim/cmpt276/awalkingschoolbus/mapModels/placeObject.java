@@ -4,6 +4,8 @@ import android.net.Uri;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import groupdenim.cmpt276.awalkingschoolbus.Group;
+
 /**
  * A Object to store place data because
  * we cannot save place data.
@@ -22,9 +24,10 @@ public class placeObject {
         this.latlng = latlng;
     }
 
-    public placeObject(LatLng someLocation) {
-        this.latlng = someLocation;
+    public placeObject(double latitude, double longitude) {
+        this.latlng = new LatLng(latitude, longitude);
     }
+
 
     public placeObject() {
 
