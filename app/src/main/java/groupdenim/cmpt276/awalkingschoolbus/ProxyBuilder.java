@@ -153,7 +153,6 @@ public class ProxyBuilder {
             public void onFailure(Call<T> call, Throwable t) {
                 String message = "Server Error: " + t.getMessage();
                 showFailure(message);
-                ServerSingleton.setWait(false);
             }
             private void showFailure(String message) {
                 Log.e("ProxyBuilder", message);
