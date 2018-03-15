@@ -90,21 +90,34 @@ public class MonitorActivity extends AppCompatActivity {
             case R.id.delete:
                 //deletes current user from other person's list
 
+                int index=obj.position;
+                ProxyBuilder.SimpleCallback<List<User>> callback=userList -> temp(userList,index);
+                ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
+                        callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
-//                User someoneBeingMonitoredByCurrentUser=masterMap.get(currentUser.getPeopleUserIsMonitoring().get(obj.position));
-//                someoneBeingMonitoredByCurrentUser.getPeopleMonitoringUser().remove(currentUserEmail);
-//
-//                //delete from current user's list
-//                currentUser.getPeopleUserIsMonitoring().remove(obj.position);
-//                //delete from display list
-//                studentsBeingMonitoredWithName.remove(obj.position);
 
-                adapter.notifyDataSetChanged();
+
+                //adapter.notifyDataSetChanged();
                 break;
         }
 
         return super.onContextItemSelected(item);
     }
+
+    public void temp(List<User> userList,int index)
+    {
+        Long id=userList.get(index).getId();
+
+        ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
+        ServerSingleton.getInstance().stopMonitoringUser(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+
+    }
+
+    private void setUserList(Void tempo,int index) {
+        studentsBeingMonitoredWithName.remove(index);
+        adapter.notifyDataSetChanged();
+    }
+
 
     public void switchActivity(Button monitorSomeone, Button seeWhoIsMonitoringYou, Button addSomeoneToMonitorYou)
     {

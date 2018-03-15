@@ -25,6 +25,7 @@ public interface WebService {
     String FEED_GETUSERBYID = "/users/{id}";
     String FEED_GETUSERBYEMAIL = "/users/byEmail";
     String FEED_GETMONITORUSERS = "/users/{id}/monitorsUsers";
+    String FEED_GETMONITOREDUSERS = "/users/{id}/monitoredByUsers";
     String FEED_MONITORUSER = "/users/{id}/monitorsUsers";
     String FEED_MONITOREDBYUSER = "/users/{id}/monitoredByUsers";
     String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
@@ -53,6 +54,9 @@ public interface WebService {
 
     @GET(FEED_GETMONITORUSERS)
     Call<List<User>> getMonitorUser(@Path("id") Long id);
+
+    @GET(FEED_GETMONITOREDUSERS)
+    Call<List<User>> getMonitoredUser(@Path("id") Long id);
 
     @POST(FEED_MONITORUSER)
     Call<List<User>> monitorUser(

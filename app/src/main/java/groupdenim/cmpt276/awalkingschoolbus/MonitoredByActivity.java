@@ -54,7 +54,7 @@ public class MonitoredByActivity extends AppCompatActivity {
     {
         studentsBeingMonitoredWithName=new ArrayList<>();
         ProxyBuilder.SimpleCallback<List<User>> callback=userList -> getMonitorList(userList);
-        ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+        ServerSingleton.getInstance().getMonitoredUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
     }
 
     private void getMonitorList(List<User> userList)
@@ -82,7 +82,7 @@ public class MonitoredByActivity extends AppCompatActivity {
             case R.id.delete:
 
 
-//                User someoneMonitoringCurrentUserServer =masterMap.get(currentUserServer.getPeopleMonitoringUser().get(obj.position));
+//               User someoneMonitoringCurrentUserServer =masterMap.get(currentUserServer.getPeopleMonitoringUser().get(obj.position));
 //                someoneMonitoringCurrentUserServer.getPeopleUserIsMonitoring().remove(currentUserEmail);
 //
 //                currentUserServer.getPeopleMonitoringUser().remove(obj.position);
