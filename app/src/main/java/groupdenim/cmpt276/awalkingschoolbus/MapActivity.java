@@ -246,6 +246,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 Intent intent = new Intent(MapActivity.this, GroupMeeting.class);
                 startActivity(intent);
+                finish();
             }
         });
 
