@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/AWalkingSchoolbus.iml" filepath="$PROJECT_DIR$/AWalkingSchoolbus.iml" />
+      <module fileurl="file://C:\Users\Adrian Joziak\Desktop\samples-android\walkinggroupapp\AWalkingSchoolbus.iml" filepath="C:\Users\Adrian Joziak\Desktop\samples-android\walkinggroupapp\AWalkingSchoolbus.iml" />
+      <module fileurl="file://C:\Users\Farhan\Desktop\WSB2\walkinggroupapp\AWalkingSchoolbus.iml" filepath="C:\Users\Farhan\Desktop\WSB2\walkinggroupapp\AWalkingSchoolbus.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
