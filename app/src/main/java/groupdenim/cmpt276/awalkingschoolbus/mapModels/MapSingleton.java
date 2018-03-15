@@ -10,16 +10,18 @@ import java.util.List;
 public class MapSingleton {
     private static final MapSingleton instance = new MapSingleton();
 
+    private placeObject tempObject;
+
     private MapSingleton(){}
 
     private List<placeObject> listOfMeetingSpots = new ArrayList<>();
 
-    public void addAMeetingSpot(placeObject aPlace) {
-        listOfMeetingSpots.add(aPlace);
+    public placeObject getTempObject() {
+        return tempObject;
     }
 
-    public void deleteAMeetingSpot(placeObject aPlace) {
-        listOfMeetingSpots.remove(aPlace);
+    public void setTempObject(placeObject tempObject) {
+        this.tempObject = tempObject;
     }
 
     public List<placeObject> getList() {
