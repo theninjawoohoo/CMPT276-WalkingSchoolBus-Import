@@ -4,6 +4,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
@@ -19,10 +20,16 @@ public interface WebService {
     String FEED_LOGIN = "/login";
     String FEED_REGISTER = "/users/signup";
     String FEED_GETUSERLIST = "/users";
+    String FEED_GETGROUPBYID = "/groups/{id}";
+    String FEED_GROUPS = "/groups";
     String FEED_GETUSERBYID = "/users/{id}";
     String FEED_GETUSERBYEMAIL = "/users/byEmail";
     String FEED_GETMONITORUSERS = "/users/{id}/monitorsUsers";
     String FEED_MONITORUSER = "/users/{id}/monitorsUsers";
+    String FEED_MONITOREDBYUSER = "/users/{id}/monitoredByUsers";
+    String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
+    String FEED_DELETEGROUP = "/groups/{id}";
+    String FEED_CREATEGROUP = "/groups";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -50,6 +57,33 @@ public interface WebService {
     @POST(FEED_MONITORUSER)
     Call<List<User>> monitorUser(
             @Path("id") long currentUserid,
-            @Body User user);
+            @Body User otherUser);
 
+    @POST(FEED_MONITOREDBYUSER)
+    Call<List<User>> addMonitoredBy(
+            @Path("id") long otherUser,
+            @Body User currentUser);
+
+    @DELETE(FEED_STOPMONITORING)
+    Call<Void> stopMonitoring(
+            @Path("idA") long currentUser,
+            @Path("idB")long otherUser);
+
+    @DELETE(FEED_DELETEGROUP)
+    Call<Void> deleteGroup(@Path("id") long groupId);
+
+
+    @POST(FEED_GROUPS)
+    Call<Group> createNewGroup(@Body Group group);
+
+    @GET(FEED_GROUPS)
+    Call<List<Group>> getGroupList();
+
+    @GET(FEED_GETGROUPBYID)
+    Call<Group> getGroupById(@Path("id") Long groupId);
+
+    @POST(FEED_GETGROUPBYID)
+    Call<Group> updateGroupById(@Path("id") Long groupId,
+                                @Body Group group);
+//
 }

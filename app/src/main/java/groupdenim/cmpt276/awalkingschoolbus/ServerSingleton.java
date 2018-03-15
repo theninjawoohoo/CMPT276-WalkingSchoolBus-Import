@@ -19,8 +19,7 @@ public class ServerSingleton {
     private String TOKEN;
     private List<User> userList = new ArrayList<>();
     private String testingPurposeAPI = "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
-    private Boolean gotUserList = false;
-    private static Boolean wait = true;
+
 
     private WebService proxy;
 
@@ -41,16 +40,10 @@ public class ServerSingleton {
         return instance;
     }
 
-    public static void setWait(Boolean value) {
-        wait = value;
-    }
     public void setToken(String token) {
         instance.TOKEN = token;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
 
     public void getUserListFromServer(Context context, ProxyBuilder.SimpleCallback<List<User>> callback) {
         if (TOKEN != null) {
@@ -97,5 +90,74 @@ public class ServerSingleton {
         Call<List<User>> caller = proxy.monitorUser(currentId, user);
         ProxyBuilder.callProxy(context, caller, callback);
     }
+
+
+    public void monitoredByUsers(Context context, ProxyBuilder.SimpleCallback<List<User>> callback, long otherId, long currentUser) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        User user = new User();
+        user.setId(currentUser);
+        Call<List<User>> caller = proxy.addMonitoredBy(otherId, user);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void stopMonitoringUser(Context context, ProxyBuilder.SimpleCallback<Void> callback, long currentUser, long otherUser) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        Call<Void> caller = proxy.stopMonitoring(currentUser, otherUser);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void deleteGroup(Context context, ProxyBuilder.SimpleCallback<Void> callback, long groupId) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        Call<Void> caller = proxy.deleteGroup(groupId);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void getGroupById(Context context, ProxyBuilder.SimpleCallback<Group> callback, long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<Group> caller = proxy.getGroupById(id);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+
+    public void createNewGroup(Context context, ProxyBuilder.SimpleCallback<Group> callback, Group group) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<Group> caller = proxy.createNewGroup(group);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void getGroupList(Context context, ProxyBuilder.SimpleCallback<List<Group>> callback) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<List<Group>> caller = proxy.getGroupList();
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void updateGroupById(Context context, ProxyBuilder.SimpleCallback<Group> callback,
+                                long id, Group group) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<Group> caller = proxy.updateGroupById(id, group);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+
+
+
 
 }
