@@ -20,15 +20,13 @@ import java.util.Map;
 
 public class MonitoredByActivity extends AppCompatActivity {
 
-
-    CurrentUserSingleton currentUser;
     public static List<String> studentsBeingMonitoredWithName;  //list to be displayed
     ArrayAdapter<String> adapter;
     ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitored_by);
 
@@ -37,8 +35,6 @@ public class MonitoredByActivity extends AppCompatActivity {
         listView=findViewById(R.id.listViewBeingMonitoredBy);
 
         //list peopleMonitoringUser is temporary
-
-
 
         adapter=new ArrayAdapter<String>(this,
                 R.layout.student_in_list,studentsBeingMonitoredWithName );
@@ -83,10 +79,9 @@ public class MonitoredByActivity extends AppCompatActivity {
 
                 int index=obj.position;
                 ProxyBuilder.SimpleCallback<List<User>> callback=userList -> temp(userList,index);
-                ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
+                ServerSingleton.getInstance().getMonitoredUsers(getApplicationContext(),
                         callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
-                adapter.notifyDataSetChanged();
                 break;
         }
 
@@ -97,7 +92,7 @@ public class MonitoredByActivity extends AppCompatActivity {
         Long id=userList.get(index).getId();
 
         ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
-        ServerSingleton.getInstance().stopBeingMonitored(getApplicationContext(),callback,id,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+        ServerSingleton.getInstance().stopBeingMonitored(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
     }
 
     private void setUserList(Void tempo, int index) {

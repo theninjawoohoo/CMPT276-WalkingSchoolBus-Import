@@ -36,6 +36,7 @@ public class MonitorActivity extends AppCompatActivity {
         txtDisplay.setText("Your name, email and id is "+CurrentUserSingleton.getInstance(getApplicationContext()).getName()+
                 ", "+CurrentUserSingleton.getInstance(getApplicationContext()).getEmail()+
                 " & "+CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+
         listView=findViewById(R.id.listViewMonitor);
 
         //Buttons
@@ -56,10 +57,7 @@ public class MonitorActivity extends AppCompatActivity {
         //Buttons to switch activities on clicking them
         switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou,backBtn);
 
-
-
     }
-
 
 
     public void updateListWhichDisplaysUsers()
@@ -104,7 +102,6 @@ public class MonitorActivity extends AppCompatActivity {
 
 
 
-                //adapter.notifyDataSetChanged();
                 break;
         }
 
