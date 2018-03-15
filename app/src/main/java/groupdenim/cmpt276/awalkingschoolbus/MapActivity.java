@@ -23,6 +23,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -105,11 +106,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(new LatLng(-40, -168),
                                                                         new LatLng(71, 136));
 
-    //Google map search bar widget
+    //Google map search bar widget + extra button
     private AutoCompleteTextView theSearchBox;
     private ImageView jumpToCurrentLocation;
     private ImageView displayInfoCurrentLocation;
     private ImageView displayNearbyLocation;
+    private ImageView addNewMeetingSpot;
 
     //Google maps objects
     private boolean mLocationPermissionGranted = false;
@@ -129,7 +131,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map);
+        setContentView(R.layout.activity_map_updated);
         checkGPSStatus();
         getLocationPermissions();
         theSearchBox = (AutoCompleteTextView) findViewById(R.id.input_search);
@@ -137,6 +139,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         jumpToCurrentLocation = (ImageView) findViewById(R.id.ic_gps);
         displayInfoCurrentLocation = (ImageView) findViewById(R.id.ic_info);
         displayNearbyLocation = (ImageView) findViewById(R.id.ic_nearby);
+        addNewMeetingSpot = (ImageView) findViewById(R.id.ic_addMeetingSpot);
+
+
 
     }
 
@@ -224,6 +229,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        //This widget creates a new meeting spot at this location.
+        addNewMeetingSpot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        Button helpUser = (Button) findViewById(R.id.btn_helpUser);
+        Button switchToGroupView = (Button) findViewById(R.id.btn_group_view_switch);
+
+        //This opens our group list.
+        switchToGroupView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MapActivity.this, GroupMeeting.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        helpUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HelpFragment help = new HelpFragment();
+                help.show(getFragmentManager(), "Help Box");
+            }
+        });
         //Then hide the keyboard
         hideSoftKeyboard();
     }
@@ -360,16 +393,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 + ", longitude " + latlng.longitude);
         Gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
 
-        if(!title.equals("My Location")) {
-            MarkerOptions options = new MarkerOptions()
-                    .position(latlng)
-                    .title(title);
-            if(tempMarker != null) {
-                tempMarker.remove();
-            }
-            mMarker = Gmap.addMarker(options);
-            tempMarker = mMarker;
+        MarkerOptions options = new MarkerOptions()
+                .position(latlng)
+                .title(title);
+
+        if(tempMarker != null) {
+            tempMarker.remove();
         }
+        mMarker = Gmap.addMarker(options);
+        tempMarker = mMarker;
+
     }
 
     //Create a method to be able to move the camera around
@@ -497,16 +530,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             places.release();
         }
     };
-
-
-    private void switchToMapViewFragment() {
-
-    }
-
-    private void switchToGroupViewFragment() {
-
-    }
-
-
 
 }
