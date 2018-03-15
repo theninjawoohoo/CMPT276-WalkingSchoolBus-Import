@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,15 @@ public class MonitorActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
         updateListWhichDisplaysUsers();
 
+        TextView txtDisplay=findViewById(R.id.txtDisplayEmail);
+        txtDisplay.setText("Your name, email and id is "+CurrentUserSingleton.getInstance(getApplicationContext()).getName()+
+                ", "+CurrentUserSingleton.getInstance(getApplicationContext()).getEmail()+
+                " & "+CurrentUserSingleton.getInstance(getApplicationContext()).getId());
         listView=findViewById(R.id.listViewMonitor);
 
         //Buttons
