@@ -22,8 +22,9 @@ public class MonitoredByActivity extends AppCompatActivity {
 
 
     CurrentUserSingleton currentUser;
-    List<String> studentsBeingMonitoredWithName;  //list to be displayed
+    public static List<String> studentsBeingMonitoredWithName;  //list to be displayed
     ArrayAdapter<String> adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +34,7 @@ public class MonitoredByActivity extends AppCompatActivity {
 
         updateListWhichDisplaysUsers();
 
-        ListView listView=findViewById(R.id.listViewBeingMonitoredBy);
+        listView=findViewById(R.id.listViewBeingMonitoredBy);
 
         //list peopleMonitoringUser is temporary
 
@@ -51,12 +52,19 @@ public class MonitoredByActivity extends AppCompatActivity {
 
     public void updateListWhichDisplaysUsers()
     {
-        CurrentUserSingleton.updateUserSingleton(getApplicationContext());
         studentsBeingMonitoredWithName=new ArrayList<>();
-        for(int i=0;i<currentUser.getMonitoredByUsers().size();i++)
-        {
-            studentsBeingMonitoredWithName.add(currentUser.getMonitoredByUsers().get(i).getName() +"  "+currentUser.getMonitoredByUsers().get(i).getEmail());
-        }
+        ProxyBuilder.SimpleCallback<List<User>> callback=userList -> getMonitorList(userList);
+        ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+    }
+
+    private void getMonitorList(List<User> userList)
+    {
+        for(User user : userList)
+            studentsBeingMonitoredWithName.add(user.getName()+"  "+user.getEmail());
+
+        adapter=new ArrayAdapter<String>(this,
+                R.layout.student_in_list,studentsBeingMonitoredWithName );
+        listView.setAdapter(adapter);
     }
 
     @Override

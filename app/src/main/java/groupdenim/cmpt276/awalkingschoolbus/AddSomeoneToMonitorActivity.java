@@ -18,7 +18,6 @@ import static groupdenim.cmpt276.awalkingschoolbus.CurrentUserSingleton.setField
 public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
     CurrentUserSingleton currentUser;
-    User userToMonitor=new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +43,6 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
                 ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitor(user);
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
-
-
 
                 Intent intent = new Intent(AddSomeoneToMonitorActivity.this, MonitorActivity.class);
                 startActivity(intent);
@@ -79,10 +76,12 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
     public void setUserList(List<User> userList)
     {
+
         Intent intent = new Intent(AddSomeoneToMonitorActivity.this, MonitorActivity.class);
         startActivity(intent);
         finish();
         Log.i("CheckList",""+userList);
+
     }
 
     //we check if emailInput is valid or not

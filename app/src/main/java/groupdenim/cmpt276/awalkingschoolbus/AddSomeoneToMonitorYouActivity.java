@@ -3,6 +3,7 @@ package groupdenim.cmpt276.awalkingschoolbus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,8 +31,8 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
                 if(!checkEmailValidity(emailInput))
                     return;
 
-                //add the new user to current User's List of people who monitor currentUser
-                //currentUser.getPeopleMonitoringUser().add(emailInput.getText().toString());
+                ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitorBySomeoneElse(user);
+                ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
 
 
                 //only implemented after checkEmailValidity works
@@ -49,6 +50,21 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void setFieldsUserToMonitorBySomeoneElse(User user) {
+        long id = user.getId();
+
+        ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
+        ServerSingleton.getInstance().monitoredByUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+    }
+
+    public void setUserList(List<User> userList)
+    {
+        Intent intent = new Intent(AddSomeoneToMonitorYouActivity.this, MonitorActivity.class);
+        startActivity(intent);
+        finish();
+        Log.i("CheckList",""+userList);
     }
 
     public boolean checkEmailValidity(EditText emailInput)
