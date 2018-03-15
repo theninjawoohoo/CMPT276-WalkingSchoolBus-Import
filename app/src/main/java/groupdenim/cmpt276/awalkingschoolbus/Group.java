@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
+//Test commit
 public class Group {
     private long id;
     private String groupDescription;

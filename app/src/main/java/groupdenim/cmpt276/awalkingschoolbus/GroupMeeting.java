@@ -40,6 +40,6 @@ public class GroupMeeting extends AppCompatActivity{
     }
 
     private void populateListView() {
-
+        
     }
 }
