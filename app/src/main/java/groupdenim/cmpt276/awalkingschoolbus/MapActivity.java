@@ -56,6 +56,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
 /**
  * Created by wwwfl on 2018-03-03.
@@ -233,7 +234,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         addNewMeetingSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                MapSingleton mapSingleton = MapSingleton.getInstance();
+                mapSingleton.setTempObject(mPlace);
+                Intent intent = new Intent(MapActivity.this, CreateGroupActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
