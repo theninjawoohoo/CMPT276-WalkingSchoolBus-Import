@@ -19,7 +19,7 @@ public class ServerSingleton {
     private String TOKEN;
     private List<User> userList = new ArrayList<>();
     private String testingPurposeAPI = "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
- 
+
 
     private WebService proxy;
 
