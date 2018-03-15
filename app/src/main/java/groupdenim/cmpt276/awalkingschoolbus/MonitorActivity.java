@@ -45,10 +45,6 @@ public class MonitorActivity extends AppCompatActivity {
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
         Button backBtn=findViewById(R.id.btnBack);
 
-        //the list below is to concatenate name and email
-
-
-
         adapter=new ArrayAdapter<String>(this,
                 R.layout.student_in_list,studentsBeingMonitoredWithName );
         listView.setAdapter(adapter);
