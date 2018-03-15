@@ -38,6 +38,7 @@ public class MonitorActivity extends AppCompatActivity {
         Button monitorSomeone=findViewById(R.id.btnAddMonitorSomeone);
         Button seeWhoIsMonitoringYou=findViewById(R.id.btnSeeWhoIsMonitoringYou);
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
+        Button backBtn=findViewById(R.id.btnBack);
 
         //the list below is to concatenate name and email
 
@@ -49,7 +50,9 @@ public class MonitorActivity extends AppCompatActivity {
         registerForContextMenu(listView);
 
         //Buttons to switch activities on clicking them
-        switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou);
+        switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou,backBtn);
+
+
 
     }
 
@@ -119,7 +122,7 @@ public class MonitorActivity extends AppCompatActivity {
     }
 
 
-    public void switchActivity(Button monitorSomeone, Button seeWhoIsMonitoringYou, Button addSomeoneToMonitorYou)
+    public void switchActivity(Button monitorSomeone, Button seeWhoIsMonitoringYou, Button addSomeoneToMonitorYou,Button backBtn)
     {
         seeWhoIsMonitoringYou.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,6 +147,15 @@ public class MonitorActivity extends AppCompatActivity {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorYouActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MonitorActivity.this,MainMenuActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
