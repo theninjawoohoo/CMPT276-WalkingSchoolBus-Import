@@ -17,7 +17,7 @@ import static groupdenim.cmpt276.awalkingschoolbus.CurrentUserSingleton.setField
 public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
     CurrentUserSingleton currentUser;
-
+    User userToMonitor=new User();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +43,14 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
                 //add the new user to current User's List of people to monitor
                 //currentUser.getPeopleUserIsMonitoring().add(emailInput.getText().toString());
 
+                ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitor(user);
+                ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
+
+
+                ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
+                ServerSingleton.getInstance().monitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),userToMonitor.getId());
+
+
 
                 Intent intent = new Intent(AddSomeoneToMonitorActivity.this, MonitorActivity.class);
                 startActivity(intent);
@@ -60,15 +68,26 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         });
     }
 
+
+    public void setFieldsUserToMonitor(User user)
+    {
+        userToMonitor.setId(user.getId());
+    }
+
+    public void setUserList(List<User> userList)
+    {
+
+    }
+
     //we check if emailInput is valid or not
     public boolean checkEmailValidity(EditText emailInput) {
         //add code here to check if email exists from map/list or if already a part of user's list
 
-        User userToMonitor=new User();
+        //for now just assume true
+
+
         ProxyBuilder.SimpleCallback<User> callback=user -> setFields(user);
         ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callback,emailInput.getText().toString());
-
-
 
 
         //if user doesnt exist
@@ -96,8 +115,9 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
     }
 
 
-    private void getUserFromServer(User user, User userA) {
-        userA = user;
-    }
+
+//    private void getUserFromServer(User user, User userA) {
+//        userA = user;
+//    }
 
 }
