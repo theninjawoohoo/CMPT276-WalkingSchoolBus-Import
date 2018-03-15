@@ -29,6 +29,7 @@ public interface WebService {
     String FEED_MONITORUSER = "/users/{id}/monitorsUsers";
     String FEED_MONITOREDBYUSER = "/users/{id}/monitoredByUsers";
     String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
+    String FEED_STOPBEINGMONITORED = "/users/{idA}/monitoredByUsers/{idB}";
     String FEED_DELETEGROUP = "/groups/{id}";
     String FEED_CREATEGROUP = "/groups";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
@@ -72,6 +73,12 @@ public interface WebService {
     Call<Void> stopMonitoring(
             @Path("idA") long currentUser,
             @Path("idB")long otherUser);
+
+    @DELETE(FEED_STOPBEINGMONITORED)
+    Call<Void> stopBeingMonitored(
+            @Path("idA") long currentUser,
+            @Path("idB")long otherUser);
+
 
     @DELETE(FEED_DELETEGROUP)
     Call<Void> deleteGroup(@Path("id") long groupId);

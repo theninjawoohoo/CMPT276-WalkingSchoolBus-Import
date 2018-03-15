@@ -81,12 +81,10 @@ public class MonitoredByActivity extends AppCompatActivity {
         {
             case R.id.delete:
 
-
-//               User someoneMonitoringCurrentUserServer =masterMap.get(currentUserServer.getPeopleMonitoringUser().get(obj.position));
-//                someoneMonitoringCurrentUserServer.getPeopleUserIsMonitoring().remove(currentUserEmail);
-//
-//                currentUserServer.getPeopleMonitoringUser().remove(obj.position);
-//                peopleMonitoringUserWithName.remove(obj.position);
+                int index=obj.position;
+                ProxyBuilder.SimpleCallback<List<User>> callback=userList -> temp(userList,index);
+                ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
+                        callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
                 adapter.notifyDataSetChanged();
                 break;
@@ -94,6 +92,19 @@ public class MonitoredByActivity extends AppCompatActivity {
 
         return super.onContextItemSelected(item);
     }
+
+    private void temp(List<User> userList, int index) {
+        Long id=userList.get(index).getId();
+
+        ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
+        ServerSingleton.getInstance().stopBeingMonitored(getApplicationContext(),callback,id,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+    }
+
+    private void setUserList(Void tempo, int index) {
+        studentsBeingMonitoredWithName.remove(index);
+        adapter.notifyDataSetChanged();
+    }
+
 
     public void goBackButton(Button goBack)
     {
