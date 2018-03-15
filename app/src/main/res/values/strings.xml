@@ -43,4 +43,10 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="back">Back</string>
+    <string name="press_and_hold_item_for_delete_pop_up">Press and Hold Item for delete pop-up</string>
+    <string name="add_a_student_to_monitor">Add a student to monitor</string>
+    <string name="add_someone_to_monitor_you">Add someone to monitor you</string>
+    <string name="see_who_s_monitoring_you">See who\'s monitoring you</string>
+    <string name="go_back">Go Back</string>
 </resources>
