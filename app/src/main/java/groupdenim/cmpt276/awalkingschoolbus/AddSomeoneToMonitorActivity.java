@@ -37,9 +37,6 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!checkEmailValidity(emailInput))
-                    return;
-
 
                 ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitor(user);
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
@@ -86,41 +83,7 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
     }
 
-    //we check if emailInput is valid or not
-    public boolean checkEmailValidity(EditText emailInput) {
-        //add code here to check if email exists from map/list or if already a part of user's list
 
-        //for now just assume true
-
-/*
-        ProxyBuilder.SimpleCallback<User> callback=user -> setFields(user);
-        ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callback,emailInput.getText().toString());
-
-
-        //if user doesnt exist
-        if (userToMonitor == null) {
-            Toast toast = Toast.makeText(this, "User email does not exist", Toast.LENGTH_SHORT);
-            toast.show();
-            return false;
-        }
-
-        //if user doesnt exist
-        int check = 0;
-        for (int i = 0; i < currentUser.getMonitorsUsers().size(); i++) {
-            if (emailInput.getText().toString().equals(currentUser.getMonitorsUsers().get(i).getEmail())) {
-                ++check;
-                continue;
-            }
-        }
-        if (check == 0) {
-            Toast toast = Toast.makeText(this, "User email already exists in your list", Toast.LENGTH_SHORT);
-            toast.show();
-            return false;
-        }
-        */
-
-        return true;    //only for now
-    }
 
 
 
