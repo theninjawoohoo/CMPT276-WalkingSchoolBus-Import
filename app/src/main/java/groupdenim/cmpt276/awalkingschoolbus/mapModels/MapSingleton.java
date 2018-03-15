@@ -16,16 +16,17 @@ public class MapSingleton {
 
     private List<placeObject> listOfMeetingSpots = new ArrayList<>();
 
-    public void addAMeetingSpot(placeObject aPlace) {
-        listOfMeetingSpots.add(aPlace);
-    }
-
-    public void deleteAMeetingSpot(placeObject aPlace) {
-        listOfMeetingSpots.remove(aPlace);
-    }
+    private placeObject tempObject;
 
     public List<placeObject> getList() {
         return listOfMeetingSpots;
+    }
+    public placeObject getTempObject() {
+        return tempObject;
+    }
+
+    public void setTempObject(placeObject tempObject) {
+        this.tempObject = tempObject;
     }
 
     public void convertGroupsToMeetingPlaces(List<Group> groups) {
