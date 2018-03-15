@@ -11,6 +11,7 @@ public class ServerSingleton {
     private String TOKEN;
     private String testingPurposeAPI = "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
+
     private WebService proxy;
 
     private ServerSingleton() {
@@ -33,6 +34,7 @@ public class ServerSingleton {
     public void setToken(String token) {
         instance.TOKEN = token;
     }
+
 
     public void getUserListFromServer(Context context, ProxyBuilder.SimpleCallback<List<User>> callback) {
         if (TOKEN != null) {

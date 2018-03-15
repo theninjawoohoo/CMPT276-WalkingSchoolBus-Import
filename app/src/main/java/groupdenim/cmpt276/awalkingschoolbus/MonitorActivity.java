@@ -20,7 +20,7 @@ public class MonitorActivity extends AppCompatActivity {
 
 
     CurrentUserSingleton currentUser;
-    List<String> studentsBeingMonitoredWithName;
+    public List<String> studentsBeingMonitoredWithName;
     ArrayAdapter<String> adapter;
 
     @Override
