@@ -19,8 +19,7 @@ public class ServerSingleton {
     private String TOKEN;
     private List<User> userList = new ArrayList<>();
     private String testingPurposeAPI = "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
-    private Boolean gotUserList = false;
-    private static Boolean wait = true;
+ 
 
     private WebService proxy;
 
@@ -41,16 +40,10 @@ public class ServerSingleton {
         return instance;
     }
 
-    public static void setWait(Boolean value) {
-        wait = value;
-    }
     public void setToken(String token) {
         instance.TOKEN = token;
     }
 
-    public User getCurrentUser() {
-        return currentUser;
-    }
 
     public void getUserListFromServer(Context context, ProxyBuilder.SimpleCallback<List<User>> callback) {
         if (TOKEN != null) {
