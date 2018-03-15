@@ -120,6 +120,8 @@ public class User {
     @Override
     public String toString() {
         String json = "{ \n name: " + name + ","
+                + "\nmonitorsusers: " + monitorsUsers + ","
+                + "\nmonitoredByUsers: " + monitoredByUsers + ","
                 + "\nemail: " + email + ","
                 + "\nid: " + id
                 + "\n}";

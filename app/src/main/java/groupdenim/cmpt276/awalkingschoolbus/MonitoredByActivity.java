@@ -1,6 +1,5 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -20,24 +19,21 @@ import java.util.Map;
 
 public class MonitoredByActivity extends AppCompatActivity {
 
-
-    CurrentUserSingleton currentUser;
-    List<String> studentsBeingMonitoredWithName;  //list to be displayed
+    public static List<String> studentsBeingMonitoredWithName;  //list to be displayed
     ArrayAdapter<String> adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitored_by);
 
         updateListWhichDisplaysUsers();
 
-        ListView listView=findViewById(R.id.listViewBeingMonitoredBy);
+        listView=findViewById(R.id.listViewBeingMonitoredBy);
 
         //list peopleMonitoringUser is temporary
-
-
 
         adapter=new ArrayAdapter<String>(this,
                 R.layout.student_in_list,studentsBeingMonitoredWithName );
@@ -51,12 +47,19 @@ public class MonitoredByActivity extends AppCompatActivity {
 
     public void updateListWhichDisplaysUsers()
     {
-        CurrentUserSingleton.updateUserSingleton(getApplicationContext());
         studentsBeingMonitoredWithName=new ArrayList<>();
-        for(int i=0;i<currentUser.getMonitoredByUsers().size();i++)
-        {
-            studentsBeingMonitoredWithName.add(currentUser.getMonitoredByUsers().get(i).getName() +"  "+currentUser.getMonitoredByUsers().get(i).getEmail());
-        }
+        ProxyBuilder.SimpleCallback<List<User>> callback=userList -> getMonitorList(userList);
+        ServerSingleton.getInstance().getMonitoredUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+    }
+
+    private void getMonitorList(List<User> userList)
+    {
+        for(User user : userList)
+            studentsBeingMonitoredWithName.add(user.getName()+"  "+user.getEmail());
+
+        adapter=new ArrayAdapter<String>(this,
+                R.layout.student_in_list,studentsBeingMonitoredWithName );
+        listView.setAdapter(adapter);
     }
 
     @Override
@@ -73,19 +76,29 @@ public class MonitoredByActivity extends AppCompatActivity {
         {
             case R.id.delete:
 
+                int index=obj.position;
+                ProxyBuilder.SimpleCallback<List<User>> callback=userList -> temp(userList,index);
+                ServerSingleton.getInstance().getMonitoredUsers(getApplicationContext(),
+                        callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
-//                User someoneMonitoringCurrentUserServer =masterMap.get(currentUserServer.getPeopleMonitoringUser().get(obj.position));
-//                someoneMonitoringCurrentUserServer.getPeopleUserIsMonitoring().remove(currentUserEmail);
-//
-//                currentUserServer.getPeopleMonitoringUser().remove(obj.position);
-//                peopleMonitoringUserWithName.remove(obj.position);
-
-                adapter.notifyDataSetChanged();
                 break;
         }
 
         return super.onContextItemSelected(item);
     }
+
+    private void temp(List<User> userList, int index) {
+        Long id=userList.get(index).getId();
+
+        ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
+        ServerSingleton.getInstance().stopBeingMonitored(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+    }
+
+    private void setUserList(Void tempo, int index) {
+        studentsBeingMonitoredWithName.remove(index);
+        adapter.notifyDataSetChanged();
+    }
+
 
     public void goBackButton(Button goBack)
     {

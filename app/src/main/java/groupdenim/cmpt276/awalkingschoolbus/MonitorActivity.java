@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,34 +13,37 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MonitorActivity extends AppCompatActivity {
 
-
-    CurrentUserSingleton currentUser;
-    public List<String> studentsBeingMonitoredWithName;
+    public static List<String> studentsBeingMonitoredWithName=new ArrayList<>();
     ArrayAdapter<String> adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
         updateListWhichDisplaysUsers();
 
-        ListView listView=findViewById(R.id.listViewMonitor);
+        TextView txtDisplay=findViewById(R.id.txtDisplayEmail);
+        txtDisplay.setText("Your name, email and id is "+CurrentUserSingleton.getInstance(getApplicationContext()).getName()+
+                ", "+CurrentUserSingleton.getInstance(getApplicationContext()).getEmail()+
+                " & "+CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+
+        listView=findViewById(R.id.listViewMonitor);
 
         //Buttons
         Button monitorSomeone=findViewById(R.id.btnAddMonitorSomeone);
         Button seeWhoIsMonitoringYou=findViewById(R.id.btnSeeWhoIsMonitoringYou);
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
-
-        //the list below is to concatenate name and email
-
+        Button backBtn=findViewById(R.id.btnBack);
 
         adapter=new ArrayAdapter<String>(this,
                 R.layout.student_in_list,studentsBeingMonitoredWithName );
@@ -47,21 +51,28 @@ public class MonitorActivity extends AppCompatActivity {
         registerForContextMenu(listView);
 
         //Buttons to switch activities on clicking them
-        switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou);
+        switchActivity(monitorSomeone,seeWhoIsMonitoringYou,addSomeoneToMonitorYou,backBtn);
 
     }
+
 
     public void updateListWhichDisplaysUsers()
     {
         //CurrentUserSingleton.updateUserSingleton(getApplicationContext());
         studentsBeingMonitoredWithName=new ArrayList<>();
-        for(int i=0;i<currentUser.getMonitorsUsers().size();i++)
-        {
-            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"\t\t"+currentUser.getMonitorsUsers().get(i).getEmail());
-        }
+        ProxyBuilder.SimpleCallback<List<User>> callback=userList -> getMonitorList(userList);
+        ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
-        //not sure if this is required, adding it anyways
-        //adapter.notifyDataSetChanged();
+    }
+
+    public void getMonitorList(List<User> userList)
+    {
+        for(User user : userList)
+            studentsBeingMonitoredWithName.add(user.getName()+"  "+user.getEmail());
+
+        adapter=new ArrayAdapter<String>(this,
+                R.layout.student_in_list,studentsBeingMonitoredWithName );
+        listView.setAdapter(adapter);
     }
 
     //these two Over-ridden methods are to delete people
@@ -80,23 +91,35 @@ public class MonitorActivity extends AppCompatActivity {
             case R.id.delete:
                 //deletes current user from other person's list
 
+                int index=obj.position;
+                ProxyBuilder.SimpleCallback<List<User>> callback=userList -> temp(userList,index);
+                ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
+                        callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
-//                User someoneBeingMonitoredByCurrentUser=masterMap.get(currentUser.getPeopleUserIsMonitoring().get(obj.position));
-//                someoneBeingMonitoredByCurrentUser.getPeopleMonitoringUser().remove(currentUserEmail);
-//
-//                //delete from current user's list
-//                currentUser.getPeopleUserIsMonitoring().remove(obj.position);
-//                //delete from display list
-//                studentsBeingMonitoredWithName.remove(obj.position);
 
-                adapter.notifyDataSetChanged();
+
                 break;
         }
 
         return super.onContextItemSelected(item);
     }
 
-    public void switchActivity(Button monitorSomeone, Button seeWhoIsMonitoringYou, Button addSomeoneToMonitorYou)
+    public void temp(List<User> userList,int index)
+    {
+        Long id=userList.get(index).getId();
+
+        ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
+        ServerSingleton.getInstance().stopMonitoringUser(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+
+    }
+
+    private void setUserList(Void tempo,int index) {
+        studentsBeingMonitoredWithName.remove(index);
+        adapter.notifyDataSetChanged();
+    }
+
+
+    public void switchActivity(Button monitorSomeone, Button seeWhoIsMonitoringYou, Button addSomeoneToMonitorYou,Button backBtn)
     {
         seeWhoIsMonitoringYou.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,6 +134,7 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -119,16 +143,21 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorYouActivity.class);
                 startActivity(intent);
+
+            }
+        });
+
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MonitorActivity.this,MainMenuActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
     }
 
-
-    //Intent to go back to main Activity
-    public static Intent makeIntent(Context context){
-        return new Intent(context, MainMenuActivity.class);
-    }
 
 
 }
