@@ -6,7 +6,9 @@ package groupdenim.cmpt276.awalkingschoolbus;
 //https://www.youtube.com/watch?v=M0bYvXlhgSI
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,18 +19,20 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+
 public class MainMenuActivity extends AppCompatActivity {
 
+    private Context contexta;
+    private String TOKEN;
     //Some const ints
+    private User currentUser = new User();
     private static final String TAG = "MainActivity";
-
+    private static final String LOGIN = "";
     private static final int ERROR_DIALOG_REQUEST = 9001;
-
-    private Group group = new Group("School", "TestGroup", "MyHouse",
-            new Coordinate(0, 0), new Coordinate(0, 0));
-
-    private User user = new User("tempUserName", "tempEmail");
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +42,28 @@ public class MainMenuActivity extends AppCompatActivity {
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
+        initializeLogout();
 
     }
+
+    private void initializeLogout() {
+        Button logout = findViewById(R.id.btnLogout);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+    }
+
+    private void logout() {
+        SharedPreferences sharedPrefs = getSharedPreferences(LOGIN, 0);
+        SharedPreferences.Editor editor = sharedPrefs.edit();
+        editor.putString("email","");
+        editor.putString("password","");
+        editor.commit();
+    }
+
 
     public boolean doesGoogleMapsWork() {
         Log.d(TAG, "doesGoogleMapsWork(): checking the api key and current version");
@@ -83,8 +107,8 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //uncomment after
-//                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(MainMenuActivity.this, MonitorActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -1,33 +1,36 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Group {
-    private String groupName;
+    private long id;
+    private String groupDescription;
     private List<String> members = new ArrayList<>();
-    private String destination;
-    private String meetingPlace;
-    private Coordinate destinationCoordinate;
-    private Coordinate meetingCoordinate;
+    private double[] routeLatArray = new double[2];
+    private double[] routeLngArray = new double[2];
+    private User leader;
 
     public Group() {}
 
-    public Group(String destination, String groupName, String meetingPlace,
-                 Coordinate destinationCoordinate, Coordinate meetingCoordinate) {
-        this.destination = destination;
-        this.groupName = groupName;
-        this.meetingPlace = meetingPlace;
-        this.destinationCoordinate = destinationCoordinate;
-        this.meetingCoordinate = meetingCoordinate;
+    public Group(String groupDescription, List<String> members, double[] routeLatArray,
+                 double[] routeLngArray, User leader) {
+        this.groupDescription = groupDescription;
+        this.members = members;
+        this.routeLatArray = routeLatArray;
+        this.routeLngArray = routeLngArray;
+        this.leader = leader;
     }
 
-    public String getGroupName() {
-        return groupName;
+    public String getGroupDescription() {
+        return groupDescription;
     }
 
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setGroupDescription(String groupDescription) {
+        this.groupDescription = groupDescription;
     }
 
     public List<String> getMembers() {
@@ -46,35 +49,35 @@ public class Group {
         members.remove(userEmail);
     }
 
-    public String getDestination() {
-        return destination;
+    public long getId() {
+        return id;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    public String getMeetingPlace() {
-        return meetingPlace;
+    public double[] getRouteLatArray() {
+        return routeLatArray;
     }
 
-    public void setMeetingPlace(String meetingPlace) {
-        this.meetingPlace = meetingPlace;
+    public void setRouteLatArray(double[] routeLatArray) {
+        this.routeLatArray = routeLatArray;
     }
 
-    public Coordinate getDestinationCoordinate() {
-        return destinationCoordinate;
+    public double[] getRouteLngArray() {
+        return routeLngArray;
     }
 
-    public void setDestinationCoordinate(Coordinate destinationCoordinate) {
-        this.destinationCoordinate = destinationCoordinate;
+    public void setRouteLngArray(double[] routeLngArray) {
+        this.routeLngArray = routeLngArray;
     }
 
-    public Coordinate getMeetingCoordinate() {
-        return meetingCoordinate;
+    public User getLeader() {
+        return leader;
     }
 
-    public void setMeetingCoordinate(Coordinate meetingCoordinate) {
-        this.meetingCoordinate = meetingCoordinate;
+    public void setLeader(User leader) {
+        this.leader = leader;
     }
 }

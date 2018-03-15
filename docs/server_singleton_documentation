@@ -1,0 +1,109 @@
+# CREATE NEW GROUP
+
+private void createGroup() {
+    Group group = new Group();
+    group.setGroupDescription("my group");
+    User user = new User();
+    user.setId(CurrentUserSingleton.getInstance(this).getId());
+    group.setLeader(user);
+    ProxyBuilder.SimpleCallback<Group> callback = groupa -> create(groupa);
+    ServerSingleton.getInstance().createNewGroup(contexta,callback,group);
+}
+
+
+
+# LIST ALL GROUPS
+
+private void listGroups() {
+    ProxyBuilder.SimpleCallback<List<Group>> callback = groupa -> listGrp(groupa);
+    ServerSingleton.getInstance().getGroupList(this,callback);
+}
+
+private void listGrp(List<Group> groupa) {
+    Log.i(TAG, "listGrp: " + groupa);
+}
+
+
+
+# STOP MONITOR
+
+private void stopMonitoring() {
+    contexta = this.getApplicationContext();
+    String email = "317";
+    long id = 473;
+    long aa = 306;
+    ProxyBuilder.SimpleCallback<Void> callback = userList -> stopMonit(userList);
+    ServerSingleton.getInstance().stopMonitoringUser(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+}
+
+private void stopMonit(Void nothing) {
+    getuserbyId();
+}
+
+
+
+# SET SOMEONE TO MONITOR YOU
+
+private void monitoredUser() {
+    contexta = this.getApplicationContext();
+    String email = "317";
+    long id = 473;
+    long aa = 318;
+    ProxyBuilder.SimpleCallback<List<User>> callback = userList -> monitored(userList);
+    ServerSingleton.getInstance().monitoredByUsers(contexta,callback,CurrentUserSingleton.getInstance(contexta).getId(),aa);
+}
+
+private void monitored(List<User> userList) {
+    //Log.i(TAG, "monitored: " + userList);
+    Log.i(TAG, "monitored: " + CurrentUserSingleton.getInstance(this).getMonitoredByUsers());
+}
+
+
+
+# GET LIST OF WHO YOU MONITOR
+
+private void getMonitorUser() {
+    contexta = this.getApplicationContext();
+    String email = "yout@yout.ca";
+    long id = 318;
+    ProxyBuilder.SimpleCallback<List<User>> callback = userList -> getMonitor(userList);
+    ServerSingleton.getInstance().getMonitorUsers(contexta,callback, id);
+    Log.i("ag", "testUserList: asaogjaiorwjg");
+}
+
+private void getMonitor(List<User> userList) {
+    Log.i("MONITOR", "getMonitor: " + userList);
+}
+
+
+
+# GET USER BY ID
+private void getuserbyId() {
+    contexta = this.getApplicationContext();
+    String email = "yout@yout.ca";
+    ProxyBuilder.SimpleCallback<User> callback = userList -> getuserId(userList);
+    ServerSingleton.getInstance().getUserByEmail(contexta,callback, CurrentUserSingleton.getInstance(this).getEmail());
+    Log.i("ag", "testUserList: asaogjaiorwjg");
+}
+
+private void getuserId(User usera) {
+    Log.i(TAG, "getuserId: " + usera.toString());
+
+}
+
+
+
+# GET LIST OF ALL USERS
+
+private void testUserList() {
+    contexta = this.getApplicationContext();
+    ProxyBuilder.SimpleCallback<List<User>> callback = userList -> getUserList(userList);
+    ServerSingleton.getInstance().getUserListFromServer(contexta,callback);
+    Log.i("ag", "testUserList: asaogjaiorwjg");
+
+}
+
+private void getUserList(List<User> userList) {
+    Log.i("aa", "getUserList: " + userList);
+
+}
