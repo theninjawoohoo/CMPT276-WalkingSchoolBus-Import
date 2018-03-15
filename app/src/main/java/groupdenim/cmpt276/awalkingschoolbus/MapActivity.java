@@ -55,6 +55,7 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
@@ -262,6 +263,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 help.show(getFragmentManager(), "Help Box");
             }
         });
+
+        populateMapWithMarkers();
+
         //Then hide the keyboard
         hideSoftKeyboard();
     }
@@ -535,5 +539,40 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             places.release();
         }
     };
+
+    void populateMapWithMarkers() {
+        MapSingleton mapSingleton = MapSingleton.getInstance();
+        List<placeObject> listOfMeetings = mapSingleton.getList();
+        for(placeObject someObject: listOfMeetings) {
+            if(someObject.getLatlng() != null) {
+                LatLng coordinates = someObject.getLatlng();
+                double latitude = coordinates.latitude;
+                double longitude = coordinates.longitude;
+                Geocoder geocoder;
+                List<Address> addresses;
+                geocoder = new Geocoder(this, Locale.getDefault());
+
+                //We must reverse engineer the coordinates and get the location and populate the
+                //Marker with info
+                try{
+                    addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    String knownName = addresses.get(0).getFeatureName();
+                    String markerInfo = "Address: " + addresses.get(0).getAddressLine(0) + "\n";
+
+                    MarkerOptions options = new MarkerOptions()
+                            .position(coordinates)
+                            .title(knownName)
+                            .snippet(markerInfo);
+
+                    mMarker = Gmap.addMarker(options);
+
+                }
+                catch (IOException e) {
+                    Log.e(TAG, "populateMapWithMarkers: geoLocation failure.");
+                }
+
+            }
+        }
+    }
 
 }
