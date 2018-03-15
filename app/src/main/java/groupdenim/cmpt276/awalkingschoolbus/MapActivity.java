@@ -39,6 +39,7 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
+import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -235,6 +236,55 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         addNewMeetingSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mPlace == null) {
+                    placeObject yourLocation = new placeObject();
+                    mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapActivity.this);
+
+                    //Ensure that no permissions are breached.
+                    try{
+                        if(mLocationPermissionGranted) {
+                            final Task location = mFusedLocationProviderClient.getLastLocation();
+                            location.addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "onComplete: Found LocationStruct!");
+                                        Location currentLocation = (Location) task.getResult();
+                                        Geocoder geocoder;
+                                        List<Address> addresses;
+                                        geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
+                                        String markerInfo;
+                                        try {
+                                            addresses = geocoder.getFromLocation(currentLocation.getLatitude(),
+                                                                                        currentLocation.getLongitude(), 1);
+
+                                            if(addresses.size() == 0) {
+                                                markerInfo = "You Location";
+                                            }
+                                            else {
+                                                markerInfo= addresses.get(0).getAddressLine(0);
+                                            }
+                                            yourLocation.setAddress(markerInfo);
+                                            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                                            yourLocation.setLatlng(latLng);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    else {
+                                        Log.d(TAG, "onComplete: current location cannot be found");
+                                        Toast.makeText(MapActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    catch (SecurityException e) {
+                        Log.e(TAG, "getDeviceLocation: securityException has been called.");
+                    }
+                    mPlace = yourLocation;
+
+                }
                 MapSingleton mapSingleton = MapSingleton.getInstance();
                 mapSingleton.setTempObject(mPlace);
                 Intent intent = new Intent(MapActivity.this, CreateGroupActivity.class);
@@ -384,7 +434,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         else {
                             Log.d(TAG, "onComplete: current location cannot be found");
                             Toast.makeText(MapActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
@@ -544,7 +593,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         MapSingleton mapSingleton = MapSingleton.getInstance();
         List<placeObject> listOfMeetings = mapSingleton.getList();
         for(placeObject someObject: listOfMeetings) {
-            if(someObject.getLatlng() != null) {
+                if(someObject.getLatlng() != null) {
                 LatLng coordinates = someObject.getLatlng();
                 double latitude = coordinates.latitude;
                 double longitude = coordinates.longitude;
@@ -556,8 +605,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 //Marker with info
                 try{
                     addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                    String knownName = addresses.get(0).getFeatureName();
-                    String markerInfo = "Address: " + addresses.get(0).getAddressLine(0) + "\n";
+                    String knownName;
+                    String markerInfo;
+                    if(addresses.size() == 0) {
+                        knownName = "Meeting Place not set";
+                        markerInfo = "Address: The North Pole";
+                    }
+                    else {
+                        knownName= addresses.get(0).getFeatureName();
+                        markerInfo= "Address: " + addresses.get(0).getAddressLine(0) + "\n";
+                    }
 
                     MarkerOptions options = new MarkerOptions()
                             .position(coordinates)

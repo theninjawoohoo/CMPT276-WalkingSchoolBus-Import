@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
+
 
 /**
  * This class generates a arraylist of place objects you
@@ -14,12 +16,15 @@ import android.widget.Button;
 
 public class GroupMeeting extends AppCompatActivity{
     private Button switchMap;
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_groupmeeting);
         switchMap = (Button) findViewById(R.id.btn_on_screen_two_map);
+        listView = (ListView) findViewById(R.id.list_view_group);
+
         initialize();
     }
 
@@ -32,5 +37,9 @@ public class GroupMeeting extends AppCompatActivity{
                 finish();
             }
         });
+    }
+
+    private void populateListView() {
+
     }
 }

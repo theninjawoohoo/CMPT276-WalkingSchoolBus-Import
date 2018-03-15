@@ -9,17 +9,26 @@ import java.util.List;
 public class Group {
     private long id;
     private String groupDescription;
-    private List<String> members = new ArrayList<>();
+    private List<User> memberUsers = new ArrayList<>();
     private double[] routeLatArray = new double[2];
     private double[] routeLngArray = new double[2];
     private User leader;
 
+    public String getHref() {
+        return href;
+    }
+
+    public void setHref(String href) {
+        this.href = href;
+    }
+
+    private String href;
     public Group() {}
 
-    public Group(String groupDescription, List<String> members, double[] routeLatArray,
+    public Group(String groupDescription, List<User> memberUsers, double[] routeLatArray,
                  double[] routeLngArray, User leader) {
         this.groupDescription = groupDescription;
-        this.members = members;
+        this.memberUsers = memberUsers;
         this.routeLatArray = routeLatArray;
         this.routeLngArray = routeLngArray;
         this.leader = leader;
@@ -33,20 +42,20 @@ public class Group {
         this.groupDescription = groupDescription;
     }
 
-    public List<String> getMembers() {
-        return members;
+    public List<User> getMemberUsers() {
+        return memberUsers;
     }
 
-    public void setMembers(List<String> members) {
-        this.members = members;
+    public void setMemberUsers(List<User> memberUsers) {
+        this.memberUsers = memberUsers;
     }
 
-    public void addMember(String userEmail) {
-        members.add(userEmail);
+    public void addMember(User user) {
+        memberUsers.add(user);
     }
 
     public void removeMember(String userEmail) {
-        members.remove(userEmail);
+        memberUsers.remove(userEmail);
     }
 
     public long getId() {

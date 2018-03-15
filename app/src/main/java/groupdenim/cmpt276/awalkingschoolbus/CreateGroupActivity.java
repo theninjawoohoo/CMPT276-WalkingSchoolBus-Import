@@ -3,6 +3,7 @@ package groupdenim.cmpt276.awalkingschoolbus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,6 +38,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         setupCancelButton();
         setupCreateButton();
         setupAddressText();
+
     }
 
     private void getFieldsFromMap() {
@@ -72,6 +75,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                     button.setEnabled(false);
                     sendInput();
                 }
+
             }
         });
     }
@@ -94,27 +98,45 @@ public class CreateGroupActivity extends AppCompatActivity {
     }
 
     private void sendInput() {
-        CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(this);
-        User currentUser = new User();
-        currentUser.setId(currentUserSingleton.getId());
-        Group group = new Group(groupDescription, null, routeLatArray, routeLngArray, currentUser);
+        //CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(this);
+//        User currentUser = new User();
+//        currentUser.setId(CurrentUserSingleton.getInstance(CreateGroupActivity.this).getId());
+//        //Group group = new Group(groupDescription, new ArrayList<String>(), routeLatArray, routeLngArray, currentUser);
+//        Group group = new Group();
+//        group.setLeader(currentUser);
+//        group.setGroupDescription(groupDescription);
+//  //      group.setRouteLatArray(routeLatArray);
+////        group.setRouteLngArray(routeLngArray);
+//
+//        //Add the group and wait for a response
+//        ProxyBuilder.SimpleCallback<Group> callback = groups -> createGroupResponse(groups);
+//        ServerSingleton.getInstance().createNewGroup(CreateGroupActivity.this, callback, group);
 
-        //Add the group and wait for a response
-        ProxyBuilder.SimpleCallback<Group> callback = groups -> createGroupResponse(groups);
-        ServerSingleton.getInstance().createNewGroup(this, callback, group);
+        Group group = new Group();
+        group.setGroupDescription(groupDescription);
+        group.setId(3);
+        group.setRouteLatArray(routeLatArray);
+        group.setRouteLngArray(routeLngArray);
+        User user = new User();
+        user.setId(CurrentUserSingleton.getInstance(CreateGroupActivity.this).getId());
+        group.setLeader(user);
+        Log.i("a", "sendInput: " + group);
+        ProxyBuilder.SimpleCallback<Group> callback = groupa -> createGroupResponse(groupa);
+        ServerSingleton.getInstance().createNewGroup(this,callback,group);
     }
 
     private void createGroupResponse(Group group) {
         // Update the MapSingleton's group list with the new group
+        Log.i("a", "createGroupResponse: " + group);
         ProxyBuilder.SimpleCallback<List<Group>> callback = groups -> getGroupsResponse(groups);
-        ServerSingleton.getInstance().getGroupList(this, callback);
+        ServerSingleton.getInstance().getGroupList(CreateGroupActivity.this, callback);
     }
 
     private void getGroupsResponse(List<Group> groups) {
         //Update the mapSingleton group list and go back to map activity
         MapSingleton mapSingleton = MapSingleton.getInstance();
         mapSingleton.convertGroupsToMeetingPlaces(groups);
-        Intent intent = new Intent(this, MapActivity.class);
+        Intent intent = new Intent(CreateGroupActivity.this, MapActivity.class);
         startActivity(intent);
         finish();
     }

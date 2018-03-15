@@ -18,9 +18,9 @@ class CurrentUserSingleton {
     private String name;
     private String email;
     private String password;
-    private List<User> leadsGroups = new ArrayList<>();
+    private List<Group> leadsGroups = new ArrayList<>();
 
-    private List<User> memberOfGroups = new ArrayList<>();
+    private List<Group> memberOfGroups = new ArrayList<>();
 
     private List<User> monitoredByUsers = new ArrayList<>();
 
@@ -60,7 +60,7 @@ class CurrentUserSingleton {
         Log.i("a", "setFields: aaaa");
     }
 
-    public void setMemberOfGroups(List<User> memberOfGroups) {
+    public void setMemberOfGroups(List<Group> memberOfGroups) {
         this.memberOfGroups = memberOfGroups;
     }
 
@@ -72,7 +72,7 @@ class CurrentUserSingleton {
         this.monitorsUsers = monitorsUsers;
     }
 
-    public void setLeadsGroups(List<User> leadsGroups) {
+    public void setLeadsGroups(List<Group> leadsGroups) {
         this.leadsGroups = leadsGroups;
     }
 
@@ -111,11 +111,11 @@ class CurrentUserSingleton {
         return password;
     }
 
-    public List<User> getLeadsGroups() {
+    public List<Group> getLeadsGroups() {
         return leadsGroups;
     }
 
-    public List<User> getMemberOfGroups() {
+    public List<Group> getMemberOfGroups() {
         return memberOfGroups;
     }
 

@@ -96,7 +96,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 //
 //        boolean hasChildrenInGroup = false;
 //        for (String child : monitoringList) {
-//            for (String member : group.getMembers()) {
+//            for (String member : group.getMemberUsers()) {
 //                if (child.equals(member)) {
 //                    hasChildrenInGroup = true;
 //                    break;
