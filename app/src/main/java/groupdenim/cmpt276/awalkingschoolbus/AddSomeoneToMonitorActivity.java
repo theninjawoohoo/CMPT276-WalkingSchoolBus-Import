@@ -40,8 +40,6 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
                 if (!checkEmailValidity(emailInput))
                     return;
 
-                //add the new user to current User's List of people to monitor
-                //currentUser.getPeopleUserIsMonitoring().add(emailInput.getText().toString());
 
                 ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitor(user);
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
@@ -85,7 +83,7 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
         //for now just assume true
 
-
+/*
         ProxyBuilder.SimpleCallback<User> callback=user -> setFields(user);
         ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callback,emailInput.getText().toString());
 
@@ -110,6 +108,7 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
             toast.show();
             return false;
         }
+        */
 
         return true;    //only for now
     }
