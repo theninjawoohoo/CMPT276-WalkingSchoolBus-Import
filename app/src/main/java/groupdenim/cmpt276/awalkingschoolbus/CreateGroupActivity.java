@@ -9,19 +9,19 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.places.Place;
 
+import java.util.Map;
+
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
+
 public class CreateGroupActivity extends AppCompatActivity {
-    private String destination;
     private String groupDescription;
-    private Place place;
-    private String meetingPlace;
-    /*
-    private long id;
-    private String groupDescription;
-    private List<String> members = new ArrayList<>();
+    private String address;
     private double[] routeLatArray = new double[2];
     private double[] routeLngArray = new double[2];
-    private User leader;
-    * */
+    private placeObject place;
+    private String meetingPlace;
+
     private final int MIN_TEXT_LENGTH = 3;
 
     @Override
@@ -29,8 +29,17 @@ public class CreateGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
+        getFieldsFromMap();
         setupCancelButton();
         setupCreateButton();
+    }
+
+    private void getFieldsFromMap() {
+        MapSingleton mapSingleton = MapSingleton.getInstance();
+        //get address for display
+        //get coordinates for meeting place
+        //set coordinates for destination to 0,0
+
     }
 
     private void setupCancelButton(){
@@ -59,22 +68,14 @@ public class CreateGroupActivity extends AppCompatActivity {
     }
 
     private void getInput() {
-        EditText editDestination =  findViewById(R.id.editText_CreateGroupActivity_destination);
-        EditText editGroupName =  findViewById(R.id.editText_CreateGroupActivity_groupName);
-        EditText editMeeting =  findViewById(R.id.editText_CreateGroupActivity_meeting);
-        destination = editDestination.getText().toString();
+        EditText editGroupName = findViewById(R.id.editText_CreateGroupActivity_groupDescription);
         groupDescription = editGroupName.getText().toString();
-        meetingPlace = editMeeting.getText().toString();
     }
 
     private boolean isInputValid() {
         String errorMessage;
         if (destination.length() < MIN_TEXT_LENGTH) {
             errorMessage = "Destination must be at least " + MIN_TEXT_LENGTH + " characters long.";
-        } else if (groupDescription.length() < MIN_TEXT_LENGTH) {
-            errorMessage = "Group name must be at least " + MIN_TEXT_LENGTH + " characters long.";
-        } else if (meetingPlace.length() < MIN_TEXT_LENGTH) {
-            errorMessage = "Meeting place must be at least " + MIN_TEXT_LENGTH + " characters long.";
         } else {
             return true;
         }
