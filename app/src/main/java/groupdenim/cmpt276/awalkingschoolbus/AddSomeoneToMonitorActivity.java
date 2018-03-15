@@ -3,6 +3,7 @@ package groupdenim.cmpt276.awalkingschoolbus;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,13 +46,10 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
 
 
-                ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
-                ServerSingleton.getInstance().monitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),userToMonitor.getId());
-
-
 
                 Intent intent = new Intent(AddSomeoneToMonitorActivity.this, MonitorActivity.class);
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -69,12 +67,22 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
     public void setFieldsUserToMonitor(User user)
     {
-        userToMonitor.setId(user.getId());
+        //userToMonitor.setId(user.getId());
+        long id = user.getId();
+        Log.i("a", "setFieldsUserToMonitor: " + id);
+
+        ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
+        ServerSingleton.getInstance().monitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+
+
     }
 
     public void setUserList(List<User> userList)
     {
-
+        Intent intent = new Intent(AddSomeoneToMonitorActivity.this, MonitorActivity.class);
+        startActivity(intent);
+        finish();
+        Log.i("CheckList",""+userList);
     }
 
     //we check if emailInput is valid or not

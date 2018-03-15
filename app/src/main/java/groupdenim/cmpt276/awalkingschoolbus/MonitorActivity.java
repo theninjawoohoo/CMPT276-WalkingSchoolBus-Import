@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,20 +19,20 @@ import java.util.List;
 
 public class MonitorActivity extends AppCompatActivity {
 
-
-    CurrentUserSingleton currentUser;
-    public List<String> studentsBeingMonitoredWithName;
+    public static List<String> studentsBeingMonitoredWithName=new ArrayList<>();
     ArrayAdapter<String> adapter;
+    ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        currentUser=CurrentUserSingleton.getInstance(getApplicationContext());
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
         updateListWhichDisplaysUsers();
 
-        ListView listView=findViewById(R.id.listViewMonitor);
+        listView=findViewById(R.id.listViewMonitor);
 
         //Buttons
         Button monitorSomeone=findViewById(R.id.btnAddMonitorSomeone);
@@ -39,6 +40,7 @@ public class MonitorActivity extends AppCompatActivity {
         Button addSomeoneToMonitorYou=findViewById(R.id.btnAddToMonitorYou);
 
         //the list below is to concatenate name and email
+
 
 
         adapter=new ArrayAdapter<String>(this,
@@ -51,17 +53,25 @@ public class MonitorActivity extends AppCompatActivity {
 
     }
 
+
+
     public void updateListWhichDisplaysUsers()
     {
         //CurrentUserSingleton.updateUserSingleton(getApplicationContext());
         studentsBeingMonitoredWithName=new ArrayList<>();
-        for(int i=0;i<currentUser.getMonitorsUsers().size();i++)
-        {
-            studentsBeingMonitoredWithName.add(currentUser.getMonitorsUsers().get(i).getName() +"\t\t"+currentUser.getMonitorsUsers().get(i).getEmail());
-        }
+        ProxyBuilder.SimpleCallback<List<User>> callback=userList -> getMonitorList(userList);
+        ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
-        //not sure if this is required, adding it anyways
-        //adapter.notifyDataSetChanged();
+    }
+
+    public void getMonitorList(List<User> userList)
+    {
+        for(User user : userList)
+            studentsBeingMonitoredWithName.add(user.getName()+"  "+user.getEmail());
+
+        adapter=new ArrayAdapter<String>(this,
+                R.layout.student_in_list,studentsBeingMonitoredWithName );
+        listView.setAdapter(adapter);
     }
 
     //these two Over-ridden methods are to delete people
@@ -111,6 +121,7 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -119,16 +130,12 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorYouActivity.class);
                 startActivity(intent);
+
             }
         });
 
     }
 
-
-    //Intent to go back to main Activity
-    public static Intent makeIntent(Context context){
-        return new Intent(context, MainMenuActivity.class);
-    }
 
 
 }
