@@ -30,6 +30,8 @@ public interface WebService {
     String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
     String FEED_DELETEGROUP = "/groups/{id}";
     String FEED_CREATEGROUP = "/groups";
+    String FEED_ADDTOGROUP = "/groups/{id}/memberUsers";
+    String FEED_REMOVEFROMGROUP = "/groups/{groupId}/memberUsers/{userId}";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -85,5 +87,12 @@ public interface WebService {
     @POST(FEED_GETGROUPBYID)
     Call<Group> updateGroupById(@Path("id") Long groupId,
                                 @Body Group group);
-//
+
+    @POST(FEED_ADDTOGROUP)
+    Call<List<User>> addNewMemberOfGroup(@Path("id") long groupId,
+                                         @Body long userId);
+
+    @DELETE(FEED_REMOVEFROMGROUP)
+    Call<Void> removeMemberFromGroup(@Path("groupId") long groupId,
+                                     @Path("userId") long userId);
 }

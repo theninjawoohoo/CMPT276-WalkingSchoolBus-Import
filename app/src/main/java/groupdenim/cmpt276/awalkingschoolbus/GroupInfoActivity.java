@@ -1,5 +1,7 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,33 +13,71 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupInfoActivity extends AppCompatActivity {
-    private String tempName = "TestGroup";
-    //private Group group = GroupSingleton.getInstance().getGroup(tempName); //Name should be passed in
-    private String[] tempMembers = {"Name1", "Name2", "Name3", "Name4", "Name5", "Name6",
-            "Name7", "Name8", "Name9",};
-    private String tempDestination = "School";
-    private String tempMeeting = "MyHouse";
+    private long groupToDisplayId = 0;
+    private Group groupToDisplay = new Group();
+    private List<User> membersOfGroup = new ArrayList<>();
     private final float TEXT_SIZE = 24;
+    private static final String PUT_EXTRA = "groupdenim.cmpt276.awalkingschoolbus - double";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
-        populateFields(tempName, R.id.linearLayout_GroupInfoActivity_groupName);
-        populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
-        populateFields(tempMeeting, R.id.linearLayout_GroupInfoActivity_Meeting);
-        populateList();
-        createAppropriateButtons();
+
+        getGroupToDisplayIdFromIntent();
+        getGroupFromServer();
+    }
+
+    private void getGroupToDisplayIdFromIntent() {
+        Intent intent = getIntent();
+        groupToDisplayId = intent.getLongExtra(PUT_EXTRA, 0);
+    }
+
+    private void getGroupFromServer() {
+        ProxyBuilder.SimpleCallback<Group> callback = returnedGroup -> getGroupResponse(returnedGroup);
+        ServerSingleton.getInstance().getGroupById(this, callback, groupToDisplayId);
+    }
+
+    private void getGroupResponse(Group group){
+        groupToDisplay = group;
+
+        getUsersInGroupFromServer();
+    }
+
+    //TODO: Not sure if this will work. I am trying to make each user make a call and wait for each one to come back before moving on
+    private void getUsersInGroupFromServer() {
+        for (User user : groupToDisplay.getMemberUsers()) {
+            ProxyBuilder.SimpleCallback<User> callback = returnedUser -> getUsersResponse(returnedUser);
+            ServerSingleton.getInstance().getUserById(this, callback, user.getId());
+        }
+
+    }
+
+    private void getUsersResponse(User user) {
+        membersOfGroup.add(user);
+        if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size()) {
+            //All members have been added to the membersOfGroup list, now containing their emails
+            populateFields(groupToDisplay.getGroupDescription(),
+                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
+            //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
+            populateFields(groupToDisplay.getRouteLatArray()[0] + "",
+                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
+            populateList();
+            createAppropriateButtons();
+        }
     }
 
     public void updateUi() {
         clearUi();
-        populateFields(tempName, R.id.linearLayout_GroupInfoActivity_groupName);
-        populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
-        populateFields(tempMeeting, R.id.linearLayout_GroupInfoActivity_Meeting);
+        populateFields(groupToDisplay.getGroupDescription(),
+                R.id.linearLayout_GroupInfoActivity_GroupDescription);
+        //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
+        populateFields(groupToDisplay.getRouteLatArray()[0] + "",
+                R.id.linearLayout_GroupInfoActivity_Meeting);
         populateList();
         createAppropriateButtons();
     }
@@ -45,14 +85,14 @@ public class GroupInfoActivity extends AppCompatActivity {
     private void clearUi() {
         final int FIELD_INDEX = 1;
         LinearLayout layout;
-        layout = findViewById(R.id.linearLayout_GroupInfoActivity_groupName);
+        layout = findViewById(R.id.linearLayout_GroupInfoActivity_GroupDescription);
         layout.removeViewAt(FIELD_INDEX);
         layout = findViewById(R.id.linearLayout_GroupInfoActivity_Destination);
         layout.removeViewAt(FIELD_INDEX);
         layout = findViewById(R.id.linearLayout_GroupInfoActivity_Meeting);
         layout.removeViewAt(FIELD_INDEX);
 
-        layout = findViewById(R.id.hlinear_layout_group_buttons);
+        layout = findViewById(R.id.hlinearLayout_GroupInfoActivity_Buttons);
         layout.removeAllViews();
     }
 
@@ -66,46 +106,64 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void populateList(){
+        List<String> memberEmails = new ArrayList<>();
+        for (User user : membersOfGroup) {
+            memberEmails.add(user.getEmail());
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.group_member, tempMembers);
+                R.layout.group_member, memberEmails);
         ListView list = findViewById(R.id.list_members);
         list.setAdapter(adapter);
     }
 
     private void createAppropriateButtons() {
-        LinearLayout layout = findViewById(R.id.hlinear_layout_group_buttons);
-//
-//        UserSingleton userSingleton = UserSingleton.getInstance();
-//        final String userEmail = userSingleton.getCurrentUserEmail();
-//        User user = userSingleton.getUserMap().get(userEmail);
-//
-//        final int USER_GROUPS_SIZE = user.getGroups().size();
-//        boolean isInGroup = (USER_GROUPS_SIZE > 0);
-//        if (isInGroup) {
-//            createLeaveButton(layout);
-//        } else {
-//            createJoinButton(layout);
-//        }
-//
-//        List<String> monitoringList = user.getPeopleUserIsMonitoring();
-//        final int USER_CHILDREN_SIZE = monitoringList.size();
-//        boolean hasChildren = (USER_CHILDREN_SIZE > 0);
-//        if (hasChildren) {
-//            createAddButton(layout);
-//        }
-//
-//        boolean hasChildrenInGroup = false;
-//        for (String child : monitoringList) {
-//            for (String member : group.getMemberUsers()) {
-//                if (child.equals(member)) {
-//                    hasChildrenInGroup = true;
-//                    break;
-//                }
-//            }
-//        }
-        //if (hasChildrenInGroup) {
-            createRemoveButton(layout);
-        //}
+        List<Long> memberIds = new ArrayList<>();
+        for (User user : groupToDisplay.getMemberUsers()) {
+            memberIds.add(user.getId());
+        }
+
+        LinearLayout layout = findViewById(R.id.hlinearLayout_GroupInfoActivity_Buttons);
+        CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(GroupInfoActivity.this);
+
+        //Check if the current user is in the group or not
+        boolean isInGroup = userSingleton.getMemberOfGroups().contains(groupToDisplay);
+        if (isInGroup) {
+            createLeaveButton(layout);
+        } else {
+            createJoinButton(layout);
+        }
+
+        //Check if the user is monitoring anyone and create the appropriate buttons
+        List<User> monitoringList = userSingleton.getMonitorsUsers();
+        if (monitoringList.size() > 0) {
+            //Get a list of the ids for comparing
+            List<Long> monitorListId = new ArrayList<>();
+            for (User user : monitoringList) {
+                monitorListId.add(user.getId());
+            }
+
+            //Check if the current user is monitoring a user who is not in the group
+            boolean hasChildrenNotInGroup = true;
+            for (Long monitoredId : monitorListId) {
+                if (memberIds.contains(monitoredId)) {
+                    hasChildrenNotInGroup = false;
+                }
+            }
+            if (hasChildrenNotInGroup) {
+                createAddButton(layout);
+            }
+
+            //Check if the current user is monitoring a user who is in the group
+            boolean hasChildrenInGroup = false;
+            for (Long monitoredId : monitorListId) {
+                if (memberIds.contains(monitoredId)) {
+                    hasChildrenInGroup = true;
+                }
+            }
+            if (hasChildrenInGroup) {
+                createRemoveButton(layout);
+            }
+        }
     }
 
     private void createLeaveButton(LinearLayout layout) {
@@ -115,7 +173,10 @@ public class GroupInfoActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("groupName", tempName);
+                bundle.putString("groupName", groupToDisplay.getGroupDescription());
+                bundle.putLong("groupId", groupToDisplay.getId());
+                bundle.putLong("userId",
+                        CurrentUserSingleton.getInstance(GroupInfoActivity.this).getId());
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoLeaveFragment dialog = new GroupInfoLeaveFragment();
@@ -127,13 +188,13 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void createJoinButton(LinearLayout layout) {
-        Button button = new Button(this);
+      /*  Button button = new Button(this);
         button.setText(R.string.join);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("groupName", tempName);
+                bundle.putString("groupName", groupDescription);
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoJoinFragment dialog = new GroupInfoJoinFragment();
@@ -141,17 +202,17 @@ public class GroupInfoActivity extends AppCompatActivity {
                 dialog.show(manager, "MessageDialog");
             }
         });
-        layout.addView(button);
+        layout.addView(button);*/
     }
 
     private void createAddButton(LinearLayout layout) {
-        Button buttonAdd = new Button(this);
+      /*  Button buttonAdd = new Button(this);
         buttonAdd.setText(R.string.add);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("groupName", tempName);
+                bundle.putString("groupName", groupDescription);
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoAddFragment dialog = new GroupInfoAddFragment();
@@ -159,17 +220,17 @@ public class GroupInfoActivity extends AppCompatActivity {
                 dialog.show(manager, "MessageDialog");
             }
         });
-        layout.addView(buttonAdd);
+        layout.addView(buttonAdd);*/
     }
 
     private void createRemoveButton(LinearLayout layout) {
-        Button buttonRemove = new Button(this);
+       /* Button buttonRemove = new Button(this);
         buttonRemove.setText(R.string.remove);
         buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("groupName", tempName);
+                bundle.putString("groupName", groupDescription);
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoRemoveFragment dialog = new GroupInfoRemoveFragment();
@@ -177,6 +238,14 @@ public class GroupInfoActivity extends AppCompatActivity {
                 dialog.show(manager, "MessageDialog");
             }
         });
-        layout.addView(buttonRemove);
+        layout.addView(buttonRemove);*/
+    }
+
+
+    public static Intent makeIntent(Context context, long id) {
+        Intent intent = new Intent(context, GroupInfoActivity.class);
+        intent.putExtra(PUT_EXTRA, id);
+
+        return intent;
     }
 }
