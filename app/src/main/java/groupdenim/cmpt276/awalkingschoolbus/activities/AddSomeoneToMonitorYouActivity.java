@@ -3,6 +3,7 @@ package groupdenim.cmpt276.awalkingschoolbus.activities;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,11 +26,9 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!checkEmailValidity(emailInput))
-                    return;
 
-                //add the new user to current User's List of people who monitor currentUser
-                //currentUser.getPeopleMonitoringUser().add(emailInput.getText().toString());
+                ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitorBySomeoneElse(user);
+                ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
 
 
                 //only implemented after checkEmailValidity works
@@ -49,37 +48,22 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
 
     }
 
-    public boolean checkEmailValidity(EditText emailInput)
-    {
-        //add code here to check if email exists from map/list or if already a part of user's list
+    private void setFieldsUserToMonitorBySomeoneElse(User user) {
+        long id = user.getId();
 
-
-        /*
-        //checks if input email even exists
-        User userExistenseCheck=masterMap.get(emailInput.getText().toString());
-        if(userExistenseCheck==null)
-        {
-            Toast toast = Toast.makeText(this,"User email does not exist",Toast.LENGTH_SHORT);
-            toast.show();
-            return false;
-        }
-
-        //checks for duplicate within existing user's list
-        List<String> list=currentUser.getPeopleMonitoringUser();
-        for(int i=0;i<list.size();i++)
-        {
-            if(emailInput.getText().toString().equals(list.get(i)))
-            {
-                Toast toast = Toast.makeText(this,"User email already exists in your list",Toast.LENGTH_SHORT);
-                toast.show();
-                return false;
-            }
-        }
-        */
-
-
-        return true;    //only for now
+        ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
+        ServerSingleton.getInstance().monitoredByUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
     }
+
+    public void setUserList(List<User> userList)
+    {
+        Intent intent = new Intent(AddSomeoneToMonitorYouActivity.this, MonitorActivity.class);
+        startActivity(intent);
+        finish();
+        Log.i("CheckList",""+userList);
+    }
+
+
 
 
 

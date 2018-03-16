@@ -1,7 +1,6 @@
 <resources>
     <string name="app_name">A Walking School bus</string>
     <string name="name_colon">Name: </string>
-    <string name="description_colon">Description: </string>
     <string name="members_colon">Members: </string>
     <string name="destination_colon">Destination: (next iteration)</string>
     <string name="meeting_colon">Meeting: </string>
@@ -48,4 +47,10 @@
     <string name="hitting_back_button_on_phone_will_go_to_main_menu">Hitting back button on phone will go to main menu.</string>
     <string name="search_the_group_by_description">Search the group by description</string>
     <string name="search_for_a_description">Search for a description</string>
+    <string name="back">Back</string>
+    <string name="press_and_hold_item_for_delete_pop_up">Press and Hold Item for delete pop-up</string>
+    <string name="add_a_student_to_monitor">Add a student to monitor</string>
+    <string name="add_someone_to_monitor_you">Add someone to monitor you</string>
+    <string name="see_who_s_monitoring_you">See who\'s monitoring you</string>
+    <string name="go_back">Go Back</string>
 </resources>

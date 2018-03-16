@@ -104,6 +104,14 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+    public void stopBeingMonitored(Context context, ProxyBuilder.SimpleCallback<Void> callback, long currentUser, long otherUser) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        Call<Void> caller = proxy.stopBeingMonitored(currentUser, otherUser);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
     public void deleteGroup(Context context, ProxyBuilder.SimpleCallback<Void> callback, long groupId) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
@@ -171,5 +179,15 @@ public class ServerSingleton {
         Call<Void> caller = proxy.removeMemberFromGroup(groupId, userId);
         ProxyBuilder.callProxy(context, caller, callback);
     }
+    public void getMonitoredUsers(Context context, ProxyBuilder.SimpleCallback<List<User>> callback, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<List<User>> caller = proxy.getMonitoredUser(id);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+
 
 }
