@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -57,8 +57,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import groupdenim.cmpt276.awalkingschoolbus.fragments.HelpFragment;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.PlaceAutocompleteAdapter;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.customWindow;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
+import groupdenim.cmpt276.awalkingschoolbus.R;
+
 /**
  * Created by wwwfl on 2018-03-03.
  * Majority of maps code used from: https://www.youtube.com/watch?v=M0bYvXlhgSI

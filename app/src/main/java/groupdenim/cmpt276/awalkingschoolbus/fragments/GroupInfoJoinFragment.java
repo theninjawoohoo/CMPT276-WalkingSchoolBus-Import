@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,7 +13,13 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import static groupdenim.cmpt276.awalkingschoolbus.GroupInfoActivity.membersOfGroup2;
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
+import groupdenim.cmpt276.awalkingschoolbus.activities.GroupInfoActivity;
+
+import static groupdenim.cmpt276.awalkingschoolbus.activities.GroupInfoActivity.membersOfGroup2;
 
 public class GroupInfoJoinFragment extends AppCompatDialogFragment {
     @Override

@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -10,15 +10,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.location.places.Place;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 public class CreateGroupActivity extends AppCompatActivity {
     private String groupDescription;

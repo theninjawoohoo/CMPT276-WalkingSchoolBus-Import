@@ -1,10 +1,6 @@
 package groupdenim.cmpt276.awalkingschoolbus.mapModels;
 
-import android.net.Uri;
-
 import com.google.android.gms.maps.model.LatLng;
-
-import groupdenim.cmpt276.awalkingschoolbus.Group;
 
 /**
  * A Object to store place data because

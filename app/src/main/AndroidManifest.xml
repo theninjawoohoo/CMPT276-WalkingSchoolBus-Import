@@ -27,25 +27,25 @@
             android:value="@integer/google_play_services_version" />
 
 
-        <activity android:name=".LoginActivity"
+        <activity android:name=".activities.LoginActivity"
             android:label="@string/title_activity_login" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainMenuActivity" />
-        <activity android:name=".MapActivity" />
-        <activity android:name=".RegisterActivity"/>
-        <activity android:name=".MonitorActivity" />
-        <activity android:name=".MonitoredByActivity" />
-        <activity android:name=".GroupInfoActivity" />
-        <activity android:name=".CreateGroupActivity" />
-        <activity android:name=".AddSomeoneToMonitorActivity" />
-        <activity android:name=".AddSomeoneToMonitorYouActivity"/>
-        <activity android:name=".GroupMeetingActivity" />
+        <activity android:name=".activities.MainMenuActivity" />
+        <activity android:name=".activities.MapActivity" />
+        <activity android:name=".activities.RegisterActivity"/>
+        <activity android:name=".activities.MonitorActivity" />
+        <activity android:name=".activities.MonitoredByActivity" />
+        <activity android:name=".activities.GroupInfoActivity" />
+        <activity android:name=".activities.CreateGroupActivity" />
+        <activity android:name=".activities.AddSomeoneToMonitorActivity" />
+        <activity android:name=".activities.AddSomeoneToMonitorYouActivity"/>
+        <activity android:name=".activities.GroupMeetingActivity" />
     </application>
 
 </manifest>

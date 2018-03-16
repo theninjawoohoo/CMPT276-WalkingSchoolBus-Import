@@ -1,43 +1,51 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.userModel;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserServer {
-    private Long id;
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class User {
+    private long id;
     private String name;
     private String email;
     private String password;
 
-    private List<UserServer> leadsGroups = new ArrayList<>();
+    private List<Group> leadsGroups = new ArrayList<>();
 
-    private List<UserServer> memberOfGroups = new ArrayList<>();
+    private List<Group> memberOfGroups = new ArrayList<>();
 
-    private List<UserServer> monitoredByUsers = new ArrayList<>();
+    private List<User> monitoredByUsers = new ArrayList<>();
 
-    private List<UserServer> monitorsUsers = new ArrayList<>();
+    private List<User> monitorsUsers = new ArrayList<>();
 
     private String href;
-    public UserServer() {
+    public User(String name,String email) {
+        this.name=name;
+        this.email=email;
     }
 
-    public List<UserServer> getLeadsGroups() {
+    public List<Group> getLeadsGroups() {
         return leadsGroups;
     }
 
-    public void setLeadsGroups(List<UserServer> leadsGroups) {
+    public void setLeadsGroups(List<Group> leadsGroups) {
         this.leadsGroups = leadsGroups;
     }
 
     //private List<Void> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
-    public List<UserServer> getMemberOfGroups() {
+    public List<Group> getMemberOfGroups() {
         return memberOfGroups;
     }
 
-    public void setMemberOfGroups(List<UserServer> memberOfGroups) {
+    public void setMemberOfGroups(List<Group> memberOfGroups) {
         this.memberOfGroups = memberOfGroups;
     }
-    public UserServer(Long id, String name, String email, String password, List<UserServer> monitorsUsers, List<UserServer> monitoredByUsers) {
+    public User() {
+
+    }
+    public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -46,19 +54,19 @@ public class UserServer {
         this.monitorsUsers = monitorsUsers;
     }
 
-    public List<UserServer> getMonitoredByUsers() {
+    public List<User> getMonitoredByUsers() {
         return monitoredByUsers;
     }
 
-    public void setMonitoredByUsers(List<UserServer> monitoredByUsers) {
+    public void setMonitoredByUsers(List<User> monitoredByUsers) {
         this.monitoredByUsers = monitoredByUsers;
     }
 
-    public List<UserServer> getMonitorsUsers() {
+    public List<User> getMonitorsUsers() {
         return monitorsUsers;
     }
 
-    public void setMonitorsUsers(List<UserServer> monitorsUsers) {
+    public void setMonitorsUsers(List<User> monitorsUsers) {
         this.monitorsUsers = monitorsUsers;
     }
 
@@ -96,11 +104,13 @@ public class UserServer {
 
     public String getEmail() {
         return email;
+
     }
 
     public void setEmail(String email) {
         this.email = email;
     }
+
 
     public String getPassword() {
         return password;
@@ -117,8 +127,8 @@ public class UserServer {
                 + "\nid: " + id
                 + "\n}";
         return json;
+
     }
+
+
 }
-
-
-

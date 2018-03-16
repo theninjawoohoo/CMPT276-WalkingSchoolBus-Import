@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -21,6 +21,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.WebService;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import retrofit2.Call;
 
 /**

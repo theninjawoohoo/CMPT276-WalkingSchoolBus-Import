@@ -1,7 +1,9 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.serverModel;
 
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

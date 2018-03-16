@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,8 +18,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
-import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 
 /**

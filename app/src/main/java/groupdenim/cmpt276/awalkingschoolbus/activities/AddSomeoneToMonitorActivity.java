@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,13 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.util.List;
 
-import retrofit2.http.HTTP;
-
-import static groupdenim.cmpt276.awalkingschoolbus.CurrentUserSingleton.setFields;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.*;
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
@@ -41,7 +42,7 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
                     return;
 
 
-                ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitor(user);
+                ProxyBuilder.SimpleCallback<User> callbackUser= user -> setFieldsUserToMonitor(user);
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
 
 

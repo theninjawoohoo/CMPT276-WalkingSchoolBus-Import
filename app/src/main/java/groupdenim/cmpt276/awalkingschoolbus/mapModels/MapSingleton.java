@@ -3,7 +3,7 @@ package groupdenim.cmpt276.awalkingschoolbus.mapModels;
 import java.util.ArrayList;
 import java.util.List;
 
-import groupdenim.cmpt276.awalkingschoolbus.Group;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 
 /**
  * Created by wwwfl on 2018-03-09.

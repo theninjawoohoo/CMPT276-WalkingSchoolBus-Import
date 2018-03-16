@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -16,6 +16,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.activities.*;
 
 public class GroupInfoAddFragment extends AppCompatDialogFragment {
     private List<String> selectedChildren = new ArrayList<>();

@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.fragments;
 
 
 import android.app.DialogFragment;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import groupdenim.cmpt276.awalkingschoolbus.R;
 
 /**
  * A help dialog box to show what the buttons do on the map

@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.fragments;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.Marker;
 
 import org.w3c.dom.Text;
+
+import groupdenim.cmpt276.awalkingschoolbus.R;
 
 /**
  * Make a custom Google maps info display window

@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.userModel;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,11 +6,14 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+
 /**
  * Created by niragmehta on 2018-03-13.
  */
 
-class CurrentUserSingleton {
+public class CurrentUserSingleton {
 
     private static Context context;
 
@@ -28,7 +31,7 @@ class CurrentUserSingleton {
 
     private static final CurrentUserSingleton instance = new CurrentUserSingleton();
 
-    static CurrentUserSingleton getInstance(Context context) {
+    public static CurrentUserSingleton getInstance(Context context) {
 
         if(instance ==null)
         {

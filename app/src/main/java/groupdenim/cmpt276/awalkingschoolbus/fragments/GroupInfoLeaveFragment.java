@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -8,6 +8,9 @@ import android.support.v7.app.AppCompatDialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import groupdenim.cmpt276.awalkingschoolbus.activities.GroupInfoActivity;
+
+import groupdenim.cmpt276.awalkingschoolbus.R;
 
 public class GroupInfoLeaveFragment extends AppCompatDialogFragment {
     @Override

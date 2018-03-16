@@ -1,9 +1,11 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.userModel;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 //Test commit

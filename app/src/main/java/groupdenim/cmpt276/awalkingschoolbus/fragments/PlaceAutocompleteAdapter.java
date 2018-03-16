@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.fragments;
 
 /* Credit to Google!
  * Copyright (C) 2015 Google Inc. All Rights Reserved.

@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.content.Context;
 import android.content.Intent;
@@ -16,6 +16,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoJoinFragment;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoLeaveFragment;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
+import groupdenim.cmpt276.awalkingschoolbus.R;
 
 public class GroupInfoActivity extends AppCompatActivity {
     private long groupToDisplayId = 0;

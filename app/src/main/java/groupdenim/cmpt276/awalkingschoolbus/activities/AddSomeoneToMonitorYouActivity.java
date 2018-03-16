@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -6,10 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import java.util.List;
-import java.util.Map;
+import groupdenim.cmpt276.awalkingschoolbus.R;
 
 public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
 

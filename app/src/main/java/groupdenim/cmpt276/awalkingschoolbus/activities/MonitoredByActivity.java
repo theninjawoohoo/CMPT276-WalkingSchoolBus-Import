@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 
 import android.content.Context;
@@ -16,7 +16,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.R;
 
 public class MonitoredByActivity extends AppCompatActivity {
 

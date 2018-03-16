@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 //DO NOT COMMIT THIS FILE!
 //This Maps test code was provided by:
@@ -19,12 +19,14 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
-import retrofit2.Call;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 public class MainMenuActivity extends AppCompatActivity {
 

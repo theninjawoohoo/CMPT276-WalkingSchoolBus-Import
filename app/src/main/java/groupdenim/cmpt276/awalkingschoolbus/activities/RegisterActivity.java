@@ -1,4 +1,4 @@
-package groupdenim.cmpt276.awalkingschoolbus;
+package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -12,6 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.WebService;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import retrofit2.Call;
 
 public class RegisterActivity extends AppCompatActivity {
