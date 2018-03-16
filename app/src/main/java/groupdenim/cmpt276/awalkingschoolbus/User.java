@@ -1,17 +1,20 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
-    private Long id;
+    private long id;
     private String name;
     private String email;
     private String password;
 
-    private List<User> leadsGroups = new ArrayList<>();
+    private List<Group> leadsGroups = new ArrayList<>();
 
-    private List<User> memberOfGroups = new ArrayList<>();
+    private List<Group> memberOfGroups = new ArrayList<>();
 
     private List<User> monitoredByUsers = new ArrayList<>();
 
@@ -23,20 +26,20 @@ public class User {
         this.email=email;
     }
 
-    public List<User> getLeadsGroups() {
+    public List<Group> getLeadsGroups() {
         return leadsGroups;
     }
 
-    public void setLeadsGroups(List<User> leadsGroups) {
+    public void setLeadsGroups(List<Group> leadsGroups) {
         this.leadsGroups = leadsGroups;
     }
 
     //private List<Void> walkingGroups = new ArrayList<>();   // <-- TO BE IMPLEMENTED
-    public List<User> getMemberOfGroups() {
+    public List<Group> getMemberOfGroups() {
         return memberOfGroups;
     }
 
-    public void setMemberOfGroups(List<User> memberOfGroups) {
+    public void setMemberOfGroups(List<Group> memberOfGroups) {
         this.memberOfGroups = memberOfGroups;
     }
     public User() {

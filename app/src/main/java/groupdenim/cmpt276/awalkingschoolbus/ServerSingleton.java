@@ -147,8 +147,26 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+    public void addNewMemberOfGroup(Context context, ProxyBuilder.SimpleCallback<List<User>> callback,
+                                long groupId, long userId) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        User user = new User();
+        user.setId(userId);
 
+        Call<List<User>> caller = proxy.addNewMemberOfGroup(groupId, user);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
 
+    public void removeMemberFromGroup(Context context, ProxyBuilder.SimpleCallback<Void> callback,
+                                    long groupId, long userId) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
 
+        Call<Void> caller = proxy.removeMemberFromGroup(groupId, userId);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
 
 }

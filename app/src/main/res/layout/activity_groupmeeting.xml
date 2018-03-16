@@ -1,7 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="groupdenim.cmpt276.awalkingschoolbus.GroupMeetingActivity">
+
+    <EditText
+        android:id="@+id/input_search_group"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/btn_on_screen_two_map"
+        android:layout_marginTop="8dp"
+        android:layout_toEndOf="@+id/imageView6"
+        android:layout_toRightOf="@+id/imageView6"
+        android:hint="@string/search_for_a_description"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        tools:textSize="24sp" />
+
 
     <Button
         android:id="@+id/btn_on_screen_two_map"
@@ -13,10 +31,31 @@
         android:text="@string/switch_to_mapView" />
 
     <ListView
+        android:id="@+id/list_view_group"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/btn_on_screen_two_map" />
+        android:layout_below="@+id/input_search_group" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btn_on_screen_two_map"
+        android:layout_toRightOf="@+id/btn_on_screen_two_map"
+        android:text="@string/hitting_back_button_on_phone_will_go_to_main_menu"
+        tools:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/input_search_group"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/input_search_group"
+        app:srcCompat="@drawable/ic_magnifying_glass" />
 
 </RelativeLayout>

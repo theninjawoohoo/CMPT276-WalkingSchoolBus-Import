@@ -21,7 +21,9 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import retrofit2.Call;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -46,6 +48,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Button btnMap = (Button) findViewById(R.id.btnMap);
+        btnMap.setEnabled(true);
+    }
+
+
     private void initializeLogout() {
         Button logout = findViewById(R.id.btnLogout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -56,12 +66,15 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+
     private void logout() {
         SharedPreferences sharedPrefs = getSharedPreferences(LOGIN, 0);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString("email","");
         editor.putString("password","");
         editor.commit();
+        finish();
+
     }
 
 
@@ -95,10 +108,18 @@ public class MainMenuActivity extends AppCompatActivity {
         btnMap.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainMenuActivity.this, MapActivity.class);
-                startActivity(intent);
+                ProxyBuilder.SimpleCallback<List<Group>> callback = groups -> groupListResponse(groups);
+                ServerSingleton.getInstance().getGroupList(MainMenuActivity.this, callback);
+                btnMap.setEnabled(false);
             }
         });
+    }
+
+    private void groupListResponse(List<Group> groups) {
+        MapSingleton mapSingleton = MapSingleton.getInstance();
+        mapSingleton.convertGroupsToMeetingPlaces(groups);
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
     }
 
     private void initializeMonitor() {
@@ -112,4 +133,5 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -1,16 +1,32 @@
 package groupdenim.cmpt276.awalkingschoolbus;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
+
 public class CreateGroupActivity extends AppCompatActivity {
-    private String destination;
-    private String groupName;
-    private String meetingPlace;
+    private String groupDescription;
+    private String address;
+    private double[] routeLatArray = new double[2];
+    private double[] routeLngArray = new double[2];
+    private placeObject place;
+
     private final int MIN_TEXT_LENGTH = 3;
 
     @Override
@@ -18,8 +34,22 @@ public class CreateGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
+        getFieldsFromMap();
         setupCancelButton();
         setupCreateButton();
+        setupAddressText();
+
+    }
+
+    private void getFieldsFromMap() {
+        MapSingleton mapSingleton = MapSingleton.getInstance();
+        place = mapSingleton.getTempObject();
+        address = place.getAddress();
+        LatLng latLng = place.getLatlng();
+        routeLatArray[0] = latLng.latitude;
+        routeLngArray[0] = latLng.longitude;
+        routeLatArray[1] = 0; //TEMPORARY
+        routeLngArray[1] = 0; //TEMPORARY
     }
 
     private void setupCancelButton(){
@@ -27,6 +57,8 @@ public class CreateGroupActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(CreateGroupActivity.this, MapActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -40,30 +72,23 @@ public class CreateGroupActivity extends AppCompatActivity {
                 //TODO: make it validate input then store input in new group
                 getInput();
                 if (isInputValid()) {
-                    //sendInput();
-                    finish();
+                    button.setEnabled(false);
+                    sendInput();
                 }
+
             }
         });
     }
 
     private void getInput() {
-        EditText editDestination =  findViewById(R.id.editText_CreateGroupActivity_destination);
-        EditText editGroupName =  findViewById(R.id.editText_CreateGroupActivity_groupName);
-        EditText editMeeting =  findViewById(R.id.editText_CreateGroupActivity_meeting);
-        destination = editDestination.getText().toString();
-        groupName = editGroupName.getText().toString();
-        meetingPlace = editMeeting.getText().toString();
+        EditText editGroupName = findViewById(R.id.editText_CreateGroupActivity_groupDescription);
+        groupDescription = editGroupName.getText().toString();
     }
 
     private boolean isInputValid() {
         String errorMessage;
-        if (destination.length() < MIN_TEXT_LENGTH) {
-            errorMessage = "Destination must be at least " + MIN_TEXT_LENGTH + " characters long.";
-        } else if (groupName.length() < MIN_TEXT_LENGTH) {
-            errorMessage = "Group name must be at least " + MIN_TEXT_LENGTH + " characters long.";
-        } else if (meetingPlace.length() < MIN_TEXT_LENGTH) {
-            errorMessage = "Meeting place must be at least " + MIN_TEXT_LENGTH + " characters long.";
+        if (groupDescription.length() < MIN_TEXT_LENGTH) {
+            errorMessage = "Description must be at least " + MIN_TEXT_LENGTH + " characters long.";
         } else {
             return true;
         }
@@ -72,14 +97,53 @@ public class CreateGroupActivity extends AppCompatActivity {
         return false;
     }
 
-    /*
     private void sendInput() {
-        //TODO: need to figure out what to do with coordinates:
-        Coordinate tempCoord = new Coordinate(0, 0);
-        Group group = new Group(destination, groupName, meetingPlace, tempCoord, tempCoord);
-        GroupSingleton groupSingleton = GroupSingleton.getInstance();
-        groupSingleton.addGroup(group);
+        //CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(this);
+//        User currentUser = new User();
+//        currentUser.setId(CurrentUserSingleton.getInstance(CreateGroupActivity.this).getId());
+//        //Group group = new Group(groupDescription, new ArrayList<String>(), routeLatArray, routeLngArray, currentUser);
+//        Group group = new Group();
+//        group.setLeader(currentUser);
+//        group.setGroupDescription(groupDescription);
+//  //      group.setRouteLatArray(routeLatArray);
+////        group.setRouteLngArray(routeLngArray);
+//
+//        //Add the group and wait for a response
+//        ProxyBuilder.SimpleCallback<Group> callback = groups -> createGroupResponse(groups);
+//        ServerSingleton.getInstance().createNewGroup(CreateGroupActivity.this, callback, group);
+
+        Group group = new Group();
+        group.setGroupDescription(groupDescription);
+        group.setId(3);
+        group.setRouteLatArray(routeLatArray);
+        group.setRouteLngArray(routeLngArray);
+        User user = new User();
+        user.setId(CurrentUserSingleton.getInstance(CreateGroupActivity.this).getId());
+        group.setLeader(user);
+        Log.i("a", "sendInput: " + group);
+        ProxyBuilder.SimpleCallback<Group> callback = groupa -> createGroupResponse(groupa);
+        ServerSingleton.getInstance().createNewGroup(this,callback,group);
     }
-    */
+
+    private void createGroupResponse(Group group) {
+        // Update the MapSingleton's group list with the new group
+        Log.i("a", "createGroupResponse: " + group);
+        ProxyBuilder.SimpleCallback<List<Group>> callback = groups -> getGroupsResponse(groups);
+        ServerSingleton.getInstance().getGroupList(CreateGroupActivity.this, callback);
+    }
+
+    private void getGroupsResponse(List<Group> groups) {
+        //Update the mapSingleton group list and go back to map activity
+        MapSingleton mapSingleton = MapSingleton.getInstance();
+        mapSingleton.convertGroupsToMeetingPlaces(groups);
+        Intent intent = new Intent(CreateGroupActivity.this, MapActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void setupAddressText() {
+        TextView text = findViewById(R.id.textView_CreateGroupActivity_meetingAddress);
+        text.setText(address);
+    }
 }
 

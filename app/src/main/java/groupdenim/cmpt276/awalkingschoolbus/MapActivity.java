@@ -55,7 +55,9 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
 /**
  * Created by wwwfl on 2018-03-03.
@@ -127,7 +129,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //This is an object that helps the user obtain a location
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,8 +141,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         displayInfoCurrentLocation = (ImageView) findViewById(R.id.ic_info);
         displayNearbyLocation = (ImageView) findViewById(R.id.ic_nearby);
         addNewMeetingSpot = (ImageView) findViewById(R.id.ic_addMeetingSpot);
-
-
 
     }
 
@@ -233,7 +232,60 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         addNewMeetingSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(mPlace == null) {
+                    placeObject yourLocation = new placeObject();
+                    mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapActivity.this);
 
+                    //Ensure that no permissions are breached.
+                    try{
+                        if(mLocationPermissionGranted) {
+                            final Task location = mFusedLocationProviderClient.getLastLocation();
+                            location.addOnCompleteListener(new OnCompleteListener() {
+                                @Override
+                                public void onComplete(@NonNull Task task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d(TAG, "onComplete: Found LocationStruct!");
+                                        Location currentLocation = (Location) task.getResult();
+                                        Geocoder geocoder;
+                                        List<Address> addresses;
+                                        geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
+                                        String markerInfo;
+                                        try {
+                                            addresses = geocoder.getFromLocation(currentLocation.getLatitude(),
+                                                                                        currentLocation.getLongitude(), 1);
+
+                                            if(addresses.size() == 0) {
+                                                markerInfo = "You Location";
+                                            }
+                                            else {
+                                                markerInfo= addresses.get(0).getAddressLine(0);
+                                            }
+                                            yourLocation.setAddress(markerInfo);
+                                            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                                            yourLocation.setLatlng(latLng);
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                    else {
+                                        Log.d(TAG, "onComplete: current location cannot be found");
+                                        Toast.makeText(MapActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                    catch (SecurityException e) {
+                        Log.e(TAG, "getDeviceLocation: securityException has been called.");
+                    }
+                    mPlace = yourLocation;
+
+                }
+                MapSingleton mapSingleton = MapSingleton.getInstance();
+                mapSingleton.setTempObject(mPlace);
+                Intent intent = new Intent(MapActivity.this, CreateGroupActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -244,7 +296,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         switchToGroupView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MapActivity.this, GroupMeeting.class);
+                Intent intent = new Intent(MapActivity.this, GroupMeetingActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -257,6 +309,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 help.show(getFragmentManager(), "Help Box");
             }
         });
+
+        populateMapWithMarkers();
+
         //Then hide the keyboard
         hideSoftKeyboard();
     }
@@ -375,7 +430,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         else {
                             Log.d(TAG, "onComplete: current location cannot be found");
                             Toast.makeText(MapActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
-
                         }
                     }
                 });
@@ -530,5 +584,48 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             places.release();
         }
     };
+
+    void populateMapWithMarkers() {
+        MapSingleton mapSingleton = MapSingleton.getInstance();
+        List<placeObject> listOfMeetings = mapSingleton.getList();
+        for(placeObject someObject: listOfMeetings) {
+                if(someObject.getLatlng() != null) {
+                LatLng coordinates = someObject.getLatlng();
+                double latitude = coordinates.latitude;
+                double longitude = coordinates.longitude;
+                Geocoder geocoder;
+                List<Address> addresses;
+                geocoder = new Geocoder(this, Locale.getDefault());
+
+                //We must reverse engineer the coordinates and get the location and populate the
+                //Marker with info
+                try{
+                    addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    String knownName;
+                    String markerInfo;
+                    if(addresses.size() == 0) {
+                        knownName = "Meeting Place not set";
+                        markerInfo = "Address: The North Pole";
+                    }
+                    else {
+                        knownName= addresses.get(0).getFeatureName();
+                        markerInfo= "Address: " + addresses.get(0).getAddressLine(0) + "\n";
+                    }
+
+                    MarkerOptions options = new MarkerOptions()
+                            .position(coordinates)
+                            .title(knownName)
+                            .snippet(markerInfo);
+
+                    mMarker = Gmap.addMarker(options);
+
+                }
+                catch (IOException e) {
+                    Log.e(TAG, "populateMapWithMarkers: geoLocation failure.");
+                }
+
+            }
+        }
+    }
 
 }
