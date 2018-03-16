@@ -13,6 +13,8 @@ public class GroupInfoLeaveFragment extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final String groupName = getArguments().getString("groupName");
+        final long groupId = getArguments().getLong("groupId");
+        final long userId = getArguments().getLong("userId");
 
         //Create view
         View v = LayoutInflater.from(getActivity())

@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:id="@+id/linearLayout_GroupInfoActivity_groupName"
+            android:id="@+id/linearLayout_GroupInfoActivity_GroupDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -33,7 +33,7 @@
                 android:layout_weight="1"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp"
-                android:text="@string/name_colon"
+                android:text="@string/description_colon"
                 android:textSize="24sp" />
 
         </LinearLayout>
@@ -91,7 +91,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/hlinear_layout_group_buttons"
+        android:id="@+id/hlinearLayout_GroupInfoActivity_Buttons"
         android:layout_width="0dp"
         android:layout_height="80dp"
         android:gravity="bottom"
