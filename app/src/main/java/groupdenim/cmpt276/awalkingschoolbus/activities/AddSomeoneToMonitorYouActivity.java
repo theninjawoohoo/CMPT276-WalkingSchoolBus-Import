@@ -8,7 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.List;
+
 import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
 public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
 
@@ -27,7 +33,7 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                ProxyBuilder.SimpleCallback<User> callbackUser=user -> setFieldsUserToMonitorBySomeoneElse(user);
+                ProxyBuilder.SimpleCallback<User> callbackUser= user -> setFieldsUserToMonitorBySomeoneElse(user);
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
 
 
@@ -52,7 +58,7 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
         long id = user.getId();
 
         ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
-        ServerSingleton.getInstance().monitoredByUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+        ServerSingleton.getInstance().monitoredByUsers(getApplicationContext(),callback, CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
     }
 
     public void setUserList(List<User> userList)

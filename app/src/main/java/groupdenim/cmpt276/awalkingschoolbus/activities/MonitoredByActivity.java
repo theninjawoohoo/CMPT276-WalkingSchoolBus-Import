@@ -16,8 +16,11 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
 public class MonitoredByActivity extends AppCompatActivity {
 
@@ -50,7 +53,7 @@ public class MonitoredByActivity extends AppCompatActivity {
     public void updateListWhichDisplaysUsers()
     {
         studentsBeingMonitoredWithName=new ArrayList<>();
-        ProxyBuilder.SimpleCallback<List<User>> callback=userList -> getMonitorList(userList);
+        ProxyBuilder.SimpleCallback<List<User>> callback= userList -> getMonitorList(userList);
         ServerSingleton.getInstance().getMonitoredUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
     }
 
