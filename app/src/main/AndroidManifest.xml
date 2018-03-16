@@ -45,7 +45,7 @@
         <activity android:name=".CreateGroupActivity" />
         <activity android:name=".AddSomeoneToMonitorActivity" />
         <activity android:name=".AddSomeoneToMonitorYouActivity"/>
-        <activity android:name=".GroupMeeting" />
+        <activity android:name=".GroupMeetingActivity" />
     </application>
 
 </manifest>

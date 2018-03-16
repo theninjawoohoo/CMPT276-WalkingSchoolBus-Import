@@ -39,7 +39,6 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.AutocompletePrediction;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
-import com.google.android.gms.location.places.PlaceDetectionClient;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -300,7 +299,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         switchToGroupView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MapActivity.this, GroupMeeting.class);
+                Intent intent = new Intent(MapActivity.this, GroupMeetingActivity.class);
                 startActivity(intent);
                 finish();
             }
