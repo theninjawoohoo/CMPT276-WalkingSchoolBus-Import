@@ -152,8 +152,10 @@ public class ServerSingleton {
         if (TOKEN != null) {
             updateProxy(TOKEN);
         }
+        User user = new User();
+        user.setId(userId);
 
-        Call<List<User>> caller = proxy.addNewMemberOfGroup(groupId, userId);
+        Call<List<User>> caller = proxy.addNewMemberOfGroup(groupId, user);
         ProxyBuilder.callProxy(context, caller, callback);
     }
 

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -19,9 +20,11 @@ import java.util.List;
 public class GroupInfoActivity extends AppCompatActivity {
     private long groupToDisplayId = 0;
     private Group groupToDisplay = new Group();
+    public static List<User> membersOfGroup2 = new ArrayList<>();
     private List<User> membersOfGroup = new ArrayList<>();
     private final float TEXT_SIZE = 24;
     private static final String PUT_EXTRA = "groupdenim.cmpt276.awalkingschoolbus - double";
+    public static boolean isFragmentChange = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,18 +33,6 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         getGroupToDisplayIdFromIntent();
         getGroupFromServer();
-
-        //Once needed data is retreived from server, display the information
-        if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size()) {
-            //All members have been added to the membersOfGroup list, now containing their emails
-            populateFields(groupToDisplay.getGroupDescription(),
-                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
-            //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
-            populateFields(groupToDisplay.getRouteLatArray()[0] + "",
-                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
-            populateList();
-            createAppropriateButtons();
-        }
     }
 
     private void getGroupToDisplayIdFromIntent() {
@@ -62,25 +53,52 @@ public class GroupInfoActivity extends AppCompatActivity {
 
     //TODO: Not sure if this will work. I am trying to make each user make a call and wait for each one to come back before moving on
     private void getUsersInGroupFromServer() {
-        for (User user : groupToDisplay.getMemberUsers()) {
-            ProxyBuilder.SimpleCallback<User> callback = returnedUser -> getUsersResponse(returnedUser);
-            ServerSingleton.getInstance().getUserById(this, callback, user.getId());
+        if (groupToDisplay.getMemberUsers().size() > 0) {
+            for (User user : groupToDisplay.getMemberUsers()) {
+                ProxyBuilder.SimpleCallback<User> callback = returnedUser -> getUsersResponse(returnedUser);
+                ServerSingleton.getInstance().getUserById(this, callback, user.getId());
+            }
+        } else {
+                //All members have been added to the membersOfGroup list, now containing their emails
+                populateFields(groupToDisplay.getGroupDescription(),
+                        R.id.linearLayout_GroupInfoActivity_GroupDescription);
+                //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
+                populateFields(groupToDisplay.getRouteLatArray()[0] + "",
+                        R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
+                populateList();
+                createAppropriateButtons();
         }
-
     }
 
     private void getUsersResponse(User user) {
         membersOfGroup.add(user);
+        Log.i("CHECKING_GROUP_RESPONSE", "Got group response!");
+        //Once needed data is retreived from server, display the information
+        if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size() ||
+            groupToDisplay.getMemberUsers().size() == 0) {
+            //All members have been added to the membersOfGroup list, now containing their emails
+            populateFields(groupToDisplay.getGroupDescription(),
+                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
+            //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
+            populateFields(groupToDisplay.getRouteLatArray()[0] + "",
+                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
+            populateList();
+            createAppropriateButtons();
+        }
     }
 
     public void updateUi() {
+        Log.i("UPDATE_UI", "fjkrwnfkj");
         clearUi();
+        if (isFragmentChange == true) {
+            membersOfGroup = membersOfGroup2;
+        }
         populateFields(groupToDisplay.getGroupDescription(),
                 R.id.linearLayout_GroupInfoActivity_GroupDescription);
         //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
         populateFields(groupToDisplay.getRouteLatArray()[0] + "",
                 R.id.linearLayout_GroupInfoActivity_Meeting);
-        populateList();
+        populateListAgain();
         createAppropriateButtons();
     }
 
@@ -89,8 +107,8 @@ public class GroupInfoActivity extends AppCompatActivity {
         LinearLayout layout;
         layout = findViewById(R.id.linearLayout_GroupInfoActivity_GroupDescription);
         layout.removeViewAt(FIELD_INDEX);
-        layout = findViewById(R.id.linearLayout_GroupInfoActivity_Destination);
-        layout.removeViewAt(FIELD_INDEX);
+       // layout = findViewById(R.id.linearLayout_GroupInfoActivity_Destination);
+        //layout.removeViewAt(FIELD_INDEX);
         layout = findViewById(R.id.linearLayout_GroupInfoActivity_Meeting);
         layout.removeViewAt(FIELD_INDEX);
 
@@ -110,6 +128,17 @@ public class GroupInfoActivity extends AppCompatActivity {
     private void populateList(){
         List<String> memberEmails = new ArrayList<>();
         for (User user : membersOfGroup) {
+            memberEmails.add(user.getEmail());
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
+                R.layout.group_member, memberEmails);
+        ListView list = findViewById(R.id.list_members);
+        list.setAdapter(adapter);
+    }
+
+    private void populateListAgain(){
+        List<String> memberEmails = new ArrayList<>();
+        for (User user : membersOfGroup2) {
             memberEmails.add(user.getEmail());
         }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
@@ -190,13 +219,16 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void createJoinButton(LinearLayout layout) {
-      /*  Button button = new Button(this);
+        Button button = new Button(this);
         button.setText(R.string.join);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("groupName", groupDescription);
+                bundle.putString("groupName", groupToDisplay.getGroupDescription());
+                bundle.putLong("groupId", groupToDisplay.getId());
+                bundle.putLong("userId",
+                        CurrentUserSingleton.getInstance(GroupInfoActivity.this).getId());
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoJoinFragment dialog = new GroupInfoJoinFragment();
@@ -204,7 +236,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 dialog.show(manager, "MessageDialog");
             }
         });
-        layout.addView(button);*/
+        layout.addView(button);
     }
 
     private void createAddButton(LinearLayout layout) {
@@ -250,4 +282,5 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         return intent;
     }
+
 }

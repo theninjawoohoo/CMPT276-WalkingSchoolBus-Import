@@ -5,14 +5,22 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatDialogFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.List;
+
+import static groupdenim.cmpt276.awalkingschoolbus.GroupInfoActivity.membersOfGroup2;
 
 public class GroupInfoJoinFragment extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final String groupName = getArguments().getString("groupName");
+        final long groupId = getArguments().getLong("groupId");
+        final long userId = getArguments().getLong("userId");
 
         //Create view
         View v = LayoutInflater.from(getActivity())
@@ -23,6 +31,32 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
         String message = "Are you sure you want to join the group " + groupName + "?";
         textView.setText(message);
 
+        //Build dialog
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setView(v)
+                .setPositiveButton(android.R.string.yes, null)
+                .setNegativeButton(android.R.string.cancel, null)
+                .create();
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface dialogInterface) {
+
+                Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList ->
+                                getAddGroupResponse(returnedList, dialog);
+                        ServerSingleton.getInstance().addNewMemberOfGroup(getActivity(), callback,
+                                groupId, userId);
+                    }
+                });
+            }
+        });
+
+/*
         //Create button listener
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
@@ -43,8 +77,11 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
 //                        User user = userSingleton.getUserMap().get(userEmail);
 //                        user.addToGroup(groupName);
 
-                        //Update activity UI
-                        ((GroupInfoActivity)getActivity()).updateUi();
+                        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList -> getAddGroupResponse(returnedList, dialog);
+                        ServerSingleton.getInstance().addNewMemberOfGroup(getActivity(), callback,
+                                groupId, userId);
+
+
                         break;
 
                     case DialogInterface.BUTTON_NEGATIVE:
@@ -52,13 +89,16 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
                         break;
                 }
             }
-        };
+        };*/
+        return dialog;
+    }
 
-        //Build dialog
-        return new AlertDialog.Builder(getActivity())
-                .setView(v)
-                .setPositiveButton(android.R.string.yes, listener)
-                .setNegativeButton(android.R.string.cancel, listener)
-                .create();
+    public void getAddGroupResponse(List<User> members, AlertDialog dialog){
+        Log.i("ADD_RESPONSE", "Got response from add member");
+        //Update activity UI
+        GroupInfoActivity.isFragmentChange = true;
+        ((GroupInfoActivity)getActivity()).updateUi();
+        dialog.dismiss();
+        membersOfGroup2 = members;
     }
 }

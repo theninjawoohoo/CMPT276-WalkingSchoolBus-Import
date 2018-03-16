@@ -151,8 +151,8 @@ public class LoginActivity extends AppCompatActivity {
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
         ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email, password));
         //resetscreen();
-        Intent intent =new Intent(this,LoginActivity.class);
-        startActivity(intent);
+        //Intent intent =new Intent(this,LoginActivity.class);
+        //startActivity(intent);
     }
 
     private void resetscreen() {

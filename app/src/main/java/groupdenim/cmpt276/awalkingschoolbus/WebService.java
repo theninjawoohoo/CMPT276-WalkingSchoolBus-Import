@@ -90,7 +90,7 @@ public interface WebService {
 
     @POST(FEED_ADDTOGROUP)
     Call<List<User>> addNewMemberOfGroup(@Path("id") long groupId,
-                                         @Body long userId);
+                                         @Body User userId);
 
     @DELETE(FEED_REMOVEFROMGROUP)
     Call<Void> removeMemberFromGroup(@Path("groupId") long groupId,
