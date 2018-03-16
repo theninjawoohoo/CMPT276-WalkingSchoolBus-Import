@@ -49,13 +49,12 @@ public class GroupMeetingActivity extends AppCompatActivity{
                 finish();
             }
         });
-
-        populateListView();
         registerListClickCallback();
     }
 
     private void listViewResponse(List<Group> aListOfGroups) {
         this.aListOfGroups = aListOfGroups;
+        populateListView();
     }
 
 
@@ -86,7 +85,7 @@ public class GroupMeetingActivity extends AppCompatActivity{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                long id;
+                long id = 0;
                 TextView TextView = (TextView) view;
                 String description = TextView.getText().toString();
                 for(Group aGroup : aListOfGroups) {

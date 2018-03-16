@@ -48,6 +48,14 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Button btnMap = (Button) findViewById(R.id.btnMap);
+        btnMap.setEnabled(true);
+    }
+
+
     private void initializeLogout() {
         Button logout = findViewById(R.id.btnLogout);
         logout.setOnClickListener(new View.OnClickListener() {
@@ -122,4 +130,5 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
     }
+
 }
