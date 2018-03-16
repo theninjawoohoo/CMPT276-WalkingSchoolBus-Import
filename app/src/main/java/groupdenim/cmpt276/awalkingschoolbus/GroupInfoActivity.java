@@ -30,6 +30,18 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         getGroupToDisplayIdFromIntent();
         getGroupFromServer();
+
+        //Once needed data is retreived from server, display the information
+        if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size()) {
+            //All members have been added to the membersOfGroup list, now containing their emails
+            populateFields(groupToDisplay.getGroupDescription(),
+                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
+            //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
+            populateFields(groupToDisplay.getRouteLatArray()[0] + "",
+                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
+            populateList();
+            createAppropriateButtons();
+        }
     }
 
     private void getGroupToDisplayIdFromIntent() {
@@ -59,16 +71,6 @@ public class GroupInfoActivity extends AppCompatActivity {
 
     private void getUsersResponse(User user) {
         membersOfGroup.add(user);
-        if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size()) {
-            //All members have been added to the membersOfGroup list, now containing their emails
-            populateFields(groupToDisplay.getGroupDescription(),
-                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
-            //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
-            populateFields(groupToDisplay.getRouteLatArray()[0] + "",
-                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
-            populateList();
-            createAppropriateButtons();
-        }
     }
 
     public void updateUi() {
