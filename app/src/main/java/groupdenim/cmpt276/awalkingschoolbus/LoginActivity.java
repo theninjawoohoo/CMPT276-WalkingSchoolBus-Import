@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
     private WebService proxy;
     private String TOKEN;
     private static final String LOGIN = "";
-
+    private boolean hasLoggedIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
+        hasLoggedIn = false;
         proxy = ProxyBuilder.getProxy(getString(R.string.api_key), null);
         setupRegisterButton();
         setupLoginButton();
@@ -99,9 +100,8 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
+
     private void attemptLogin() {
-
-
         // Reset errors.
         emailView.setError(null);
         passwordView_et.setError(null);
@@ -150,17 +150,17 @@ public class LoginActivity extends AppCompatActivity {
         Call<Void> caller = proxy.getLogin(userServer);
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
         ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email, password));
-        //resetscreen();
-        Intent intent =new Intent(this,LoginActivity.class);
-        startActivity(intent);
+        resetscreen();
     }
 
     private void resetscreen() {
-        showProgress(false);
-        return;
+        if(!hasLoggedIn) {
+            showProgress(false);
+        }
     }
 
     private void response(Void nothing, String email, String password) {
+        hasLoggedIn = true;
         Log.i("HEADERRESPONSE", "response: " );
         showProgress(false);
         //start new activity

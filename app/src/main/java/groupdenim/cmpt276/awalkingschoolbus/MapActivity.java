@@ -129,7 +129,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     //This is an object that helps the user obtain a location
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -142,8 +141,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         displayInfoCurrentLocation = (ImageView) findViewById(R.id.ic_info);
         displayNearbyLocation = (ImageView) findViewById(R.id.ic_nearby);
         addNewMeetingSpot = (ImageView) findViewById(R.id.ic_addMeetingSpot);
-
-
 
     }
 

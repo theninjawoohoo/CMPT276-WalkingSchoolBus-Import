@@ -66,12 +66,15 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+
     private void logout() {
         SharedPreferences sharedPrefs = getSharedPreferences(LOGIN, 0);
         SharedPreferences.Editor editor = sharedPrefs.edit();
         editor.putString("email","");
         editor.putString("password","");
         editor.commit();
+        finish();
+
     }
 
 

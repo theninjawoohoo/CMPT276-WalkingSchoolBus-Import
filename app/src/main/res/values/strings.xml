@@ -45,4 +45,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="hitting_back_button_on_phone_will_go_to_main_menu">Hitting back button on phone will go to main menu.</string>
+    <string name="search_the_group_by_description">Search the group by description</string>
+    <string name="search_for_a_description">Search for a description</string>
 </resources>
