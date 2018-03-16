@@ -17,7 +17,7 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 public class AddSomeoneToMonitorActivity extends AppCompatActivity {
-
+    //Test for tag
     CurrentUserSingleton currentUser;
 
     @Override
