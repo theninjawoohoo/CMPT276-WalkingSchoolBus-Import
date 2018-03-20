@@ -108,8 +108,7 @@ public class MonitoredByActivity extends AppCompatActivity {
     public void goBackButton(Button goBack)
     {
         goBack.setOnClickListener(view -> {
-            Intent intent=new Intent(MonitoredByActivity.this,MonitorActivity.class);
-            startActivity(intent);
+            finish();
         });
     }
 

@@ -35,23 +35,16 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
 
                 ProxyBuilder.SimpleCallback<User> callbackUser= user -> setFieldsUserToMonitorBySomeoneElse(user);
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
-
-
-                //only implemented after checkEmailValidity works
-
-                Intent intent=new Intent(AddSomeoneToMonitorYouActivity.this,MonitorActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
 
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(AddSomeoneToMonitorYouActivity.this,MonitorActivity.class);
-                startActivity(intent);
+                finish();
             }
         });
-
     }
 
     private void setFieldsUserToMonitorBySomeoneElse(User user) {
@@ -63,14 +56,9 @@ public class AddSomeoneToMonitorYouActivity extends AppCompatActivity {
 
     public void setUserList(List<User> userList)
     {
-        Intent intent = new Intent(AddSomeoneToMonitorYouActivity.this, MonitorActivity.class);
-        startActivity(intent);
         finish();
         Log.i("CheckList",""+userList);
     }
-
-
-
 
 
 }

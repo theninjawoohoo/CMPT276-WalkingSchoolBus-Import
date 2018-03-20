@@ -140,7 +140,6 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorActivity.class);
                 startActivity(intent);
-                finish();
             }
         });
 
@@ -153,11 +152,10 @@ public class MonitorActivity extends AppCompatActivity {
             }
         });
 
+        //go back
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(MonitorActivity.this,MainMenuActivity.class);
-                startActivity(intent);
                 finish();
             }
         });
