@@ -36,6 +36,7 @@ import retrofit2.http.Header;
  */
 
 public class ProxyBuilder {
+    private static final String FAIL_STATUS = "FAIL";
     // Select a server (top one is production one; others are for testing)
     private static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:8443/";
 //    private static final String SERVER_URL = "https://cmpt276-1177-bf.cmpt.sfu.ca:9443/";
@@ -159,7 +160,7 @@ public class ProxyBuilder {
             private void showFailure(String message) {
                 Log.e("ProxyBuilder", message);
                 if (context != null) {
-                    Intent intent = new Intent("FAIL");
+                    Intent intent = new Intent(FAIL_STATUS);
                     LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
                     manager.sendBroadcast(intent);
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
