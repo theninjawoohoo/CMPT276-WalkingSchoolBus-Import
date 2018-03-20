@@ -3,9 +3,12 @@ package groupdenim.cmpt276.awalkingschoolbus.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
@@ -150,13 +153,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendLoginRequest(String email, String password) {
+        setBroadCast();
         User userServer = new User();
         userServer.setEmail(email);
         userServer.setPassword(password);
         Call<Void> caller = proxy.getLogin(userServer);
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
         ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email, password));
-        resetscreen();
+        //resetscreen();
+        //disableScreen();
     }
 
     private void resetscreen() {
@@ -168,7 +173,6 @@ public class LoginActivity extends AppCompatActivity {
     private void response(Void nothing, String email, String password) {
         hasLoggedIn = true;
         Log.i("HEADERRESPONSE", "response: " );
-        showProgress(false);
         //start new activity
         populateCurrentUser(email);
         saveLoginInfo(email,password);
@@ -192,6 +196,7 @@ public class LoginActivity extends AppCompatActivity {
         CurrentUserSingleton.setFields(user);
         Intent mainMenu = new Intent(LoginActivity.this, MainMenuActivity.class);
         startActivity(mainMenu);
+        showProgress(false);
         finish();
     }
 
@@ -248,6 +253,17 @@ public class LoginActivity extends AppCompatActivity {
         return password.length() >= 4;
     }
 
+    private BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            resetscreen();
+        }
+    };
+
+    private void setBroadCast() {
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .registerReceiver(mBroadCastReceiver, new IntentFilter("FAIL"));
+    }
 
 
 

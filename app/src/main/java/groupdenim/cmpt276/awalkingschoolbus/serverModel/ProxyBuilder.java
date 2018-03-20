@@ -2,6 +2,8 @@ package groupdenim.cmpt276.awalkingschoolbus.serverModel;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -157,6 +159,9 @@ public class ProxyBuilder {
             private void showFailure(String message) {
                 Log.e("ProxyBuilder", message);
                 if (context != null) {
+                    Intent intent = new Intent("FAIL");
+                    LocalBroadcastManager manager = LocalBroadcastManager.getInstance(context);
+                    manager.sendBroadcast(intent);
                     Toast.makeText(context, message, Toast.LENGTH_LONG).show();
                 }
             }

@@ -44,7 +44,8 @@
             android:id="@+id/EditText_pass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="password" />
+            android:hint="password"
+            android:inputType="textPassword" />
 
         <Button
             android:id="@+id/button_register"
