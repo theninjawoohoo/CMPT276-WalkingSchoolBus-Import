@@ -29,11 +29,9 @@ import groupdenim.cmpt276.awalkingschoolbus.R;
 public class GroupInfoActivity extends AppCompatActivity {
     private long groupToDisplayId = 0;
     private Group groupToDisplay = new Group();
-    public static List<User> membersOfGroup2 = new ArrayList<>();
     private List<User> membersOfGroup = new ArrayList<>();
     private final float TEXT_SIZE = 24;
     private static final String PUT_EXTRA = "groupdenim.cmpt276.awalkingschoolbus - double";
-    public static boolean isFragmentChange = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,15 +97,13 @@ public class GroupInfoActivity extends AppCompatActivity {
     public void updateUi() {
         Log.i("UPDATE_UI", "fjkrwnfkj");
         clearUi();
-        if (isFragmentChange == true) {
-            membersOfGroup = membersOfGroup2;
-        }
+        updateGroupToDisplay();
         populateFields(groupToDisplay.getGroupDescription(),
                 R.id.linearLayout_GroupInfoActivity_GroupDescription);
         //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
         populateFields(groupToDisplay.getRouteLatArray()[0] + "",
                 R.id.linearLayout_GroupInfoActivity_Meeting);
-        populateListAgain();
+        populateList();
         createAppropriateButtons();
     }
 
@@ -145,15 +141,8 @@ public class GroupInfoActivity extends AppCompatActivity {
         list.setAdapter(adapter);
     }
 
-    private void populateListAgain(){
-        List<String> memberEmails = new ArrayList<>();
-        for (User user : membersOfGroup2) {
-            memberEmails.add(user.getEmail());
-        }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                R.layout.group_member, memberEmails);
-        ListView list = findViewById(R.id.list_members);
-        list.setAdapter(adapter);
+    private void updateGroupToDisplay() {
+        groupToDisplay.setMemberUsers(membersOfGroup);
     }
 
     private void createAppropriateButtons() {
@@ -166,7 +155,13 @@ public class GroupInfoActivity extends AppCompatActivity {
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(GroupInfoActivity.this);
 
         //Check if the current user is in the group or not
-        boolean isInGroup = userSingleton.getMemberOfGroups().contains(groupToDisplay);
+        boolean isInGroup = false;
+        for (Group group : userSingleton.getMemberOfGroups()) {
+            if (group.getId() == groupToDisplay.getId()) {
+                isInGroup = true;
+                break;
+            }
+        }
         if (isInGroup) {
             createLeaveButton(layout);
         } else {
@@ -284,6 +279,17 @@ public class GroupInfoActivity extends AppCompatActivity {
         layout.addView(buttonRemove);*/
     }
 
+    public void setMembersOfGroup(List<User> membersOfGroup) {
+        this.membersOfGroup = membersOfGroup;
+    }
+
+    public List<User> getMembersOfGroup() {
+        return this.membersOfGroup;
+    }
+
+    public Group getGroupToDisplay() {
+        return this.groupToDisplay;
+    }
 
     public static Intent makeIntent(Context context, long id) {
         Intent intent = new Intent(context, GroupInfoActivity.class);

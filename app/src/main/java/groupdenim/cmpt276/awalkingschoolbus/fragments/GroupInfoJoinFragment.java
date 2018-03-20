@@ -16,10 +16,10 @@ import java.util.List;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import groupdenim.cmpt276.awalkingschoolbus.activities.GroupInfoActivity;
-
-import static groupdenim.cmpt276.awalkingschoolbus.activities.GroupInfoActivity.membersOfGroup2;
 
 public class GroupInfoJoinFragment extends AppCompatDialogFragment {
     @Override
@@ -48,8 +48,9 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
             @Override
             public void onShow(DialogInterface dialogInterface) {
 
-                Button button = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setOnClickListener(new View.OnClickListener() {
+                Button buttonYes = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                Button buttonCancel = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_NEGATIVE);
+                buttonYes.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View view) {
@@ -57,54 +58,29 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
                                 getAddGroupResponse(returnedList, dialog);
                         ServerSingleton.getInstance().addNewMemberOfGroup(getActivity(), callback,
                                 groupId, userId);
+                        buttonYes.setEnabled(false);
+                        buttonCancel.setEnabled(false);
+                        dialog.setCanceledOnTouchOutside(false);
                     }
                 });
             }
         });
 
-/*
-        //Create button listener
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int which) {
-                switch (which) {
-                    case DialogInterface.BUTTON_POSITIVE:
-                        //Add user to group
-
-                        //uncomment after
-//                        UserSingleton userSingleton = UserSingleton.getInstance();
-//                        final String userEmail = userSingleton.getCurrentUserEmail();
-//                        GroupSingleton groupSingleton = GroupSingleton.getInstance();
-//                        Group group = groupSingleton.getGroup(groupName);
-//                        group.addMember(userEmail);
-//                        groupSingleton.setGroup(groupName, group);
-//
-//                        //Add group to user's group list
-//                        User user = userSingleton.getUserMap().get(userEmail);
-//                        user.addToGroup(groupName);
-
-                        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList -> getAddGroupResponse(returnedList, dialog);
-                        ServerSingleton.getInstance().addNewMemberOfGroup(getActivity(), callback,
-                                groupId, userId);
-
-
-                        break;
-
-                    case DialogInterface.BUTTON_NEGATIVE:
-                        //End
-                        break;
-                }
-            }
-        };*/
         return dialog;
     }
 
     public void getAddGroupResponse(List<User> members, AlertDialog dialog){
         Log.i("ADD_RESPONSE", "Got response from add member");
-        //Update activity UI
-        GroupInfoActivity.isFragmentChange = true;
+        //Update user singleton to join group
+        CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(getActivity());
+        List<Group> groupList = userSingleton.getMemberOfGroups();
+        Group group = ((GroupInfoActivity)getActivity()).getGroupToDisplay();
+        groupList.add(group);
+        userSingleton.setMemberOfGroups(groupList);
+        //Update the activity's member list
+        ((GroupInfoActivity)getActivity()).setMembersOfGroup(members);
+        //Update UI to show new data
         ((GroupInfoActivity)getActivity()).updateUi();
         dialog.dismiss();
-        membersOfGroup2 = members;
     }
 }
