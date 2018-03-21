@@ -140,6 +140,7 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
 
@@ -148,7 +149,6 @@ public class MonitorActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent=new Intent(MonitorActivity.this,AddSomeoneToMonitorYouActivity.class);
                 startActivity(intent);
-
             }
         });
 

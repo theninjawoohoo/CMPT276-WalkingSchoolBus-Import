@@ -50,6 +50,8 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(AddSomeoneToMonitorActivity.this, MonitorActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -65,7 +67,6 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
         ServerSingleton.getInstance().monitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
 
-
     }
 
     public void setUserList(List<User> userList)
@@ -73,17 +74,11 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
 
         Intent intent = new Intent(AddSomeoneToMonitorActivity.this, MonitorActivity.class);
         startActivity(intent);
+
+
         finish();
         Log.i("CheckList",""+userList);
 
     }
-
-
-
-
-
-//    private void getUserFromServer(User user, User userA) {
-//        userA = user;
-//    }
 
 }
