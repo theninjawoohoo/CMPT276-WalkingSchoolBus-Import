@@ -18,8 +18,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import groupdenim.cmpt276.awalkingschoolbus.fragments.DeleteMeetingGroupFragment;
-import groupdenim.cmpt276.awalkingschoolbus.mapModels.GroupMeetingDeletionSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
@@ -76,8 +74,8 @@ public class GroupMeetingActivity extends AppCompatActivity{
     private void populateListView() {
         List<String> aListOfDescriptions = new ArrayList<>();
 
-        for(Group aGroup : aListOfGroups) {
-            if(aGroup.getGroupDescription() != null){
+        for (Group aGroup : aListOfGroups) {
+            if (aGroup.getGroupDescription() != null) {
                 aListOfDescriptions.add(aGroup.getGroupDescription());
             }
         }
@@ -90,17 +88,17 @@ public class GroupMeetingActivity extends AppCompatActivity{
 
         theSearchBox.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged (CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged (CharSequence charSequence, int i, int i1, int i2) {
                 adapter.getFilter().filter(charSequence);
             }
 
             @Override
-            public void afterTextChanged(Editable editable) {
+            public void afterTextChanged (Editable editable) {
 
             }
         });
@@ -109,24 +107,6 @@ public class GroupMeetingActivity extends AppCompatActivity{
 
     private void registerListClickCallback() {
         listView = (ListView) findViewById(R.id.list_view_group);
-        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                long id = 0;
-                TextView TextView = (TextView) view;
-                String description = TextView.getText().toString();
-                GroupMeetingDeletionSingleton deletion = GroupMeetingDeletionSingleton.getInstance();
-                deletion.setDescription(description);
-                for(Group aGroup : aListOfGroups) {
-                    if(aGroup.getGroupDescription().equals(description)) {
-                        id = aGroup.getId();
-                        break;
-                    }
-                }
-                openDialog();
-                return true;
-            }
-        });
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -147,13 +127,6 @@ public class GroupMeetingActivity extends AppCompatActivity{
         });
 
     }
-
-    //Opens a dialog box
-    public void openDialog() {
-        DeleteMeetingGroupFragment dialog = new DeleteMeetingGroupFragment();
-        dialog.show(getSupportFragmentManager(), "DELETE");
-    }
-
 
     //Hides the keyboard upon searching/tapping.
     private void hideSoftKeyboard() {
