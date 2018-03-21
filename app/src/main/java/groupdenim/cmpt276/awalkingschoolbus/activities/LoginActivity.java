@@ -3,9 +3,12 @@ package groupdenim.cmpt276.awalkingschoolbus.activities;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
 import android.os.Build;
@@ -34,9 +37,6 @@ import retrofit2.Call;
  */
 public class LoginActivity extends AppCompatActivity {
 
-
-
-
     // UI references.
     private AutoCompleteTextView emailView;
     private EditText passwordView_et;
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     private WebService proxy;
     private String TOKEN;
     private static final String LOGIN = "";
-    private boolean hasLoggedIn;
+    private final String FAIL_STATUS = "FAIL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +64,6 @@ public class LoginActivity extends AppCompatActivity {
                 return false;
             }
         });
-        hasLoggedIn = false;
         proxy = ProxyBuilder.getProxy(getString(R.string.api_key), null);
         setupRegisterButton();
         setupLoginButton();
@@ -150,25 +149,20 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void sendLoginRequest(String email, String password) {
+        setBroadCastForFailure();
         User userServer = new User();
         userServer.setEmail(email);
         userServer.setPassword(password);
         Call<Void> caller = proxy.getLogin(userServer);
         ProxyBuilder.setOnTokenReceiveCallback(token -> response(token));
         ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing, email, password));
-        resetscreen();
     }
 
-    private void resetscreen() {
-        if(!hasLoggedIn) {
-            showProgress(false);
-        }
+    private void resetScreen() {
+        showProgress(false);
     }
 
     private void response(Void nothing, String email, String password) {
-        hasLoggedIn = true;
-        Log.i("HEADERRESPONSE", "response: " );
-        showProgress(false);
         //start new activity
         populateCurrentUser(email);
         saveLoginInfo(email,password);
@@ -187,18 +181,19 @@ public class LoginActivity extends AppCompatActivity {
         ProxyBuilder.SimpleCallback<User> callback = user -> getuser(user);
         ServerSingleton.getInstance().getUserByEmail(context,callback, email);
     }
+
     private void getuser(User user) {
         Log.i("a", "getuser: " + user);
         CurrentUserSingleton.setFields(user);
         Intent mainMenu = new Intent(LoginActivity.this, MainMenuActivity.class);
         startActivity(mainMenu);
+        showProgress(false);
         finish();
     }
 
     private void response(String token) {
         TOKEN = token;
         ServerSingleton.getInstance().setToken(token);
-        Log.i("DIDWEGETTOKEN", "response: " + token);
     }
 
 
@@ -248,6 +243,17 @@ public class LoginActivity extends AppCompatActivity {
         return password.length() >= 4;
     }
 
+    private BroadcastReceiver mBroadCastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            resetScreen();
+        }
+    };
+
+    private void setBroadCastForFailure() {
+        LocalBroadcastManager.getInstance(getApplicationContext())
+                .registerReceiver(mBroadCastReceiver, new IntentFilter(FAIL_STATUS));
+    }
 
 
 
