@@ -18,23 +18,20 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
-import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
-import groupdenim.cmpt276.awalkingschoolbus.activities.GroupInfoActivity;
 
-public class GroupInfoJoinFragment extends AppCompatDialogFragment {
+public class GroupInfoDeleteFragment extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final String groupName = getArguments().getString("groupName");
         final long groupId = getArguments().getLong("groupId");
-        final long userId = getArguments().getLong("userId");
 
         //Create view
         View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_group_info_join, null);
+                .inflate(R.layout.fragment_group_info_delete, null);
 
         //Set display message
-        TextView textView = v.findViewById(R.id.textView_GroupInfoJoinFragment);
-        String message = "Are you sure you want to join the group " + groupName + "?";
+        TextView textView = v.findViewById(R.id.textView_GroupInfoDeleteFragment);
+        String message = "Are you sure you want to delete the group " + groupName + "?";
         textView.setText(message);
 
         //Build dialog
@@ -54,10 +51,10 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
 
                     @Override
                     public void onClick(View view) {
-                        ProxyBuilder.SimpleCallback<List<User>> callback = returnedList ->
-                                getAddGroupResponse(returnedList, dialog);
-                        ServerSingleton.getInstance().addNewMemberOfGroup(getActivity(), callback,
-                                groupId, userId);
+                        ProxyBuilder.SimpleCallback<Void> callback = returnedList ->
+                                getDeleteGroupResponse();
+                        ServerSingleton.getInstance().deleteGroup(getActivity(), callback,
+                                groupId);
                         buttonYes.setEnabled(false);
                         buttonCancel.setEnabled(false);
                         dialog.setCanceledOnTouchOutside(false);
@@ -69,18 +66,21 @@ public class GroupInfoJoinFragment extends AppCompatDialogFragment {
         return dialog;
     }
 
-    public void getAddGroupResponse(List<User> members, AlertDialog dialog){
-        Log.i("ADD_RESPONSE", "Got response from add member");
-        //Update user singleton to join group
+    public void getDeleteGroupResponse(){
+        Log.i("DELETE_RESPONSE", "Got response from delete group");
+        //Update user singleton to no longer lead this group
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(getActivity());
-        List<Group> groupList = userSingleton.getMemberOfGroups();
-        Group group = ((GroupInfoActivity)getActivity()).getGroupToDisplay();
-        groupList.add(group);
-        userSingleton.setMemberOfGroups(groupList);
-        //Update the activity's member list
-        ((GroupInfoActivity)getActivity()).setMembersOfGroup(members);
-        //Update UI to show new data
-        ((GroupInfoActivity)getActivity()).updateUi();
-        dialog.dismiss();
+        List<Group> groupList = userSingleton.getLeadsGroups();
+        final long groupId = getArguments().getLong("groupId");
+        Group groupToDelete = new Group();
+        for (Group group : groupList) {
+            if (group.getId() == groupId) {
+                groupToDelete = group;
+            }
+        }
+        groupList.remove(groupToDelete);
+        userSingleton.setLeadsGroups(groupList);
+
+        getActivity().finish();
     }
 }
