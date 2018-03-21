@@ -18,6 +18,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.fragments.DeleteMeetingGroupFragment;
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.GroupMeetingDeletionSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
@@ -107,11 +109,29 @@ public class GroupMeetingActivity extends AppCompatActivity{
 
     private void registerListClickCallback() {
         listView = (ListView) findViewById(R.id.list_view_group);
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                long id = 0;
+                TextView TextView = (TextView) view;
+                String description = TextView.getText().toString();
+                GroupMeetingDeletionSingleton deletion = GroupMeetingDeletionSingleton.getInstance();
+                deletion.setDescription(description);
+                for(Group aGroup : aListOfGroups) {
+                    if(aGroup.getGroupDescription().equals(description)) {
+                        id = aGroup.getId();
+                        break;
+                    }
+                }
+                openDialog();
+                return true;
+            }
+        });
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 long id = 0;
-                String address;
                 TextView TextView = (TextView) view;
                 String description = TextView.getText().toString();
                 for(Group aGroup : aListOfGroups) {
@@ -125,7 +145,15 @@ public class GroupMeetingActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+
     }
+
+    //Opens a dialog box
+    public void openDialog() {
+        DeleteMeetingGroupFragment dialog = new DeleteMeetingGroupFragment();
+        dialog.show(getSupportFragmentManager(), "DELETE");
+    }
+
 
     //Hides the keyboard upon searching/tapping.
     private void hideSoftKeyboard() {

@@ -81,6 +81,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    //Initialization for map
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //Logging debug message...
@@ -105,6 +106,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
+    //Tags and const strings
     private static final String TAG = "MapActivty";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -234,6 +236,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         //This widget creates a new meeting spot at this location.
+        //It is very messy and complicated. It has several layers of nested due to permission
+        //calls and there is no way to avoid it :(
         addNewMeetingSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -294,8 +298,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        Button helpUser = (Button) findViewById(R.id.btn_helpUser);
-        Button switchToGroupView = (Button) findViewById(R.id.btn_group_view_switch);
+        Button helpUser = findViewById(R.id.btn_helpUser);
+        Button switchToGroupView = findViewById(R.id.btn_group_view_switch);
 
         //This opens our group list.
         switchToGroupView.setOnClickListener(new View.OnClickListener() {
@@ -315,6 +319,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        //Populate the map with meeting spots.
         populateMapWithMarkers();
 
         //Then hide the keyboard
@@ -628,9 +633,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 catch (IOException e) {
                     Log.e(TAG, "populateMapWithMarkers: geoLocation failure.");
                 }
-
             }
         }
     }
-
 }
