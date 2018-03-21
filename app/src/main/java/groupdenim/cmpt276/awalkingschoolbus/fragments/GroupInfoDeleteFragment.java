@@ -11,32 +11,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import groupdenim.cmpt276.awalkingschoolbus.activities.GroupInfoActivity;
 
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
-import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
-public class GroupInfoLeaveFragment extends AppCompatDialogFragment {
+public class GroupInfoDeleteFragment extends AppCompatDialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         final String groupName = getArguments().getString("groupName");
         final long groupId = getArguments().getLong("groupId");
-        final long userId = getArguments().getLong("userId");
 
         //Create view
         View v = LayoutInflater.from(getActivity())
-                .inflate(R.layout.fragment_group_info_leave, null);
+                .inflate(R.layout.fragment_group_info_delete, null);
 
         //Set display message
-        TextView textView = v.findViewById(R.id.textView_GroupInfoLeaveFragment);
-        String message = "Are you sure you want to leave the group " + groupName + "?";
+        TextView textView = v.findViewById(R.id.textView_GroupInfoDeleteFragment);
+        String message = "Are you sure you want to delete the group " + groupName + "?";
         textView.setText(message);
 
         //Build dialog
@@ -57,9 +52,9 @@ public class GroupInfoLeaveFragment extends AppCompatDialogFragment {
                     @Override
                     public void onClick(View view) {
                         ProxyBuilder.SimpleCallback<Void> callback = returnedList ->
-                                getRemoveGroupResponse(dialog);
-                        ServerSingleton.getInstance().removeMemberFromGroup(getActivity(), callback,
-                                groupId, userId);
+                                getDeleteGroupResponse();
+                        ServerSingleton.getInstance().deleteGroup(getActivity(), callback,
+                                groupId);
                         buttonYes.setEnabled(false);
                         buttonCancel.setEnabled(false);
                         dialog.setCanceledOnTouchOutside(false);
@@ -71,34 +66,21 @@ public class GroupInfoLeaveFragment extends AppCompatDialogFragment {
         return dialog;
     }
 
-    public void getRemoveGroupResponse(AlertDialog dialog){
-        Log.i("REMOVE_RESPONSE", "Got response from remove member");
-        //Update user singleton to leave group
+    public void getDeleteGroupResponse(){
+        Log.i("DELETE_RESPONSE", "Got response from delete group");
+        //Update user singleton to no longer lead this group
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(getActivity());
-        List<Group> groupList = userSingleton.getMemberOfGroups();
+        List<Group> groupList = userSingleton.getLeadsGroups();
         final long groupId = getArguments().getLong("groupId");
-
-        List<Group> membersToRemove = new ArrayList<>();
+        Group groupToDelete = new Group();
         for (Group group : groupList) {
             if (group.getId() == groupId) {
-                membersToRemove.add(group);
+                groupToDelete = group;
             }
         }
-        groupList.removeAll(membersToRemove);
+        groupList.remove(groupToDelete);
+        userSingleton.setLeadsGroups(groupList);
 
-        userSingleton.setMemberOfGroups(groupList);
-        //Update the activity's member list
-        List<User> members = ((GroupInfoActivity)getActivity()).getMembersOfGroup();
-        User userToRemove = new User();
-        for (User user : members) {
-            if (user.getId().equals(userSingleton.getId())) {
-                userToRemove = user;
-            }
-        }
-        members.remove(userToRemove);
-        ((GroupInfoActivity)getActivity()).setMembersOfGroup(members);
-        //Update UI to show new data
-        ((GroupInfoActivity)getActivity()).updateUi();
-        dialog.dismiss();
+        getActivity().finish();
     }
 }

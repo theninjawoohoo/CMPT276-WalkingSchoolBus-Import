@@ -17,8 +17,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoAddFragment;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoDeleteFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoJoinFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoLeaveFragment;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoRemoveFragment;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
@@ -30,6 +33,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     private long groupToDisplayId = 0;
     private Group groupToDisplay = new Group();
     private List<User> membersOfGroup = new ArrayList<>();
+    private User groupLeader;
     private final float TEXT_SIZE = 24;
     private static final String PUT_EXTRA = "groupdenim.cmpt276.awalkingschoolbus - double";
 
@@ -55,6 +59,15 @@ public class GroupInfoActivity extends AppCompatActivity {
     private void getGroupResponse(Group group){
         groupToDisplay = group;
 
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser ->
+                getGroupLeaderResponse(returnedUser);
+        ServerSingleton.getInstance().getUserById(this, callback, group.getLeader().getId());
+    }
+
+    private void getGroupLeaderResponse(User user) {
+        groupToDisplay.setLeader(user);
+        groupLeader = user;
+
         getUsersInGroupFromServer();
     }
 
@@ -69,6 +82,8 @@ public class GroupInfoActivity extends AppCompatActivity {
                 //All members have been added to the membersOfGroup list, now containing their emails
                 populateFields(groupToDisplay.getGroupDescription(),
                         R.id.linearLayout_GroupInfoActivity_GroupDescription);
+            populateFields(groupToDisplay.getLeader().getEmail(),
+                    R.id.linearLayout_GroupInfoActivity_GroupLeader);
                 //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
                 populateFields(groupToDisplay.getRouteLatArray()[0] + "",
                         R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
@@ -86,6 +101,8 @@ public class GroupInfoActivity extends AppCompatActivity {
             //All members have been added to the membersOfGroup list, now containing their emails
             populateFields(groupToDisplay.getGroupDescription(),
                     R.id.linearLayout_GroupInfoActivity_GroupDescription);
+            populateFields(groupToDisplay.getLeader().getEmail(),
+                    R.id.linearLayout_GroupInfoActivity_GroupLeader);
             //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
             populateFields(groupToDisplay.getRouteLatArray()[0] + "",
                     R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
@@ -100,6 +117,8 @@ public class GroupInfoActivity extends AppCompatActivity {
         updateGroupToDisplay();
         populateFields(groupToDisplay.getGroupDescription(),
                 R.id.linearLayout_GroupInfoActivity_GroupDescription);
+        populateFields(groupToDisplay.getLeader().getEmail(),
+                R.id.linearLayout_GroupInfoActivity_GroupLeader);
         //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
         populateFields(groupToDisplay.getRouteLatArray()[0] + "",
                 R.id.linearLayout_GroupInfoActivity_Meeting);
@@ -111,6 +130,8 @@ public class GroupInfoActivity extends AppCompatActivity {
         final int FIELD_INDEX = 1;
         LinearLayout layout;
         layout = findViewById(R.id.linearLayout_GroupInfoActivity_GroupDescription);
+        layout.removeViewAt(FIELD_INDEX);
+        layout = findViewById(R.id.linearLayout_GroupInfoActivity_GroupLeader);
         layout.removeViewAt(FIELD_INDEX);
        // layout = findViewById(R.id.linearLayout_GroupInfoActivity_Destination);
         //layout.removeViewAt(FIELD_INDEX);
@@ -154,18 +175,22 @@ public class GroupInfoActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.hlinearLayout_GroupInfoActivity_Buttons);
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(GroupInfoActivity.this);
 
-        //Check if the current user is in the group or not
-        boolean isInGroup = false;
-        for (Group group : userSingleton.getMemberOfGroups()) {
-            if (group.getId() == groupToDisplay.getId()) {
-                isInGroup = true;
-                break;
+        if (!groupLeader.getId().equals(userSingleton.getId())) {
+            //Check if the current user is in the group or not
+            boolean isInGroup = false;
+            for (Group group : userSingleton.getMemberOfGroups()) {
+                if (group.getId() == groupToDisplay.getId()) {
+                    isInGroup = true;
+                    break;
+                }
             }
-        }
-        if (isInGroup) {
-            createLeaveButton(layout);
+            if (isInGroup) {
+                createLeaveButton(layout);
+            } else {
+                createJoinButton(layout);
+            }
         } else {
-            createJoinButton(layout);
+            createDeleteButton(layout);
         }
 
         //Check if the user is monitoring anyone and create the appropriate buttons
@@ -174,14 +199,16 @@ public class GroupInfoActivity extends AppCompatActivity {
             //Get a list of the ids for comparing
             List<Long> monitorListId = new ArrayList<>();
             for (User user : monitoringList) {
-                monitorListId.add(user.getId());
+                if (!user.getId().equals(groupLeader.getId())) {
+                    monitorListId.add(user.getId());
+                }
             }
 
             //Check if the current user is monitoring a user who is not in the group
-            boolean hasChildrenNotInGroup = true;
+            boolean hasChildrenNotInGroup = false;
             for (Long monitoredId : monitorListId) {
-                if (memberIds.contains(monitoredId)) {
-                    hasChildrenNotInGroup = false;
+                if (!memberIds.contains(monitoredId)) {
+                    hasChildrenNotInGroup = true;
                 }
             }
             if (hasChildrenNotInGroup) {
@@ -199,6 +226,25 @@ public class GroupInfoActivity extends AppCompatActivity {
                 createRemoveButton(layout);
             }
         }
+    }
+
+    private void createDeleteButton(LinearLayout layout) {
+        Button button = new Button(this);
+        button.setText(R.string.delete);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("groupName", groupToDisplay.getGroupDescription());
+                bundle.putLong("groupId", groupToDisplay.getId());
+
+                FragmentManager manager = getSupportFragmentManager();
+                GroupInfoDeleteFragment dialog = new GroupInfoDeleteFragment();
+                dialog.setArguments(bundle);
+                dialog.show(manager, "MessageDialog");
+            }
+        });
+        layout.addView(button);
     }
 
     private void createLeaveButton(LinearLayout layout) {
@@ -244,13 +290,15 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void createAddButton(LinearLayout layout) {
-      /*  Button buttonAdd = new Button(this);
+        Button buttonAdd = new Button(this);
         buttonAdd.setText(R.string.add);
         buttonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("groupName", groupDescription);
+                bundle.putString("groupName", groupToDisplay.getGroupDescription());
+                bundle.putLong("groupId", groupToDisplay.getId());
+                bundle.putLong("leaderId", groupLeader.getId());
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoAddFragment dialog = new GroupInfoAddFragment();
@@ -258,17 +306,19 @@ public class GroupInfoActivity extends AppCompatActivity {
                 dialog.show(manager, "MessageDialog");
             }
         });
-        layout.addView(buttonAdd);*/
+        layout.addView(buttonAdd);
     }
 
     private void createRemoveButton(LinearLayout layout) {
-       /* Button buttonRemove = new Button(this);
+        Button buttonRemove = new Button(this);
         buttonRemove.setText(R.string.remove);
         buttonRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putString("groupName", groupDescription);
+                bundle.putString("groupName", groupToDisplay.getGroupDescription());
+                bundle.putLong("groupId", groupToDisplay.getId());
+                bundle.putLong("leaderId", groupLeader.getId());
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoRemoveFragment dialog = new GroupInfoRemoveFragment();
@@ -276,7 +326,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 dialog.show(manager, "MessageDialog");
             }
         });
-        layout.addView(buttonRemove);*/
+        layout.addView(buttonRemove);
     }
 
     public void setMembersOfGroup(List<User> membersOfGroup) {

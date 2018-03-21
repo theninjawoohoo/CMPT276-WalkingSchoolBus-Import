@@ -5,6 +5,7 @@
     <string name="description_colon">Description: </string>
     <string name="destination_colon">Destination: (next iteration)</string>
     <string name="meeting_colon">Meeting: </string>
+    <string name="leader_colon">Leader: </string>
     <string name="destination">Destination</string>
     <string name="meeting">Meeting</string>
     <string name="group_name">GroupName</string>
@@ -54,4 +55,8 @@
     <string name="add_someone_to_monitor_you">Add someone to monitor you</string>
     <string name="see_who_s_monitoring_you">See who\'s monitoring you</string>
     <string name="go_back">Go Back</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete">Delete</string>
 </resources>
