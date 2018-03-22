@@ -21,6 +21,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
@@ -30,7 +31,7 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    private Context contexta;
+    private static Context contexta;
     private String TOKEN;
     //Some const ints
     private User currentUser = new User();
