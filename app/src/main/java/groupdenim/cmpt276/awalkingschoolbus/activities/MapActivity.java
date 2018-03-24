@@ -151,6 +151,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    //When we go back to the map view...
+    //Reupdate all the markers on the google maps.
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Gmap.clear();
+        populateMapWithMarkers();
+
+    }
+
     private void initializeMap() {
         //Logging debug message...
         Log.d(TAG,"initializeMap(): Map is being initialized...");
@@ -170,9 +180,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         theSearchBox.setOnItemClickListener(mAutoCompleteClickListener);
 
+        //AutoComplete Box.
         mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
                 LAT_LNG_BOUNDS, null);
 
+        //Sets an autocomplete adapter for the search box.
         theSearchBox.setAdapter(mPlaceAutocompleteAdapter);
 
         theSearchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -298,6 +310,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        //Initialize the buttons. For some reason they won't work with the global variables.
         Button helpUser = findViewById(R.id.btn_helpUser);
         Button switchToGroupView = findViewById(R.id.btn_group_view_switch);
 
@@ -311,6 +324,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        //Shows the user how to use the map widgets
         helpUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -345,6 +359,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         String searchedLocation = theSearchBox.getText().toString();
         Toast.makeText(MapActivity.this, searchedLocation , Toast.LENGTH_SHORT).show();
+
         //Once the input is placed in the search box, we have to obtain a list of addresses
         Geocoder geocoder = new Geocoder(MapActivity.this);
         List<Address> listOfAddresses = new ArrayList<>();
@@ -598,44 +613,50 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     };
 
+
+    //When the map initializes populate the map with markers. Data is retrieved form the server
     void populateMapWithMarkers() {
+
+        //Get the singleton that has the map marker data
         MapSingleton mapSingleton = MapSingleton.getInstance();
         List<placeObject> listOfMeetings = mapSingleton.getList();
+
+        //Check every place
         for (placeObject someObject: listOfMeetings) {
                 if (someObject.getLatlng() != null) {
-                LatLng coordinates = someObject.getLatlng();
-                double latitude = coordinates.latitude;
-                double longitude = coordinates.longitude;
-                Geocoder geocoder;
-                List<Address> addresses;
-                geocoder = new Geocoder(this, Locale.getDefault());
+                    LatLng coordinates = someObject.getLatlng();
+                    double latitude = coordinates.latitude;
+                    double longitude = coordinates.longitude;
+                    Geocoder geocoder;
+                    List<Address> addresses;
+                    geocoder = new Geocoder(this, Locale.getDefault());
 
-                //We must reverse engineer the coordinates and get the location and populate the
-                //Marker with info
-                try{
-                    addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                    String knownName;
-                    String markerInfo;
-                    if (addresses.size() == 0) {
-                        knownName = "Meeting Place not set";
-                        markerInfo = "Address: The North Pole";
+                    //We must reverse engineer the coordinates and get the location and populate the
+                    //Marker with info
+                    try{
+                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                        String knownName;
+                        String markerInfo;
+                        if (addresses.size() == 0) {
+                            knownName = "Meeting Place not set";
+                            markerInfo = "Address: The North Pole";
+                        }
+                        else {
+                            knownName= addresses.get(0).getFeatureName();
+                            markerInfo= "Address: " + addresses.get(0).getAddressLine(0) + "\n";
+                        }
+
+                        MarkerOptions options = new MarkerOptions()
+                                .position(coordinates)
+                                .title(knownName)
+                                .snippet(markerInfo);
+
+                        mMarker = Gmap.addMarker(options);
+
                     }
-                    else {
-                        knownName= addresses.get(0).getFeatureName();
-                        markerInfo= "Address: " + addresses.get(0).getAddressLine(0) + "\n";
+                    catch (IOException e) {
+                        Log.e(TAG, "populateMapWithMarkers: geoLocation failure.");
                     }
-
-                    MarkerOptions options = new MarkerOptions()
-                            .position(coordinates)
-                            .title(knownName)
-                            .snippet(markerInfo);
-
-                    mMarker = Gmap.addMarker(options);
-
-                }
-                catch (IOException e) {
-                    Log.e(TAG, "populateMapWithMarkers: geoLocation failure.");
-                }
             }
         }
     }
