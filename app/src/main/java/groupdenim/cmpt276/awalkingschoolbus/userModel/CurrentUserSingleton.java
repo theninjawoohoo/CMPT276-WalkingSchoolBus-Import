@@ -21,12 +21,20 @@ public class CurrentUserSingleton {
     private String name;
     private String email;
     private String password;
+    private String birthYear;
+    private int birthMonth;
+    private String address;
+    private String cellPhone;
+    private String homePhone;
+    private String grade;
+    private String teacherName;
+    private String emergencyContactInfo;
+    private GPSLocation lastGpsLocation;
+    private List<Message> unreadMessages;
+    private List<Message> readMessages;
     private List<Group> leadsGroups = new ArrayList<>();
-
     private List<Group> memberOfGroups = new ArrayList<>();
-
     private List<User> monitoredByUsers = new ArrayList<>();
-
     private List<User> monitorsUsers = new ArrayList<>();
 
     private static final CurrentUserSingleton instance = new CurrentUserSingleton();
@@ -60,7 +68,105 @@ public class CurrentUserSingleton {
         instance.setMemberOfGroups(user.getMemberOfGroups());
         instance.setMonitorsUsers(user.getMonitorsUsers());
         instance.setMonitoredByUsers(user.getMonitoredByUsers());
-        Log.i("a", "setFields: aaaa");
+        instance.setBirthYear(user.getBirthYear());
+        instance.setBirthMonth(user.getBirthMonth());
+        instance.setAddress(user.getAddress());
+        instance.setCellPhone(user.getCellPhone());
+        instance.setHomePhone(user.getHomePhone());
+        instance.setGrade(user.getGrade());
+        instance.setTeacherName(user.getTeacherName());
+        instance.setEmergencyContactInfo(user.getEmergencyContactInfo());
+        instance.setLastGpsLocation(user.getLastGpsLocation());
+        instance.setUnreadMessages(user.getUnreadMessages());
+        instance.setReadMessages(user.getReadMessages());
+    }
+
+    public String getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(String birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public int getBirthMonth() {
+        return birthMonth;
+    }
+
+    public void setBirthMonth(int birthMonth) {
+        this.birthMonth = birthMonth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getEmergencyContactInfo() {
+        return emergencyContactInfo;
+    }
+
+    public void setEmergencyContactInfo(String emergencyContactInfo) {
+        this.emergencyContactInfo = emergencyContactInfo;
+    }
+
+    public GPSLocation getLastGpsLocation() {
+        return lastGpsLocation;
+    }
+
+    public void setLastGpsLocation(GPSLocation lastGpsLocation) {
+        this.lastGpsLocation = lastGpsLocation;
+    }
+
+    public List<Message> getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public void setUnreadMessages(List<Message> unreadMessages) {
+        this.unreadMessages = unreadMessages;
+    }
+
+    public List<Message> getReadMessages() {
+        return readMessages;
+    }
+
+    public void setReadMessages(List<Message> readMessages) {
+        this.readMessages = readMessages;
     }
 
     public void setMemberOfGroups(List<Group> memberOfGroups) {

@@ -7,23 +7,64 @@ import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
+
     private long id;
     private String name;
     private String email;
     private String password;
-
+    private String birthYear;
+    private int birthMonth;
+    private String address;
+    private String cellPhone;
+    private String homePhone;
+    private String grade;
+    private String teacherName;
+    private String emergencyContactInfo;
+    private GPSLocation lastGpsLocation;
     private List<Group> leadsGroups = new ArrayList<>();
-
     private List<Group> memberOfGroups = new ArrayList<>();
-
     private List<User> monitoredByUsers = new ArrayList<>();
-
     private List<User> monitorsUsers = new ArrayList<>();
-
     private String href;
-    public User(String name,String email) {
+    private List<Message> unreadMessages;
+    private List<Message> readMessages;
+
+    public User() {
+
+    }
+    public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.monitoredByUsers = monitoredByUsers;
+        this.monitorsUsers = monitorsUsers;
+    }
+
+    public User(long id, String href) {
+        this.id = id;
+        this.href = href;
+    }
+
+    public User(String name, String email) {
         this.name=name;
         this.email=email;
+    }
+
+    public List<Message> getUnreadMessages() {
+        return unreadMessages;
+    }
+
+    public void setUnreadMessages(List<Message> unreadMessages) {
+        this.unreadMessages = unreadMessages;
+    }
+
+    public List<Message> getReadMessages() {
+        return readMessages;
+    }
+
+    public void setReadMessages(List<Message> readMessages) {
+        this.readMessages = readMessages;
     }
 
     public List<Group> getLeadsGroups() {
@@ -38,20 +79,8 @@ public class User {
     public List<Group> getMemberOfGroups() {
         return memberOfGroups;
     }
-
     public void setMemberOfGroups(List<Group> memberOfGroups) {
         this.memberOfGroups = memberOfGroups;
-    }
-    public User() {
-
-    }
-    public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.monitoredByUsers = monitoredByUsers;
-        this.monitorsUsers = monitorsUsers;
     }
 
     public List<User> getMonitoredByUsers() {
@@ -75,6 +104,78 @@ public class User {
 //    }
 //
 //    public void setWalkingGroups(List<Void> walkingGroups) {
+
+    public String getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(String birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public int getBirthMonth() {
+        return birthMonth;
+    }
+
+    public void setBirthMonth(int birthMonth) {
+        this.birthMonth = birthMonth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getEmergencyContactInfo() {
+        return emergencyContactInfo;
+    }
+
+    public void setEmergencyContactInfo(String emergencyContactInfo) {
+        this.emergencyContactInfo = emergencyContactInfo;
+    }
+
+    public GPSLocation getLastGpsLocation() {
+        return lastGpsLocation;
+    }
+
+    public void setLastGpsLocation(GPSLocation lastGpsLocation) {
+        this.lastGpsLocation = lastGpsLocation;
+    }
 //        this.walkingGroups = walkingGroups;
 //    }
 
