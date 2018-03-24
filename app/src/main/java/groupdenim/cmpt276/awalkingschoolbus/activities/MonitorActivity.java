@@ -102,18 +102,14 @@ public class MonitorActivity extends AppCompatActivity {
                 ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
                         callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
 
-
-
                 break;
         }
-
         return super.onContextItemSelected(item);
     }
 
     public void temp(List<User> userList,int index)
     {
         Long id=userList.get(index).getId();
-
         ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
         ServerSingleton.getInstance().stopMonitoringUser(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
 
