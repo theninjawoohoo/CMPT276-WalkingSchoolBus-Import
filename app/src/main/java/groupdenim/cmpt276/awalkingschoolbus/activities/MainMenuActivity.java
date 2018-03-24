@@ -34,7 +34,6 @@ public class MainMenuActivity extends AppCompatActivity {
     private static Context contexta;
     private String TOKEN;
     //Some const ints
-    private User currentUser = new User();
     private static final String TAG = "MainActivity";
     private static final String LOGIN = "";
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -44,6 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
         initializeMonitor();
+        startEditInfoActivity();
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
@@ -114,6 +114,18 @@ public class MainMenuActivity extends AppCompatActivity {
                 ProxyBuilder.SimpleCallback<List<Group>> callback = groups -> groupListResponse(groups);
                 ServerSingleton.getInstance().getGroupList(MainMenuActivity.this, callback);
                 btnMap.setEnabled(false);
+            }
+        });
+    }
+
+    public void startEditInfoActivity()
+    {
+        Button button=findViewById(R.id.editInfo);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainMenuActivity.this,EditUserInfo.class);
+                startActivity(intent);
             }
         });
     }
