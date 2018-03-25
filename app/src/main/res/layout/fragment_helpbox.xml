@@ -16,81 +16,75 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/imageView3"
+            android:id="@+id/addLocPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
             android:layout_below="@+id/btn_okhelp"
-            android:layout_marginLeft="37dp"
-            android:layout_marginStart="37dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"
             app:srcCompat="@drawable/ic_addmeetingspot" />
 
         <ImageView
-            android:id="@+id/imageView4"
+            android:id="@+id/getCurrentLocationPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/imageView3"
-            android:layout_alignStart="@+id/imageView3"
-            android:layout_below="@+id/imageView5"
-            android:layout_marginTop="8dp"
+            android:layout_alignLeft="@+id/getInfoPic"
+            android:layout_alignStart="@+id/getInfoPic"
+            android:layout_below="@+id/getInfoPic"
             app:srcCompat="@drawable/ic_gps" />
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/getInfoPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/imageView4"
-            android:layout_alignStart="@+id/imageView4"
-            android:layout_centerVertical="true"
+            android:layout_alignLeft="@+id/getNearbyPlacesPic"
+            android:layout_alignStart="@+id/getNearbyPlacesPic"
+            android:layout_below="@+id/getNearbyPlacesPic"
             app:srcCompat="@drawable/ic_info" />
 
         <ImageView
-            android:id="@+id/imageView7"
+            android:id="@+id/getNearbyPlacesPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/imageView4"
-            android:layout_alignStart="@+id/imageView4"
-            android:layout_below="@+id/imageView4"
-            android:layout_marginTop="12dp"
+            android:layout_alignLeft="@+id/addLocPic"
+            android:layout_alignStart="@+id/addLocPic"
+            android:layout_below="@+id/addLocPic"
             app:srcCompat="@drawable/ic_nearby" />
 
         <TextView
             android:id="@+id/addLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/imageView3"
-            android:layout_marginLeft="22dp"
-            android:layout_marginStart="22dp"
-            android:layout_toEndOf="@+id/imageView3"
-            android:layout_toRightOf="@+id/imageView3"
+            android:layout_below="@+id/btn_okhelp"
+            android:layout_toEndOf="@+id/addLocPic"
+            android:layout_toRightOf="@+id/addLocPic"
             android:text="@string/add_location" />
 
         <TextView
             android:id="@+id/getNearbyPlaces"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/addLocation"
-            android:layout_alignStart="@+id/addLocation"
-            android:layout_alignTop="@+id/imageView5"
+            android:layout_below="@+id/addLocPic"
+            android:layout_toEndOf="@+id/getNearbyPlacesPic"
+            android:layout_toRightOf="@+id/getNearbyPlacesPic"
             android:text="@string/get_nearby" />
 
         <TextView
-            android:id="@+id/getInfo"
+            android:id="@+id/getCurrentLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/getNearbyPlaces"
-            android:layout_alignStart="@+id/getNearbyPlaces"
-            android:layout_alignTop="@+id/imageView4"
+            android:layout_below="@+id/getNearbyPlacesPic"
+            android:layout_toEndOf="@+id/getInfoPic"
+            android:layout_toRightOf="@+id/getInfoPic"
             android:text="@string/get_info" />
 
         <TextView
             android:id="@+id/getCurrentLoc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/getInfo"
-            android:layout_alignStart="@+id/getInfo"
-            android:layout_alignTop="@+id/imageView7"
+            android:layout_below="@+id/getInfoPic"
+            android:layout_toEndOf="@+id/getCurrentLocationPic"
+            android:layout_toRightOf="@+id/getCurrentLocationPic"
             android:text="@string/get_current_location" />
 
         <Button

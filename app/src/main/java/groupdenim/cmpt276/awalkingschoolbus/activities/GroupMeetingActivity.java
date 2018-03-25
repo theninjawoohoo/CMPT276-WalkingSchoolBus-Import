@@ -47,7 +47,7 @@ public class GroupMeetingActivity extends AppCompatActivity{
     @Override
     protected void onResume() {
         super.onResume();
-
+        initialize();
     }
 
     private void initialize() {

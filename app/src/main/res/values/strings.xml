@@ -3,7 +3,7 @@
     <string name="name_colon">Name: </string>
     <string name="members_colon">Members: </string>
     <string name="description_colon">Description: </string>
-    <string name="destination_colon">Destination: (next iteration)</string>
+    <string name="destination_colon">Destination:</string>
     <string name="meeting_colon">Meeting: </string>
     <string name="leader_colon">Leader: </string>
     <string name="destination">Destination</string>

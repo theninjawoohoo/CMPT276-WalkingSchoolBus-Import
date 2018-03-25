@@ -85,7 +85,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //Logging debug message...
-        Toast.makeText(this, "Loading up Map!", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady(): Google Map is ready to go.");
 
         //Create the map
@@ -148,16 +147,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         displayInfoCurrentLocation = (ImageView) findViewById(R.id.ic_info);
         displayNearbyLocation = (ImageView) findViewById(R.id.ic_nearby);
         addNewMeetingSpot = (ImageView) findViewById(R.id.ic_addMeetingSpot);
-
-    }
-
-    //When we go back to the map view...
-    //Reupdate all the markers on the google maps.
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Gmap.clear();
-        populateMapWithMarkers();
 
     }
 
