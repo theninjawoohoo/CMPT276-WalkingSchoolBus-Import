@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,7 @@ import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoDeleteFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoJoinFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoLeaveFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoRemoveFragment;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupMemberInfoFragment;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
@@ -71,7 +74,6 @@ public class GroupInfoActivity extends AppCompatActivity {
         getUsersInGroupFromServer();
     }
 
-    //TODO: Not sure if this will work. I am trying to make each user make a call and wait for each one to come back before moving on
     private void getUsersInGroupFromServer() {
         if (groupToDisplay.getMemberUsers().size() > 0) {
             for (User user : groupToDisplay.getMemberUsers()) {
@@ -82,7 +84,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 //All members have been added to the membersOfGroup list, now containing their emails
                 populateFields(groupToDisplay.getGroupDescription(),
                         R.id.linearLayout_GroupInfoActivity_GroupDescription);
-            populateFields(groupToDisplay.getLeader().getEmail(),
+                populateFields(groupToDisplay.getLeader().getEmail(),
                     R.id.linearLayout_GroupInfoActivity_GroupLeader);
                 //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
                 populateFields(groupToDisplay.getRouteLatArray()[0] + "",
@@ -160,6 +162,57 @@ public class GroupInfoActivity extends AppCompatActivity {
                 R.layout.group_member, memberEmails);
         ListView list = findViewById(R.id.list_members);
         list.setAdapter(adapter);
+        registerOnClickCallBack();
+    }
+
+    private void registerOnClickCallBack() {
+        ListView list = findViewById(R.id.list_members);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
+                TextView textView = (TextView) viewClicked;
+                CurrentUserSingleton currentUser =
+                        CurrentUserSingleton.getInstance(GroupInfoActivity.this);
+                boolean canView = false;
+                // Check if they are a leader
+                if (currentUser.getId().equals(groupToDisplay.getLeader().getId())) {
+                    canView = true;
+                }
+                for (User user : membersOfGroup) {
+                    // Check if they are a member of the group
+                    if (currentUser.getId().equals(user.getId())) {
+                        canView = true;
+                    }
+                    // Check if they monitor anyone in the group
+                    for (User child : currentUser.getMonitorsUsers()) {
+                        if (child.getId().equals(user.getId())) {
+                            canView = true;
+                        }
+                    }
+                }
+                if (canView) {
+                    // Get the id of the clicked user
+                    long memberId = 0;
+                    for (User member : membersOfGroup) {
+                        if (member.getEmail() == textView.getText()) {
+                            memberId = member.getId();
+                            break;
+                        }
+                    }
+
+                    Bundle bundle = new Bundle();
+                    bundle.putLong("memberId", memberId);
+
+                    FragmentManager manager = getSupportFragmentManager();
+                    GroupMemberInfoFragment dialog = new GroupMemberInfoFragment();
+                    dialog.setArguments(bundle);
+                    dialog.show(manager, "MessageDialog");
+                }  else {
+                    Toast.makeText(GroupInfoActivity.this, "You cannot view this user's info.",
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void updateGroupToDisplay() {

@@ -21,7 +21,7 @@ public class CurrentUserSingleton {
     private String name;
     private String email;
     private String password;
-    private String birthYear;
+    private int birthYear;
     private int birthMonth;
     private String address;
     private String cellPhone;
@@ -81,11 +81,11 @@ public class CurrentUserSingleton {
         instance.setReadMessages(user.getReadMessages());
     }
 
-    public String getBirthYear() {
+    public int getBirthYear() {
         return birthYear;
     }
 
-    public void setBirthYear(String birthYear) {
+    public void setBirthYear(int birthYear) {
         this.birthYear = birthYear;
     }
 
