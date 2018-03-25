@@ -48,7 +48,12 @@ public class MainMenuActivity extends AppCompatActivity {
             initializeMapButton();
         }
         initializeLogout();
+        test();
+    }
 
+    private void test() {
+        Intent intent = Messaging.makeIntent(this);
+        startActivity(intent);
     }
 
     @Override

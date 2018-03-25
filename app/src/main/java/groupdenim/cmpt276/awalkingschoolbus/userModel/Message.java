@@ -83,4 +83,15 @@ public class Message {
     public void setHref(String href) {
         this.href = href;
     }
+
+    @Override
+    public String toString() {
+        return "Id:" + id + ", "
+                + "TimeStamp: " + timestamp + ", "
+                + "Text: " + text + ", "
+                + "User: " + fromUser.toString() + ", "
+                + "Group: " + toGroup + ", "
+                + "Emergency: " + emergency + ", "
+                + "href: " + href;
+    }
 }

@@ -29,7 +29,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-
     //Google Play services
     implementation 'com.google.android.gms:play-services-maps:11.6.2'
     implementation "com.google.android.gms:play-services-location:11.6.2"
