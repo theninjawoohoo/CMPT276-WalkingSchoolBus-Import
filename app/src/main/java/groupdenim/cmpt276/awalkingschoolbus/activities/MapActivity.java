@@ -81,7 +81,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    //Initialization for map
     @Override
     public void onMapReady(GoogleMap googleMap) {
         //Logging debug message...
@@ -106,7 +105,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    //Tags and const strings
     private static final String TAG = "MapActivty";
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
@@ -151,16 +149,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    //When we go back to the map view...
-    //Reupdate all the markers on the google maps.
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Gmap.clear();
-        populateMapWithMarkers();
-
-    }
-
     private void initializeMap() {
         //Logging debug message...
         Log.d(TAG,"initializeMap(): Map is being initialized...");
@@ -180,11 +168,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         theSearchBox.setOnItemClickListener(mAutoCompleteClickListener);
 
-        //AutoComplete Box.
         mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
                 LAT_LNG_BOUNDS, null);
 
-        //Sets an autocomplete adapter for the search box.
         theSearchBox.setAdapter(mPlaceAutocompleteAdapter);
 
         theSearchBox.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -248,8 +234,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         //This widget creates a new meeting spot at this location.
-        //It is very messy and complicated. It has several layers of nested due to permission
-        //calls and there is no way to avoid it :(
         addNewMeetingSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -310,9 +294,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        //Initialize the buttons. For some reason they won't work with the global variables.
-        Button helpUser = findViewById(R.id.btn_helpUser);
-        Button switchToGroupView = findViewById(R.id.btn_group_view_switch);
+        Button helpUser = (Button) findViewById(R.id.btn_helpUser);
+        Button switchToGroupView = (Button) findViewById(R.id.btn_group_view_switch);
 
         //This opens our group list.
         switchToGroupView.setOnClickListener(new View.OnClickListener() {
@@ -324,7 +307,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        //Shows the user how to use the map widgets
         helpUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -333,7 +315,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        //Populate the map with meeting spots.
         populateMapWithMarkers();
 
         //Then hide the keyboard
@@ -359,7 +340,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         String searchedLocation = theSearchBox.getText().toString();
         Toast.makeText(MapActivity.this, searchedLocation , Toast.LENGTH_SHORT).show();
-
         //Once the input is placed in the search box, we have to obtain a list of addresses
         Geocoder geocoder = new Geocoder(MapActivity.this);
         List<Address> listOfAddresses = new ArrayList<>();
@@ -371,7 +351,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         //Now Go To The location
-        if (listOfAddresses.size() > 0) {
+        if(listOfAddresses.size() > 0) {
             Address address = listOfAddresses.get(0);
             Log.d(TAG, "geoLocate: I found the place. Heading over to" + address.toString());
             LatLng aLocation = new LatLng(address.getLatitude(), address.getLongitude());
@@ -383,15 +363,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void getLocationPermissions() {
         //Logging debug message...
         Log.d(TAG,"getLocationPermissions(): Obtaining permissions...");
-
         //Create a list of Permissions array
         String[] listOfPermissions = {Manifest.permission.ACCESS_COARSE_LOCATION,
                                       Manifest.permission.ACCESS_FINE_LOCATION};
 
         //Then we check if the device allows the usage of location
-        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
                 FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+            if(ContextCompat.checkSelfPermission(this.getApplicationContext(),
                     COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                     mLocationPermissionGranted = true;
                     initializeMap();
@@ -405,7 +384,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    //Permissions Check.
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         Log.d(TAG,"onRequestPermissionsResult() is called... ");
@@ -416,7 +395,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             //Prompts the user, Hey do I have permission to use location on your phone.
             case LOCATION_REQUEST_CODE: {
-                if (grantResults.length > 0) {
+                if(grantResults.length > 0) {
                     //For each grant check if any of the permissions have been denied.
                     for (int grantResult : grantResults) {
                         if (grantResult == PackageManager.PERMISSION_DENIED) {
@@ -425,7 +404,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             return;
                         }
                     }
-
                     //Some permission is granted
                     Log.d(TAG, "permission granted...");
                     mLocationPermissionGranted = true;
@@ -462,7 +440,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 });
             }
         }
-
         catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: securityException has been called.");
         }
@@ -496,8 +473,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         Gmap.setInfoWindowAdapter(new customWindow(MapActivity.this));
 
-        if (thePlace != null) {
-            try {
+        if(thePlace != null) {
+            try{
                 String markerInfo = "Address: " + thePlace.getAddress() + "\n";
 
                 MarkerOptions options = new MarkerOptions()
@@ -515,7 +492,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Log.e(TAG, "moveCamera: NullPointerException " + e.getMessage());
             }
         }
-        else {
+        else{
             Gmap.addMarker(new MarkerOptions().position(latlng));
         }
 
@@ -579,7 +556,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         public void onResult(@NonNull PlaceBuffer places) {
             //Release places in order to reduce memory leak
 
-            if (!places.getStatus().isSuccess()) {
+            if(!places.getStatus().isSuccess()) {
                 Log.d(TAG, "OnResult: Place query failed. " + places.getStatus().toString());
                 places.release();
                 return;
@@ -587,7 +564,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             final Place place = places.get(0);
 
             //Set up a place object to initialize our global place to..
-            try {
+            try{
                 mPlace = new placeObject();
                 mPlace.setName(place.getName().toString());
                 Log.d(TAG, "onResult: name: " + place.getName());
@@ -613,51 +590,47 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     };
 
-
-    //When the map initializes populate the map with markers. Data is retrieved form the server
     void populateMapWithMarkers() {
-
-        //Get the singleton that has the map marker data
         MapSingleton mapSingleton = MapSingleton.getInstance();
         List<placeObject> listOfMeetings = mapSingleton.getList();
+        for(placeObject someObject: listOfMeetings) {
+                if(someObject.getLatlng() != null) {
+                LatLng coordinates = someObject.getLatlng();
+                double latitude = coordinates.latitude;
+                double longitude = coordinates.longitude;
+                Geocoder geocoder;
+                List<Address> addresses;
+                geocoder = new Geocoder(this, Locale.getDefault());
 
-        //Check every place
-        for (placeObject someObject: listOfMeetings) {
-                if (someObject.getLatlng() != null) {
-                    LatLng coordinates = someObject.getLatlng();
-                    double latitude = coordinates.latitude;
-                    double longitude = coordinates.longitude;
-                    Geocoder geocoder;
-                    List<Address> addresses;
-                    geocoder = new Geocoder(this, Locale.getDefault());
-
-                    //We must reverse engineer the coordinates and get the location and populate the
-                    //Marker with info
-                    try{
-                        addresses = geocoder.getFromLocation(latitude, longitude, 1);
-                        String knownName;
-                        String markerInfo;
-                        if (addresses.size() == 0) {
-                            knownName = "Meeting Place not set";
-                            markerInfo = "Address: The North Pole";
-                        }
-                        else {
-                            knownName= addresses.get(0).getFeatureName();
-                            markerInfo= "Address: " + addresses.get(0).getAddressLine(0) + "\n";
-                        }
-
-                        MarkerOptions options = new MarkerOptions()
-                                .position(coordinates)
-                                .title(knownName)
-                                .snippet(markerInfo);
-
-                        mMarker = Gmap.addMarker(options);
-
+                //We must reverse engineer the coordinates and get the location and populate the
+                //Marker with info
+                try{
+                    addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    String knownName;
+                    String markerInfo;
+                    if(addresses.size() == 0) {
+                        knownName = "Meeting Place not set";
+                        markerInfo = "Address: The North Pole";
                     }
-                    catch (IOException e) {
-                        Log.e(TAG, "populateMapWithMarkers: geoLocation failure.");
+                    else {
+                        knownName= addresses.get(0).getFeatureName();
+                        markerInfo= "Address: " + addresses.get(0).getAddressLine(0) + "\n";
                     }
+
+                    MarkerOptions options = new MarkerOptions()
+                            .position(coordinates)
+                            .title(knownName)
+                            .snippet(markerInfo);
+
+                    mMarker = Gmap.addMarker(options);
+
+                }
+                catch (IOException e) {
+                    Log.e(TAG, "populateMapWithMarkers: geoLocation failure.");
+                }
+
             }
         }
     }
+
 }

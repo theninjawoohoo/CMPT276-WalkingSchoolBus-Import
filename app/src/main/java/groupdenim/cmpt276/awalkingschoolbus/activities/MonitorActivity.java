@@ -87,9 +87,9 @@ public class MonitorActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-    MenuInflater menuInflater=getMenuInflater();
+        MenuInflater menuInflater=getMenuInflater();
         menuInflater.inflate(R.menu.context_menu_file,menu);
-}
+    }
 
     @Override
     public boolean onContextItemSelected(MenuItem item) {

@@ -44,12 +44,6 @@ public class GroupMeetingActivity extends AppCompatActivity{
         initialize();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-    }
-
     private void initialize() {
         serverRetrieve();
 
@@ -80,8 +74,8 @@ public class GroupMeetingActivity extends AppCompatActivity{
     private void populateListView() {
         List<String> aListOfDescriptions = new ArrayList<>();
 
-        for (Group aGroup : aListOfGroups) {
-            if (aGroup.getGroupDescription() != null) {
+        for(Group aGroup : aListOfGroups) {
+            if(aGroup.getGroupDescription() != null){
                 aListOfDescriptions.add(aGroup.getGroupDescription());
             }
         }
@@ -94,17 +88,17 @@ public class GroupMeetingActivity extends AppCompatActivity{
 
         theSearchBox.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged (CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void onTextChanged (CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 adapter.getFilter().filter(charSequence);
             }
 
             @Override
-            public void afterTextChanged (Editable editable) {
+            public void afterTextChanged(Editable editable) {
 
             }
         });
@@ -113,11 +107,11 @@ public class GroupMeetingActivity extends AppCompatActivity{
 
     private void registerListClickCallback() {
         listView = (ListView) findViewById(R.id.list_view_group);
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 long id = 0;
+                String address;
                 TextView TextView = (TextView) view;
                 String description = TextView.getText().toString();
                 for(Group aGroup : aListOfGroups) {
@@ -131,7 +125,6 @@ public class GroupMeetingActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-
     }
 
     //Hides the keyboard upon searching/tapping.
