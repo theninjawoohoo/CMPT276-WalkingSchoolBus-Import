@@ -17,8 +17,10 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0">
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -48,18 +50,52 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="276dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:text="@string/destination_colon"
                 android:textSize="24sp" />
+
+            <RelativeLayout
+                android:id="@+id/searchBarLayout"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/white_border"
+                android:elevation="10dp">
+
+                <ImageView
+                    android:id="@+id/ic_magnify"
+                    android:layout_width="15dp"
+                    android:layout_height="15dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/ic_magnifying_glass" />
+
+                <AutoCompleteTextView
+                    android:id="@+id/input_search"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@+id/ic_magnify"
+                    android:layout_toRightOf="@+id/ic_magnify"
+                    android:background="@null"
+                    android:hint="@string/ask_user_search"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
 
         </LinearLayout>
 

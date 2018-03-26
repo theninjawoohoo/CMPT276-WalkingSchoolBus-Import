@@ -3,7 +3,7 @@
     <string name="name_colon">Name: </string>
     <string name="members_colon">Members: </string>
     <string name="description_colon">Description: </string>
-    <string name="destination_colon">Destination: (next iteration)</string>
+    <string name="destination_colon">Destination:</string>
     <string name="meeting_colon">Meeting: </string>
     <string name="leader_colon">Leader: </string>
     <string name="destination">Destination</string>
@@ -63,4 +63,12 @@
     <string name="edit_info">Edit Info</string>
     <string name="reset_to_default">Reset to default</string>
     <string name="monitors_colon">Monitors:</string>
+    <string name="start_walking">Start Walking!</string>
+    <string name="stop_tracking">Stop Tracking</string>
+    <string name="longitude">Longitude:</string>
+    <string name="latitude">Latitude:</string>
+    <string name="resume_tracking">Resume Tracking</string>
+    <string name="tracking_mode">Tracking Mode:</string>
+    <string name="trueStatement">True</string>
+    <string name="falseStatement">False</string>
 </resources>

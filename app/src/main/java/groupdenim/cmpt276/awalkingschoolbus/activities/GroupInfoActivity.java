@@ -2,6 +2,8 @@ package groupdenim.cmpt276.awalkingschoolbus.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,8 +18,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoAddFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoDeleteFragment;
@@ -91,13 +95,48 @@ public class GroupInfoActivity extends AppCompatActivity {
                         R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
                 populateList();
                 createAppropriateButtons();
+            String meetingSpot = "Not Specified";
+            String destinationSpot = "Not Specified";
+            try {
+                meetingSpot = geoEncoder(groupToDisplay.getRouteLatArray()[0],
+                                                groupToDisplay.getRouteLngArray()[0]);
+                destinationSpot = geoEncoder(groupToDisplay.getRouteLatArray()[1],
+                                                groupToDisplay.getRouteLngArray()[1]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //All members have been added to the membersOfGroup list, now containing their emails
+            populateFields(groupToDisplay.getGroupDescription(),
+                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
+            populateFields(groupToDisplay.getLeader().getEmail(),
+                R.id.linearLayout_GroupInfoActivity_GroupLeader);
+
+            populateFields(meetingSpot,
+                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
+            populateFields(destinationSpot,
+                    R.id.linearLayout_GroupInfoActivity_Destination);
+            populateList();
+            createAppropriateButtons();
         }
     }
 
     private void getUsersResponse(User user) {
         membersOfGroup.add(user);
         Log.i("CHECKING_GROUP_RESPONSE", "Got group response!");
-        //Once needed data is retreived from server, display the information
+
+        String meetingSpot = "Meeting Not Specified";
+        String destinationSpot = "Destination Not Specified";
+        try {
+            meetingSpot = geoEncoder(groupToDisplay.getRouteLatArray()[0],
+                    groupToDisplay.getRouteLngArray()[0]);
+            destinationSpot = geoEncoder(groupToDisplay.getRouteLatArray()[1],
+                    groupToDisplay.getRouteLngArray()[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Once needed data is retrieved from server, display the information
         if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size() ||
             groupToDisplay.getMemberUsers().size() == 0) {
             //All members have been added to the membersOfGroup list, now containing their emails
@@ -105,9 +144,10 @@ public class GroupInfoActivity extends AppCompatActivity {
                     R.id.linearLayout_GroupInfoActivity_GroupDescription);
             populateFields(groupToDisplay.getLeader().getEmail(),
                     R.id.linearLayout_GroupInfoActivity_GroupLeader);
-            //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
-            populateFields(groupToDisplay.getRouteLatArray()[0] + "",
+            populateFields(meetingSpot,
                     R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
+            populateFields(destinationSpot,
+                    R.id.linearLayout_GroupInfoActivity_Destination);
             populateList();
             createAppropriateButtons();
         }
@@ -116,14 +156,26 @@ public class GroupInfoActivity extends AppCompatActivity {
     public void updateUi() {
         Log.i("UPDATE_UI", "fjkrwnfkj");
         clearUi();
+        String meetingSpot = "Not Specified";
+        String destinationSpot = "Not Specified";
+        try {
+            meetingSpot = geoEncoder(groupToDisplay.getRouteLatArray()[0],
+                    groupToDisplay.getRouteLngArray()[0]);
+            destinationSpot = geoEncoder(groupToDisplay.getRouteLatArray()[1],
+                    groupToDisplay.getRouteLngArray()[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         updateGroupToDisplay();
         populateFields(groupToDisplay.getGroupDescription(),
                 R.id.linearLayout_GroupInfoActivity_GroupDescription);
         populateFields(groupToDisplay.getLeader().getEmail(),
                 R.id.linearLayout_GroupInfoActivity_GroupLeader);
-        //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
-        populateFields(groupToDisplay.getRouteLatArray()[0] + "",
-                R.id.linearLayout_GroupInfoActivity_Meeting);
+        populateFields(meetingSpot,
+                R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
+        populateFields(destinationSpot,
+                R.id.linearLayout_GroupInfoActivity_Destination);
         populateList();
         createAppropriateButtons();
     }
@@ -135,8 +187,8 @@ public class GroupInfoActivity extends AppCompatActivity {
         layout.removeViewAt(FIELD_INDEX);
         layout = findViewById(R.id.linearLayout_GroupInfoActivity_GroupLeader);
         layout.removeViewAt(FIELD_INDEX);
-       // layout = findViewById(R.id.linearLayout_GroupInfoActivity_Destination);
-        //layout.removeViewAt(FIELD_INDEX);
+        layout = findViewById(R.id.linearLayout_GroupInfoActivity_Destination);
+        layout.removeViewAt(FIELD_INDEX);
         layout = findViewById(R.id.linearLayout_GroupInfoActivity_Meeting);
         layout.removeViewAt(FIELD_INDEX);
 
@@ -399,6 +451,20 @@ public class GroupInfoActivity extends AppCompatActivity {
         intent.putExtra(PUT_EXTRA, id);
 
         return intent;
+    }
+
+    private String geoEncoder(double latitude, double longitude) throws IOException {
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
+        if(addresses.size() == 0) {
+            return "Not Specified/Coordinates Don't exist.";
+        }
+
+        return addresses.get(0).getAddressLine(0);
     }
 
 }

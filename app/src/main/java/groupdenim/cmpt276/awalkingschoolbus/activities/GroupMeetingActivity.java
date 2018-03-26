@@ -117,7 +117,6 @@ public class GroupMeetingActivity extends AppCompatActivity{
                 for(Group aGroup : aListOfGroups) {
                     if(aGroup.getGroupDescription().equals(description)) {
                         id = aGroup.getId();
-
                         break;
                     }
                 }
