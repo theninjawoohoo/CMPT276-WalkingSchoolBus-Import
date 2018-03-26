@@ -45,11 +45,12 @@ public class GroupInfoAddFragment extends AppCompatDialogFragment {
         v = LayoutInflater.from(getActivity())
                 .inflate(R.layout.fragment_group_info_add, null);
 
-        getListOfChildren();
-
         dialog = new AlertDialog.Builder(getActivity())
                 .setView(v)
                 .create();
+
+        dialog.setCanceledOnTouchOutside(false);
+        getListOfChildren();
 
         return dialog;
     }
@@ -63,6 +64,7 @@ public class GroupInfoAddFragment extends AppCompatDialogFragment {
 
     private void getChildrenResponse(List<User> children) {
         this.children = children;
+        dialog.setCanceledOnTouchOutside(true);
         populateList(v);
         registerOnClickCallBack(v);
         setupCancelButton(v);

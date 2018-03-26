@@ -46,7 +46,8 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
-    <string name="hitting_back_button_on_phone_will_go_to_main_menu">Hitting back button on phone will go to main menu.</string>
+    <string name="hitting_back_button_on_phone_will_go_to_main_menu">Hitting back button on phone will go
+                                                    to main menu. Hold the item on the list to delete it</string>
     <string name="search_the_group_by_description">Search the group by description</string>
     <string name="search_for_a_description">Search for a description</string>
     <string name="back">Back</string>
@@ -61,4 +62,5 @@
     <string name="delete">Delete</string>
     <string name="edit_info">Edit Info</string>
     <string name="reset_to_default">Reset to default</string>
+    <string name="monitors_colon">Monitors:</string>
 </resources>

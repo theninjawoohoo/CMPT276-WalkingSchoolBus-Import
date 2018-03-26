@@ -18,9 +18,6 @@ public class CurrentUserSingleton {
     private static Context context;
 
     private Long editUserId;
-
-
-
     private Long id;
     private String name;
     private String email;

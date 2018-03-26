@@ -33,8 +33,6 @@ public class User {
 
     }
 
-
-
     public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
         this.id = id;
         this.name = name;
