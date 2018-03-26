@@ -18,6 +18,7 @@ public class MapSingleton {
 
     private placeObject tempObject;
 
+
     public List<placeObject> getList() {
         return listOfMeetingSpots;
     }

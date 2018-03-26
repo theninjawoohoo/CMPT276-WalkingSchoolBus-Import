@@ -124,7 +124,7 @@ public class GroupInfoActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        //Once needed data is retreived from server, display the information
+        //Once needed data is retrieved from server, display the information
         if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size() ||
             groupToDisplay.getMemberUsers().size() == 0) {
             //All members have been added to the membersOfGroup list, now containing their emails
@@ -396,6 +396,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         geocoder = new Geocoder(this, Locale.getDefault());
 
         addresses = geocoder.getFromLocation(latitude, longitude, 1);
+
         if(addresses.size() == 0) {
             return "Not Specified/Coordinates Don't exist.";
         }

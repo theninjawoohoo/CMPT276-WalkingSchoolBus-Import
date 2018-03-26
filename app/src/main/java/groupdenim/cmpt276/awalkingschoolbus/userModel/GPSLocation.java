@@ -1,15 +1,13 @@
 package groupdenim.cmpt276.awalkingschoolbus.userModel;
 
-/**
- * Created by Farhan on 2018-03-21.
- */
+
 
 public class GPSLocation {
-    private long lat;
-    private long lng;
+    private double lat;
+    private double lng;
     private String timestamp;
 
-    public GPSLocation(long lat, long lng, String timestamp) {
+    public GPSLocation(double lat, double lng, String timestamp) {
         this.lat = lat;
         this.lng = lng;
         this.timestamp = timestamp;
@@ -19,20 +17,20 @@ public class GPSLocation {
 
     }
 
-    public long getLat() {
+    public double getLat() {
 
         return lat;
     }
 
-    public void setLat(long lat) {
+    public void setLat(double lat) {
         this.lat = lat;
     }
 
-    public long getLng() {
+    public double getLng() {
         return lng;
     }
 
-    public void setLng(long lng) {
+    public void setLng(double lng) {
         this.lng = lng;
     }
 

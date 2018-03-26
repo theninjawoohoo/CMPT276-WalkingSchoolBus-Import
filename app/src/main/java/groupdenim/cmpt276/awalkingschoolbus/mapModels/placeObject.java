@@ -13,6 +13,7 @@ public class placeObject {
     private String id;
     private LatLng latlng;
 
+
     public placeObject(String name, String address, String id, LatLng latlng) {
         this.name = name;
         this.address = address;

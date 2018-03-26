@@ -181,7 +181,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             //We base our actions off the IME (input method editor)
             @Override
             public boolean onEditorAction(TextView textView, int actionID, KeyEvent keyEvent) {
-                if(actionID == EditorInfo.IME_ACTION_SEARCH
+                if (actionID == EditorInfo.IME_ACTION_SEARCH
                         || actionID == EditorInfo.IME_ACTION_DONE
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
@@ -206,7 +206,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             @Override
             public void onClick(View view) {
                 Log.d(TAG, "onClick: info has been displayed");
-                try{
+                try {
                     if(mMarker.isInfoWindowShown()) {
                         mMarker.hideInfoWindow();
                     }
@@ -247,43 +247,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapActivity.this);
 
                     //Ensure that no permissions are breached.
-                    try{
-                        if(mLocationPermissionGranted) {
-                            final Task location = mFusedLocationProviderClient.getLastLocation();
-                            location.addOnCompleteListener(new OnCompleteListener() {
-                                @Override
-                                public void onComplete(@NonNull Task task) {
-                                    if (task.isSuccessful()) {
-                                        Log.d(TAG, "onComplete: Found LocationStruct!");
-                                        Location currentLocation = (Location) task.getResult();
-                                        Geocoder geocoder;
-                                        List<Address> addresses;
-                                        geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
-                                        String markerInfo;
-                                        try {
-                                            addresses = geocoder.getFromLocation(currentLocation.getLatitude(),
-                                                                                        currentLocation.getLongitude(), 1);
-
-                                            if(addresses.size() == 0) {
-                                                markerInfo = "You Location";
-                                            }
-                                            else {
-                                                markerInfo= addresses.get(0).getAddressLine(0);
-                                            }
-                                            yourLocation.setAddress(markerInfo);
-                                            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                                            yourLocation.setLatlng(latLng);
-                                        } catch (IOException e) {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                    else {
-                                        Log.d(TAG, "onComplete: current location cannot be found");
-                                        Toast.makeText(MapActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
-                        }
+                    try {
+                        final Task location = mFusedLocationProviderClient.getLastLocation();
+                        getLocationAddMeeting(yourLocation, location);
                     }
                     catch (SecurityException e) {
                         Log.e(TAG, "getDeviceLocation: securityException has been called.");
@@ -327,6 +293,48 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         //Then hide the keyboard
         hideSoftKeyboard();
+    }
+
+    private void getLocationAddMeeting(placeObject yourLocation, Task location) {
+        if(mLocationPermissionGranted) {
+            location.addOnCompleteListener(new OnCompleteListener() {
+                @Override
+                public void onComplete(@NonNull Task task) {
+                    if (task.isSuccessful()) {
+                        yourLocationGeoEncoder(task, yourLocation);
+                    }
+                    else {
+                        Log.d(TAG, "onComplete: current location cannot be found");
+                        Toast.makeText(MapActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        }
+    }
+
+    private void yourLocationGeoEncoder(@NonNull Task task, placeObject yourLocation) {
+        Log.d(TAG, "onComplete: Found LocationStruct!");
+        Location currentLocation = (Location) task.getResult();
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(MapActivity.this, Locale.getDefault());
+        String markerInfo;
+        try {
+            addresses = geocoder.getFromLocation(currentLocation.getLatitude(),
+                                                        currentLocation.getLongitude(), 1);
+
+            if(addresses.size() == 0) {
+                markerInfo = "You Location";
+            }
+            else {
+                markerInfo= addresses.get(0).getAddressLine(0);
+            }
+            yourLocation.setAddress(markerInfo);
+            LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+            yourLocation.setLatlng(latLng);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     //Code for nearby place picker

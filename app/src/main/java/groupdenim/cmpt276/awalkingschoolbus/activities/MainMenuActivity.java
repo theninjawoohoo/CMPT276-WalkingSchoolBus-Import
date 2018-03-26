@@ -5,6 +5,7 @@ package groupdenim.cmpt276.awalkingschoolbus.activities;
 //Tutorials used below
 //https://www.youtube.com/watch?v=M0bYvXlhgSI
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.location.LocationRequest;
 
 import java.util.List;
 
@@ -31,6 +33,7 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 public class MainMenuActivity extends AppCompatActivity {
 
+    private LocationRequest mLocationRequest;
     private static Context contexta;
     private String TOKEN;
     //Some const ints
@@ -48,6 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
             initializeMapButton();
         }
         initializeLogout();
+        //initializeWalkingWithGroup();
 
     }
 
@@ -76,6 +80,11 @@ public class MainMenuActivity extends AppCompatActivity {
         editor.putString("email","");
         editor.putString("password","");
         editor.commit();
+
+        //Back to login Screen.
+        Intent intent = new Intent(MainMenuActivity.this, LoginActivity.class);
+        startActivity(intent);
+
         finish();
 
     }
@@ -136,5 +145,20 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    //This button will make the user begin sending coordinates to the server.
+//    private void initializeWalkingWithGroup() {
+//        boolean isUserInUserAGroup = false;
+//        Button btnStartWalking = (Button) findViewById(R.id.btn_start_walking);
+//        btnStartWalking.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+//    }
+
+
 
 }

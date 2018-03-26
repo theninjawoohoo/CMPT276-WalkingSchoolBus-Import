@@ -80,8 +80,6 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         LatLng latLng = place.getLatlng();
         routeLatArray[0] = latLng.latitude;
         routeLngArray[0] = latLng.longitude;
-        routeLatArray[1] = 0; //TEMPORARY
-        routeLngArray[1] = 0; //TEMPORARY
     }
 
     private void setupCancelButton(){
@@ -108,8 +106,12 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
                     sendInput();
                 }
 
-                if(!(theSearchBox.getText().equals(null))) {
-                    geoLocate();
+                if(!(theSearchBox.getText().toString().isEmpty())) {
+                    try {
+                        geoLocate();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 
             }
@@ -121,8 +123,12 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         editGroupName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!(theSearchBox.getText().equals(null))) {
-                    geoLocate();
+                if(!(theSearchBox.getText().toString().isEmpty())) {
+                    try {
+                        geoLocate();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         });
@@ -157,7 +163,11 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER
                         || keyEvent.getAction() == KeyEvent.KEYCODE_BACK) {
                     //Sets the destination.
-                    geoLocate();
+                    try {
+                        geoLocate();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 return false;
             }
@@ -169,11 +179,11 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
     }
 
     //Precondition: the user enters input into the search box
-    private void geoLocate() {
+    private void geoLocate() throws Exception {
         Log.d(TAG, "Searching for location");
 
         String searchedLocation = theSearchBox.getText().toString();
-        Toast.makeText(CreateGroupActivity.this, searchedLocation , Toast.LENGTH_SHORT).show();
+        Toast.makeText(CreateGroupActivity.this, searchedLocation , Toast.LENGTH_LONG).show();
 
         //Once the input is placed in the search box, we have to obtain a list of addresses
         Geocoder geocoder = new Geocoder(CreateGroupActivity.this);
@@ -183,6 +193,10 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         }
         catch (IOException e) {
             Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+
+        if(listOfAddresses.size() == 0) {
+            throw new Exception("geoLocate: Something Wrong has happened.");
         }
 
         //Now Go To The location
