@@ -33,6 +33,7 @@ public interface WebService {
     String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
     String FEED_STOPBEINGMONITORED = "/users/{idA}/monitoredByUsers/{idB}";
     String FEED_DELETEGROUP = "/groups/{id}";
+    String FEED_EDITUSERBYID = "/users/{id}";
     String FEED_CREATEGROUP = "/groups";
     String FEED_ADDTOGROUP = "/groups/{id}/memberUsers";
     String FEED_REMOVEFROMGROUP = "/groups/{groupId}/memberUsers/{userId}";
@@ -56,6 +57,10 @@ public interface WebService {
 
     @GET(FEED_GETUSERBYEMAIL)
     Call<User> getUserByEmail(@Query("email") String email);
+
+
+    @POST(FEED_EDITUSERBYID)
+    Call<User> editUserById(@Path("id") long id,@Body User user);
 
     @GET(FEED_GETMONITORUSERS)
     Call<List<User>> getMonitorUser(@Path("id") Long id);
@@ -82,7 +87,6 @@ public interface WebService {
     Call<Void> stopBeingMonitored(
             @Path("idA") long currentUser,
             @Path("idB")long otherUser);
-
 
     @DELETE(FEED_DELETEGROUP)
     Call<Void> deleteGroup(@Path("id") long groupId);

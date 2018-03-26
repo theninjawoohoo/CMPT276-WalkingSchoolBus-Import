@@ -24,6 +24,8 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
+
+//this class
 public class MonitorActivity extends AppCompatActivity {
 
     public static List<String> studentsBeingMonitoredWithName=new ArrayList<>();
@@ -101,17 +103,36 @@ public class MonitorActivity extends AppCompatActivity {
                 ProxyBuilder.SimpleCallback<List<User>> callback=userList -> temp(userList,index);
                 ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
                         callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+                break;
+            case R.id.editInfo:
+                //get the selected user's Id and launch activity here
+                int index2=obj.position;
+
+                ProxyBuilder.SimpleCallback<List<User>> callback2=userList -> temp2(userList,index2);
+                ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
+                        callback2,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+
 
                 break;
         }
+
         return super.onContextItemSelected(item);
+    }
+
+    public void temp2(List<User> userList,int index)
+    {
+        Long id=userList.get(index).getId();
+        CurrentUserSingleton.getInstance(getApplicationContext()).setEditUserId(id);
+        Intent intent=new Intent(MonitorActivity.this,EditUserInfo.class);
+        startActivity(intent);
     }
 
     public void temp(List<User> userList,int index)
     {
         Long id=userList.get(index).getId();
         ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
-        ServerSingleton.getInstance().stopMonitoringUser(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+        ServerSingleton.getInstance().stopMonitoringUser(getApplicationContext(),callback,
+                CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
 
     }
 
@@ -155,6 +176,8 @@ public class MonitorActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
     }
 

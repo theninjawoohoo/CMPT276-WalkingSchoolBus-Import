@@ -42,7 +42,6 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
                 ProxyBuilder.SimpleCallback<User> callbackUser= user -> setFieldsUserToMonitor(user);
                 ServerSingleton.getInstance().getUserByEmail(getApplicationContext(),callbackUser,emailInput.getText().toString());
 
-
             }
         });
 

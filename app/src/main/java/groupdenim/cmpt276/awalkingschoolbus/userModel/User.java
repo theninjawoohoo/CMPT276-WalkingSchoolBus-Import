@@ -13,7 +13,7 @@ public class User {
     private String email;
     private String password;
     private String birthYear;
-    private int birthMonth;
+    private String birthMonth;
     private String address;
     private String cellPhone;
     private String homePhone;
@@ -32,6 +32,9 @@ public class User {
     public User() {
 
     }
+
+
+
     public User(Long id, String name, String email, String password, List<User> monitorsUsers, List<User> monitoredByUsers) {
         this.id = id;
         this.name = name;
@@ -49,6 +52,30 @@ public class User {
     public User(String name, String email) {
         this.name=name;
         this.email=email;
+    }
+
+    public void deepCopyUserFields(User user)
+    {
+        id=user.getId();
+        name=user.getName();
+        email=user.getEmail();
+        password=user.getPassword();
+        birthYear=user.getBirthYear();
+        birthMonth=user.getBirthMonth();
+        address=user.getAddress();
+        cellPhone=user.getCellPhone();
+        homePhone=user.getHomePhone();
+        grade=user.getGrade();
+        teacherName=user.getTeacherName();
+        emergencyContactInfo=user.getEmergencyContactInfo();
+        lastGpsLocation=user.getLastGpsLocation();
+        href=user.getHref();
+        memberOfGroups=user.getMemberOfGroups();
+        monitoredByUsers=user.getMonitoredByUsers();
+        monitorsUsers=user.getMonitorsUsers();
+        leadsGroups=user.getLeadsGroups();
+        unreadMessages=user.getUnreadMessages();
+        readMessages=user.getReadMessages();
     }
 
     public List<Message> getUnreadMessages() {
@@ -113,11 +140,11 @@ public class User {
         this.birthYear = birthYear;
     }
 
-    public int getBirthMonth() {
+    public String getBirthMonth() {
         return birthMonth;
     }
 
-    public void setBirthMonth(int birthMonth) {
+    public void setBirthMonth(String birthMonth) {
         this.birthMonth = birthMonth;
     }
 
