@@ -21,6 +21,8 @@ public class EditUserInfo extends AppCompatActivity {
     public static User updatedCurrentUser;
 
     Button btnDate;
+    Button btnReset;
+    Button btnConfirm;
     EditText editTextName;
     EditText editTextEmail;
     EditText editTextAddress;
@@ -43,7 +45,8 @@ public class EditUserInfo extends AppCompatActivity {
         //deep copy stuff into updatedCurrentUser
         updatedCurrentUser=new User();
         ProxyBuilder.SimpleCallback<User> callback=user -> setUserFields(user);
-        ServerSingleton.getInstance().getUserById(getApplicationContext(),callback, CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+        ServerSingleton.getInstance().getUserById(getApplicationContext(),callback,
+                CurrentUserSingleton.getInstance(getApplicationContext()).getEditUserId());
         //here we have acquired the latest current userObject
 
 
@@ -59,8 +62,11 @@ public class EditUserInfo extends AppCompatActivity {
         editTextEmergency=findViewById(R.id.editTextEmergency);
 
 
-        Button btnConfirm=findViewById(R.id.btnConfirm);
+        btnReset=findViewById(R.id.btnReset);
+        btnConfirm=findViewById(R.id.btnConfirm);
+
         confirmSelection(btnConfirm);
+        resetEditTextFields(btnReset);
 
         //go back by deleting the current activity
         Button back=findViewById(R.id.btnBack);
@@ -103,9 +109,19 @@ public class EditUserInfo extends AppCompatActivity {
                 //here we update the server with our updatedCurrentUser object
                 ProxyBuilder.SimpleCallback<User> callback=user-> updateUserFunction(user);
                 ServerSingleton.getInstance().editUserById(getApplicationContext(),callback,
-                        CurrentUserSingleton.getInstance(getApplicationContext()).getId(),updatedCurrentUser);
+                        CurrentUserSingleton.getInstance(getApplicationContext()).getEditUserId(),updatedCurrentUser);
 
                 finish();
+            }
+        });
+    }
+
+    public void resetEditTextFields(Button btnReset)
+    {
+        btnReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setEditTextFields();
             }
         });
     }

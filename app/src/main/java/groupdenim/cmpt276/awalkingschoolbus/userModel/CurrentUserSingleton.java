@@ -17,6 +17,10 @@ public class CurrentUserSingleton {
 
     private static Context context;
 
+    private Long editUserId;
+
+
+
     private Long id;
     private String name;
     private String email;
@@ -236,5 +240,12 @@ public class CurrentUserSingleton {
         return monitorsUsers;
     }
 
+    public Long getEditUserId() {
+        return editUserId;
+    }
+
+    public void setEditUserId(Long editUserId) {
+        this.editUserId = editUserId;
+    }
 
 }

@@ -124,6 +124,7 @@ public class MainMenuActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                CurrentUserSingleton.getInstance(getApplicationContext()).setEditUserId(CurrentUserSingleton.getInstance(getApplicationContext()).getId());
                 Intent intent=new Intent(MainMenuActivity.this,EditUserInfo.class);
                 startActivity(intent);
             }
