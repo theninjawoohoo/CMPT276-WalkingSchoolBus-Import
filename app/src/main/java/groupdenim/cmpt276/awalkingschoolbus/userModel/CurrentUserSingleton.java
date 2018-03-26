@@ -22,7 +22,7 @@ public class CurrentUserSingleton {
     private String email;
     private String password;
     private String birthYear;
-    private int birthMonth;
+    private String birthMonth;
     private String address;
     private String cellPhone;
     private String homePhone;
@@ -89,11 +89,11 @@ public class CurrentUserSingleton {
         this.birthYear = birthYear;
     }
 
-    public int getBirthMonth() {
+    public String getBirthMonth() {
         return birthMonth;
     }
 
-    public void setBirthMonth(int birthMonth) {
+    public void setBirthMonth(String birthMonth) {
         this.birthMonth = birthMonth;
     }
 

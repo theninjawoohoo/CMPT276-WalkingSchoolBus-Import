@@ -96,14 +96,13 @@ public class MonitorActivity extends AppCompatActivity {
         {
             case R.id.delete:
                 //deletes current user from other person's list
-
                 int index=obj.position;
                 ProxyBuilder.SimpleCallback<List<User>> callback=userList -> temp(userList,index);
                 ServerSingleton.getInstance().getMonitorUsers(getApplicationContext(),
                         callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId());
-
-
-
+                break;
+            case R.id.editInfo:
+                //launch acitvity here
                 break;
         }
 

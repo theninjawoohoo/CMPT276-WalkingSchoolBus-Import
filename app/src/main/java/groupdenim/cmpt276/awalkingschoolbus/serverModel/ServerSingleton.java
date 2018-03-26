@@ -1,6 +1,8 @@
 package groupdenim.cmpt276.awalkingschoolbus.serverModel;
 
 import android.content.Context;
+import android.widget.Toast;
+
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
@@ -188,6 +190,13 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+    public void editUserById(Context context,ProxyBuilder.SimpleCallback<User> callback, long id,User user){
+        if(TOKEN!=null)
+            updateProxy(TOKEN);
+
+        Call<User> caller=proxy.editUserById(id,user);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
 
 
 }
