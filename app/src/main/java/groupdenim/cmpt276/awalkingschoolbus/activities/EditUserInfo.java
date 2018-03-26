@@ -111,6 +111,19 @@ public class EditUserInfo extends AppCompatActivity {
                 ServerSingleton.getInstance().editUserById(getApplicationContext(),callback,
                         CurrentUserSingleton.getInstance(getApplicationContext()).getEditUserId(),updatedCurrentUser);
 
+
+                //updates the CurrentUserSingleton object
+                CurrentUserSingleton instance=CurrentUserSingleton.getInstance(getApplicationContext());
+                instance.setName(updatedCurrentUser.getName());
+                instance.setEmail(updatedCurrentUser.getEmail());
+                instance.setAddress(updatedCurrentUser.getAddress());
+                instance.setTeacherName(updatedCurrentUser.getTeacherName());
+                instance.setGrade(updatedCurrentUser.getGrade());
+                instance.setCellPhone(updatedCurrentUser.getCellPhone());
+                instance.setHomePhone(updatedCurrentUser.getHomePhone());
+                instance.setEmergencyContactInfo(updatedCurrentUser.getEmergencyContactInfo());
+
+
                 finish();
             }
         });
