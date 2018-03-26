@@ -14,12 +14,12 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
-import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
