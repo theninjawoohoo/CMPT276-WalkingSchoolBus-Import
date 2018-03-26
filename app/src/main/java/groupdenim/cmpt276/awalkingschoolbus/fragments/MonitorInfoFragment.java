@@ -57,6 +57,13 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         LinearLayout linearLayout =
                 v.findViewById(R.id.LinearLayout_MonitorInfoFragment_DisplayInfo);
 
+        // Name
+        String name = "Name: " + selectedUser.getEmail();
+        TextView nameText = new TextView(getActivity());
+        nameText.setText(name);
+        nameText.setTextSize(TEXT_SIZE);
+        linearLayout.addView(nameText);
+
         // Email
         String email = "Email: " + selectedUser.getEmail();
         TextView emailText = new TextView(getActivity());
@@ -65,7 +72,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         linearLayout.addView(emailText);
 
         // Birth year
-        if (selectedUser.getBirthYear() != 0) {
+        if (selectedUser.getBirthYear() != null) {
             String birthYear = "Birth Year: " + selectedUser.getBirthYear();
             TextView yearText = new TextView(getActivity());
             yearText.setText(birthYear);
@@ -74,7 +81,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         }
 
         // Birth month
-        if (selectedUser.getBirthMonth() != 0) {
+        if (selectedUser.getBirthMonth() != null) {
             String birthMonth = "Birth Month: " + selectedUser.getBirthMonth();
             TextView monthText = new TextView(getActivity());
             monthText.setText(birthMonth);

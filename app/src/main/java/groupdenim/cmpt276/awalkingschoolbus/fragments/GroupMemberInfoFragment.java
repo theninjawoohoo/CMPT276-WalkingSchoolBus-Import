@@ -127,13 +127,13 @@ public class GroupMemberInfoFragment extends AppCompatDialogFragment {
         moreUserInfo.add(email);
 
         // Birth year
-        if (selectedUser.getBirthYear() != 0) {
+        if (selectedUser.getBirthYear() != null) {
             String birthYear = "Birth Year: " + selectedUser.getBirthYear();
             moreUserInfo.add(birthYear);
         }
 
         // Birth month
-        if (selectedUser.getBirthMonth() != 0) {
+        if (selectedUser.getBirthMonth() != null) {
             String birthMonth = "Birth Month: " + selectedUser.getBirthMonth();
             moreUserInfo.add(birthMonth);
         }
