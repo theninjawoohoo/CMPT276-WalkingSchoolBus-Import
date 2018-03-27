@@ -65,6 +65,7 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+
     public void getUserByEmail(Context context, ProxyBuilder.SimpleCallback<User> callback, String email) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
@@ -213,7 +214,7 @@ public class ServerSingleton {
         }
 
         String unread = "unread";
-        Call<List<Message>> caller = proxy.getUnreadMessageForUser(id,unread);
+        Call<List<Message>> caller = proxy.getMessageForUserReadOrUnread(id,unread);
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
@@ -226,6 +227,14 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+    public void getReadMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List<Message>> callback, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
 
+        String read = "read";
+        Call<List<Message>> caller = proxy.getMessageForUserReadOrUnread(id,read);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
 
 }

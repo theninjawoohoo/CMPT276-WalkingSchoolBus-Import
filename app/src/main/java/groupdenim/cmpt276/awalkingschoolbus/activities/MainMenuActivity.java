@@ -56,13 +56,6 @@ public class MainMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Button btnMap = (Button) findViewById(R.id.btnMap);
-        btnMap.setEnabled(true);
-    }
-
 
     private void initializeLogout() {
         Button logout = findViewById(R.id.btnLogout);

@@ -60,4 +60,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete">Delete</string>
     <string name="send">Send</string>
+    <string name="message">Messages: </string>
+    <string name="messageTextView">Message: </string>
+    <string name="from_text">From: </string>
+    <string name="messageDescription">Send a message to all parents and those who monitor you</string>
 </resources>

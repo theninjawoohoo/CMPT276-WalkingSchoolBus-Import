@@ -119,7 +119,7 @@ public interface WebService {
     Call<List<Message>> getMessageForUser(@Query("foruser") long id);
 
     @GET(FEED_GETMESSAGESFORUSER)
-    Call<List<Message>> getUnreadMessageForUser(@Query("foruser") long id, @Query("status") String unread);
+    Call<List<Message>> getMessageForUserReadOrUnread(@Query("foruser") long id, @Query("status") String unread);
 
 
     @POST(FEED_SENDMESSAGEBYID)
@@ -127,5 +127,7 @@ public interface WebService {
 
     @POST(FEED_EDITUSERBYID)
     Call<User> editUserById(@Path("id") long id);
+
+
 
 }

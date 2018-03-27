@@ -26,7 +26,6 @@ public class SendMessage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
-        setupSpinner();
         setupSendButton();
     }
 
@@ -50,27 +49,14 @@ public class SendMessage extends AppCompatActivity {
         Log.i("send message result", "sendMessage: " + message);
     }
 
-    private void setupSpinner() {
-        List<Group> groupList = CurrentUserSingleton.getInstance(this).getMemberOfGroups();
-        Log.i("abc", "setupSpinner: " + groupList);
-        Spinner groups = findViewById(R.id.Spinner_groupList_SendMessage);
-        ArrayList<String> groupListString = new ArrayList<>();
-        for (Group group : groupList) {
-            groupListString.add(group.getId() + " ");
-            Log.i("a", "setupSpinner: " + group);
-        }
+//    private void setupSpinner() {
+//        List<Group> groupList = CurrentUserSingleton.getInstance(this).getMemberOfGroups();
+//        Log.i("abc", "setupSpinner: " + groupList);
+//        Spinner groups = findViewById(R.id.Spinner_groupList_SendMessage);
+//        ArrayList<String> groupListString = new ArrayList<>();
+//        for (Group group : groupList) {
+//            groupListString.add(group.getId() + " ");
+//            Log.i("a", "setupSpinner: " + group);
+//        }
 
-        if (groupListString != null) {
-            ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                    android.R.layout.simple_spinner_item,groupListString);
-
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            groups.setAdapter(adapter);
-        }
-// Specify the layout to use when the list of choices appears
-
-
-        //ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, groupListString);
-        //SpinnerAdapter adapter1 = new SpinnerAdapter
-    }
 }

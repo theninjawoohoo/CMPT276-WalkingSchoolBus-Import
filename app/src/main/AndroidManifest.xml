@@ -46,7 +46,8 @@
         <activity android:name=".activities.AddSomeoneToMonitorYouActivity" />
         <activity android:name=".activities.GroupMeetingActivity" />
         <activity android:name=".activities.Messaging" />
-        <activity android:name=".activities.SendMessage"></activity>
+        <activity android:name=".activities.SendMessage" />
+        <activity android:name=".activities.ViewMessage"></activity>
     </application>
 
 </manifest>

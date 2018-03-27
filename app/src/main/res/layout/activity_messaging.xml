@@ -3,18 +3,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context="groupdenim.cmpt276.awalkingschoolbus.activities.Messaging">
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/Button_sendMessage_Messaging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="8dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:id="@+id/linearLayout3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/message" />
 
         <ListView
             android:id="@+id/messageList"
             android:layout_width="match_parent"
-            android:layout_height="507dp"
+            android:layout_height="192dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -25,18 +49,6 @@
             app:layout_constraintTop_toTopOf="parent">
 
         </ListView>
-
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/Button_sendMessage_Messaging"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:clickable="true"
-            android:focusable="true"
-            android:visibility="visible"
-            app:srcCompat="@android:drawable/ic_input_add"
-            tools:layout_editor_absoluteX="336dp"
-            tools:layout_editor_absoluteY="559dp" />
 
     </LinearLayout>
 

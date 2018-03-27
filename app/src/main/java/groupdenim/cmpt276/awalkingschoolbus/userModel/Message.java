@@ -12,6 +12,7 @@ public class Message {
     private Group toGroup;
     private boolean emergency;
     private String href;
+    private boolean isRead;
 
     public Message(long id, String timestamp, String text, User fromUser, Group toGroup, boolean emergency, String href) {
 
@@ -22,6 +23,14 @@ public class Message {
         this.toGroup = toGroup;
         this.emergency = emergency;
         this.href = href;
+    }
+
+    public boolean isRead() {
+        return isRead;
+    }
+
+    public void setRead(boolean read) {
+        isRead = read;
     }
 
     public Message() {
