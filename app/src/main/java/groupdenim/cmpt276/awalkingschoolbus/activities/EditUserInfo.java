@@ -127,14 +127,17 @@ public class EditUserInfo extends AppCompatActivity {
 
                 //updates the CurrentUserSingleton object
                 CurrentUserSingleton instance=CurrentUserSingleton.getInstance(getApplicationContext());
-                instance.setName(updatedCurrentUser.getName());
-                instance.setEmail(updatedCurrentUser.getEmail());
-                instance.setAddress(updatedCurrentUser.getAddress());
-                instance.setTeacherName(updatedCurrentUser.getTeacherName());
-                instance.setGrade(updatedCurrentUser.getGrade());
-                instance.setCellPhone(updatedCurrentUser.getCellPhone());
-                instance.setHomePhone(updatedCurrentUser.getHomePhone());
-                instance.setEmergencyContactInfo(updatedCurrentUser.getEmergencyContactInfo());
+                //ie if we are modifying ourselves, then we update the currentUserSingleton instance
+                if(instance.getId()==updatedCurrentUser.getId()) {
+                    instance.setName(updatedCurrentUser.getName());
+                    instance.setEmail(updatedCurrentUser.getEmail());
+                    instance.setAddress(updatedCurrentUser.getAddress());
+                    instance.setTeacherName(updatedCurrentUser.getTeacherName());
+                    instance.setGrade(updatedCurrentUser.getGrade());
+                    instance.setCellPhone(updatedCurrentUser.getCellPhone());
+                    instance.setHomePhone(updatedCurrentUser.getHomePhone());
+                    instance.setEmergencyContactInfo(updatedCurrentUser.getEmergencyContactInfo());
+                }
 
 
                 finish();
