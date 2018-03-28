@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -39,6 +41,10 @@ import com.google.android.gms.tasks.Task;
 
 import org.w3c.dom.Text;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.List;
+
 import groupdenim.cmpt276.awalkingschoolbus.R;
 
 /**
@@ -46,32 +52,11 @@ import groupdenim.cmpt276.awalkingschoolbus.R;
  */
 
 public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyCallback,
-        GoogleApiClient.OnConnectionFailedListener, LocationListener {
+        GoogleApiClient.OnConnectionFailedListener {
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-
-    }
-
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-
-    }
-
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -121,8 +106,8 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     private Marker mMarker;
 
     //Some textView and buttons
-    private TextView latitude;
-    private TextView longitude;
+    private TextView latitudeText;
+    private TextView longitudeText;
     private TextView trackingStatus;
     private Button enableTracking;
     private Button disableTracking;
@@ -131,71 +116,54 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_updated);
+        setContentView(R.layout.activity_walking_map);
         checkGPSStatus();
         getLocationPermissions();
 
         //Setup the managers and buttons
         theLocManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        latitude = (TextView) findViewById(R.id.latitude);
-        longitude = (TextView) findViewById(R.id.longitude);
-        trackingStatus = (TextView) findViewById(R.id.trackMode);
-        enableTracking = (Button) findViewById(R.id.btn_resume_tracking);
-        disableTracking = (Button) findViewById(R.id.btn_stop_tracking);
+        latitudeText = (TextView) findViewById(R.id.latitude);
+        longitudeText = (TextView) findViewById(R.id.longitude);
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        theLocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                WAIT_TIME, 0, new LocationListener() {
-                    @Override
-                    public void onLocationChanged(Location location) {
+        updateTracker();
+    }
 
-                    }
-
-                    @Override
-                    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                    }
-
-                    @Override
-                    public void onProviderEnabled(String s) {
-                        isTracking = true;
-                    }
-
-                    @Override
-                    public void onProviderDisabled(String s) {
-                        isTracking = false;
-                    }
-                });
-
+    @Override
+    protected void onPause() {
+        super.onPause();
+        theLocManager.removeUpdates((LocationListener) this);
+        Log.i(TAG, "onPause, done");
     }
 
     private void initialize() {
-        trackingStatus.setText(R.string.trueStatement);
-
-        enableTracking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                trackingStatus.setText(R.string.trueStatement);
-                if(isTracking) {
-                    return;
-                }
-                isTracking = true;
-
-            }
-        });
-
-        disableTracking.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                trackingStatus.setText(R.string.falseStatement);
-                if(!isTracking) {
-                    return;
-                }
-                isTracking = false;
-            }
-        });
+//        trackingStatus = (TextView) findViewById(R.id.trackMode);
+//        trackingStatus.setText(R.string.trueStatement);
+//        enableTracking = (Button) findViewById(R.id.btn_resume_tracking);
+//        disableTracking = (Button) findViewById(R.id.btn_stop_tracking);
+//
+//        enableTracking.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                trackingStatus.setText(R.string.trueStatement);
+//                if(isTracking) {
+//                    return;
+//                }
+//                updateTracker();
+//                isTracking = true;
+//
+//            }
+//        });
+//
+//        disableTracking.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                trackingStatus.setText(R.string.falseStatement);
+//                if(!isTracking) {
+//                    return;
+//                }
+//                isTracking = false;
+//            }
+//        });
     }
 
 
@@ -314,7 +282,110 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
         alert.show();
     }
 
-    private void updateLocation() {
+    private void updateTracker() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        //Ensure that the network provider is enabled.
+        //Courtesy of this video: https://www.youtube.com/watch?v=qS1E-Vrk60E
+        if(theLocManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            theLocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+                    WAIT_TIME, 0, new LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+                            //Get latitude and longitude
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            latitudeText.setText("" + latitude);
+                            longitudeText.setText("" + longitude);
+
+                            LatLng yourLatLng = new LatLng(latitude, longitude);
+                            Geocoder geocoder = new Geocoder(getApplicationContext());
+                            try {
+                                List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+                                String currentLocality = addressList.get(0).getLocality();
+                                Gmap.clear();
+                                moveCamera(yourLatLng, DEFAULT_ZOOM, currentLocality);
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
+                        @Override
+                        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                        }
+
+                        @Override
+                        public void onProviderEnabled(String s) {
+                            isTracking = true;
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String s) {
+                            isTracking = false;
+                        }
+                    });
+        }
+
+        //Use the GPS provider instead of the network provider
+        else if (theLocManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            theLocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER,
+                    WAIT_TIME, 0, new LocationListener() {
+                        @Override
+                        public void onLocationChanged(Location location) {
+                            //Get latitude and longitude
+                            double latitude = location.getLatitude();
+                            double longitude = location.getLongitude();
+                            latitudeText.setText("" + latitude);
+                            longitudeText.setText("" + longitude);
+
+                            LatLng yourLatLng = new LatLng(latitude, longitude);
+                            Geocoder geocoder = new Geocoder(getApplicationContext());
+                            try {
+                                List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+                                String currentLocality = addressList.get(0).getLocality();
+                                Gmap.clear();
+                                moveCamera(yourLatLng, DEFAULT_ZOOM, currentLocality);
+
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+
+                            //Code used from...
+                            //https://github.com/AllInOneYT/Project/blob/master/Android/MyApplication/app/src/main/java/myapp/myapplication/MainActivity.java
+                            long currentDate = System.currentTimeMillis();
+                            //Extract the date
+                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\nhh-mm-ss a");
+                            String dateString = sdf.format(currentDate);
+
+
+
+
+                        }
+
+                        @Override
+                        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                        }
+
+                        @Override
+                        public void onProviderEnabled(String s) {
+
+                        }
+
+                        @Override
+                        public void onProviderDisabled(String s) {
+
+                        }
+                    });
+        }
+    }
+
+    //THis class will have to get the singleton and send the user's current location to the server
+    private void sendCurrentLocationTOServer() {
 
     }
 

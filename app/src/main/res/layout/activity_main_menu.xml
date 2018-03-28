@@ -4,19 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="groupdenim.cmpt276.awalkingschoolbus.activities.MainMenuActivity">
+    tools:context="groupdenim.cmpt276.awalkingschoolbus.activities.MainMenuActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <Button
         android:id="@+id/btnMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="244dp"
+        android:layout_marginBottom="184dp"
+        android:layout_marginStart="40dp"
         android:text="@string/switch_to_mapView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.697"
-        android:layout_marginRight="244dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="40dp" />
 
     <Button
         android:id="@+id/btn_monitor"
@@ -31,48 +31,44 @@
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="12dp"
         android:text="@string/switch_to_logout"
         app:layout_constraintStart_toStartOf="@+id/btn_monitor"
         app:layout_constraintTop_toBottomOf="@+id/btn_monitor" />
 
     <ImageView
         android:id="@+id/imageView2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginBottom="200dp"
-        android:layout_marginEnd="39dp"
-        android:layout_marginStart="39dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_start_walking"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+
+        android:layout_marginBottom="110dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="114dp"
+        app:layout_constraintBottom_toBottomOf="@+id/editInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/bus" />
+        app:layout_constraintVertical_bias="0.0"
+        app:srcCompat="@drawable/bus"
+        android:layout_marginLeft="56dp" />
 
     <Button
         android:id="@+id/editInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginBottom="7dp"
+        android:layout_marginStart="30dp"
         android:text="@string/edit_info"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.724"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.703" />
+        app:layout_constraintBottom_toTopOf="@+id/btn_monitor"
+        app:layout_constraintStart_toEndOf="@+id/btn_monitor"
+        android:layout_marginLeft="30dp" />
 
     <Button
         android:id="@+id/btn_start_walking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="17dp"
+        android:layout_marginTop="12dp"
         android:text="@string/start_walking"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/btnLogout"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintStart_toEndOf="@+id/btn_monitor"
+        app:layout_constraintTop_toBottomOf="@+id/btn_monitor" />
 
 </android.support.constraint.ConstraintLayout>

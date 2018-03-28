@@ -51,7 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
             initializeMapButton();
         }
         initializeLogout();
-        //initializeWalkingWithGroup();
+        initializeWalkingWithGroup();
 
     }
 
@@ -159,18 +159,18 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+// This button will make the user begin sending coordinates to the server.
+    private void initializeWalkingWithGroup() {
 
-    //This button will make the user begin sending coordinates to the server.
-//    private void initializeWalkingWithGroup() {
-//        boolean isUserInUserAGroup = false;
-//        Button btnStartWalking = (Button) findViewById(R.id.btn_start_walking);
-//        btnStartWalking.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
-//    }
+        Button btnStartWalking = (Button) findViewById(R.id.btn_start_walking);
+        btnStartWalking.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, WalkingMapActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
 
 
