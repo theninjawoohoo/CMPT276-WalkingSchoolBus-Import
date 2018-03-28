@@ -52,6 +52,9 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
     private placeObject place;
     private GoogleApiClient mGoogleApiClient;
 
+    private Button buttonCancel;
+    private Button buttonCreate;
+
     //Search box that looks for a google place.
     private AutoCompleteTextView theSearchBox;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
@@ -83,8 +86,8 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
     }
 
     private void setupCancelButton(){
-        Button button = findViewById(R.id.button_CreateGroupActivity_cancel);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonCancel = findViewById(R.id.button_CreateGroupActivity_cancel);
+        buttonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(CreateGroupActivity.this, MapActivity.class);
@@ -95,19 +98,24 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
     }
 
     private void setupCreateButton() {
-        Button button = findViewById(R.id.button_CreateGroupActivity_create);
-        button.setOnClickListener(new View.OnClickListener() {
+        buttonCreate = findViewById(R.id.button_CreateGroupActivity_create);
+        buttonCreate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                button.setEnabled(false);
+                setEnabledAllButtons(false);
                 getInput();
                 if (isInputValid()) {
                     sendInput();
                 } else {
-                    button.setEnabled(true);
+                    setEnabledAllButtons(true);
                 }
             }
         });
+    }
+
+    private void setEnabledAllButtons(boolean bool) {
+        buttonCreate.setEnabled(bool);
+        buttonCancel.setEnabled(bool);
     }
 
     private void getInput() {

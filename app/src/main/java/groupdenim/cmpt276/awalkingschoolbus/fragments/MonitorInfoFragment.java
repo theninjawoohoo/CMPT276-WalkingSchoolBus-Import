@@ -58,7 +58,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
                 v.findViewById(R.id.LinearLayout_MonitorInfoFragment_DisplayInfo);
 
         // Name
-        String name = "Name: " + selectedUser.getEmail();
+        String name = "Name: " + selectedUser.getName();
         TextView nameText = new TextView(getActivity());
         nameText.setText(name);
         nameText.setTextSize(TEXT_SIZE);

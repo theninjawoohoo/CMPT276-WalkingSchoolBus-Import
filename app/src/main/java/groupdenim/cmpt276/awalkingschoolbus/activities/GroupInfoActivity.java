@@ -142,7 +142,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         text = findViewById(R.id.TextView_GroupInfoActivity_GroupLeader);
         text.setText(R.string.leader_colon);
         text = findViewById(R.id.TextView_GroupInfoActivity_Destination);
-        text.setText(R.string.description_colon);
+        text.setText(R.string.destination_colon);
         text = findViewById(R.id.TextView_GroupInfoActivity_Meeting);
         text.setText(R.string.meeting_colon);
 

@@ -236,7 +236,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         addNewMeetingSpot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(mPlace == null) {
+                if (mPlace == null) {
                     placeObject yourLocation = new placeObject();
                     mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MapActivity.this);
 
@@ -249,8 +249,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         Log.e(TAG, "getDeviceLocation: securityException has been called.");
                     }
                     mPlace = yourLocation;
-
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
+
                 MapSingleton mapSingleton = MapSingleton.getInstance();
                 mapSingleton.setTempObject(mPlace);
                 Intent intent = new Intent(MapActivity.this, CreateGroupActivity.class);
