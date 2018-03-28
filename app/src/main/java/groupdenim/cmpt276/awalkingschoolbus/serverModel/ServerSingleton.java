@@ -237,4 +237,13 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+    public void editReadStatusForMessage(Context context, ProxyBuilder.SimpleCallback<User> callback, Long idMessage, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<User> caller = proxy.editReadStatus(idMessage,id,true);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
 }

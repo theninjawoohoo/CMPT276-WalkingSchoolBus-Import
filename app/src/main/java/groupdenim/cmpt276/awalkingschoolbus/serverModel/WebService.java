@@ -40,6 +40,7 @@ public interface WebService {
     String FEED_GETALLMESSAGES = "/messages";
     String FEED_GETMESSAGESFORUSER= "/messages";
     String FEED_SENDMESSAGEBYID= "/messages/toparentsof/{userId}";
+    String FEED_EDITREADSTATUS = "/messages/{messageId}/readby/{userId}";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -128,6 +129,7 @@ public interface WebService {
     @POST(FEED_EDITUSERBYID)
     Call<User> editUserById(@Path("id") long id);
 
-
+    @POST(FEED_EDITREADSTATUS)
+    Call<User> editReadStatus(@Path("messageId") long idMessage, @Path("userId") long id, @Body boolean trueOrFalse);
 
 }

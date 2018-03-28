@@ -27,6 +27,7 @@ public class SendMessage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
         setupSendButton();
+
     }
 
     private void setupSendButton() {
@@ -41,6 +42,7 @@ public class SendMessage extends AppCompatActivity {
                 long id = CurrentUserSingleton.getInstance(SendMessage.this).getId();
                 ProxyBuilder.SimpleCallback<Message> callback = messageSent -> sendMessage(messageSent);
                 ServerSingleton.getInstance().sendMessageById(SendMessage.this,callback,id,message);
+                finish();
             }
         });
     }

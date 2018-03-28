@@ -23,9 +23,9 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
 public class Messaging extends AppCompatActivity {
 
-    List<String> messageList;
+    List<String> messageListString = new ArrayList<>();
     List<String> names = new ArrayList<>();
-    List<Message> messages = new ArrayList<>();
+    List<Message> messagesList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,8 @@ public class Messaging extends AppCompatActivity {
         setupListenerForMessageClick();
         setupUIRefresh();
     }
+
+
 
     private void setupUIRefresh() {
         Thread t = new Thread() {
@@ -50,6 +52,9 @@ public class Messaging extends AppCompatActivity {
                             public void run() {
                                 // update TextView here!
                                 Log.i("v", "run: a");
+                                messagesList.clear();
+                                names.clear();
+                                messageListString.clear();
                                 setupCallToServer();
                             }
                         });
@@ -67,45 +72,38 @@ public class Messaging extends AppCompatActivity {
         messageListListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.i("ban", "onItemClick: " + view.getId() + " " + i);
-                Log.i("ban", "onItemClick: message says " + Messaging.this.messageList.get(i));
-                Intent intent = ViewMessage.makeIntent(Messaging.this,names.get(i),messages.get(i).getText());
+
+                long messageId = messagesList.get(i).getId();
+                long userId = CurrentUserSingleton.getInstance(Messaging.this).getId();
+                editReadStatus(messageId,userId,messagesList.get(i));
+                Intent intent = ViewMessage.makeIntent(Messaging.this,names.get(i), messagesList.get(i).getText());
                 startActivity(intent);
             }
         });
     }
 
+    private void editReadStatus(long messageId, long userId, Message message) {
+        if (!getIsRead(message)) {
+            ProxyBuilder.SimpleCallback<User> callback = user -> setStatus(user);
+            ServerSingleton.getInstance().editReadStatusForMessage(Messaging.this,callback,messageId, userId);
+        }
+    }
+
+    private void setStatus(User user) {
+        populateCurrentUser(user.getEmail());
+        messagesList.clear();
+        names.clear();
+        messageListString.clear();
+        setupCallToServer();
+    }
+
     private void setupCallToServer() {
+        populateCurrentUser(CurrentUserSingleton.getInstance(this).getEmail());
         long id = CurrentUserSingleton.getInstance(this).getId();
         ProxyBuilder.SimpleCallback<List<Message>> callback = messages -> showMessages(messages);
         ServerSingleton.getInstance().getMessagesForUser(this, callback, id);
-
-        setupReadVsUnread();
     }
 
-    private void setupReadVsUnread() {
-        long id = CurrentUserSingleton.getInstance(this).getId();
-        ProxyBuilder.SimpleCallback<List<Message>> readCallback = messages -> setStatusRead(messages);
-        ServerSingleton.getInstance().getReadMessagesForUser(this, readCallback, id);
-
-        ProxyBuilder.SimpleCallback<List<Message>> unreadCallback = messages -> setStatusUnread(messages);
-        ServerSingleton.getInstance().getReadMessagesForUser(this, unreadCallback, id);
-
-    }
-
-    private void setStatusUnread(List<Message> messages) {
-        for (Message message : messages) {
-            message.setRead(false);
-            messages.add(message);
-        }
-    }
-
-    private void setStatusRead(List<Message> messages) {
-        for (Message message : messages) {
-            message.setRead(true);
-            messages.add(message);
-        }
-    }
 
     private void setupSendMessageButton() {
         FloatingActionButton sendMessage = findViewById(R.id.Button_sendMessage_Messaging);
@@ -119,30 +117,30 @@ public class Messaging extends AppCompatActivity {
     }
 
     private void showMessages(List<Message> messages) {
-        Log.i("bav", "showMes: got unread messages");
-        ListView messageList = findViewById(R.id.messageList);
-        this.messageList = getStringList(messages);
-//        ArrayAdapter<String> messageListArrayAdapter = new ArrayAdapter<String>(this,R.layout.message_card, messageList);
-//        messageList.setAdapter(messageListArrayAdapter);
+        messagesList = messages;
+        getStringList(messages);
     }
 
 
-    private List<String> getStringList(List<Message> messages) {
-        Log.i("message Test", "getStringList: " + messages);
-        List<String> messageListString = new ArrayList<>();
+    private void getStringList(List<Message> messages) {
+
         for (Message message : messages) {
-            boolean isRead = message.isRead();
-            messages.add(message);
+            //boolean isRead = message.isRead();
             User user = message.getFromUser();
-            findUser(user,messageListString,isRead);
-            this.messages.add(message);
-            //messageListString.add(message.getFromUser().getId() + " " + message.getText() );
+            boolean isRead = getIsRead(message);
+            findUser(user,isRead);
         }
-        for (String s : names) {
-            Log.i("tagthis", "getStringList: ajajajajaj");
-            messageListString.add(s);
+    }
+
+    private boolean getIsRead(Message message) {
+        populateCurrentUser(CurrentUserSingleton.getInstance(this).getEmail());
+        List<Message> read = CurrentUserSingleton.getInstance(this).getReadMessages();
+        for (Message messageToCheck : read) {
+            if (messageToCheck.getId() == message.getId()) {
+                return true;
+            }
         }
-        return messageListString;
+        return false;
     }
 
     public static Intent makeIntent(Context context) {
@@ -150,23 +148,37 @@ public class Messaging extends AppCompatActivity {
         return intent;
     }
 
-    private void findUser(User user, List<String> messageListString, boolean isRead) {
-        ProxyBuilder.SimpleCallback<User> callback = userReturned -> getUser(userReturned, messageListString, isRead);
+    private void findUser(User user, boolean isRead) {
+        ProxyBuilder.SimpleCallback<User> callback = userReturned -> getUser(userReturned,isRead);
         ServerSingleton.getInstance().getUserById(this,callback,user.getId());
     }
 
-    private void getUser(User user, List<String> messageListString, boolean isRead) {
+    private void getUser(User user, boolean isRead) {
+
         if (isRead) {
             String name = "From: " + user.getName();
             names.add(name);
-            this.messageList.add(name);
-        } else {
+            messageListString.add(name);
+        } else if (!isRead){
             String name = "* From: " + user.getName();
             names.add(name);
-            this.messageList.add(name);
+            messageListString.add(name);
         }
+
         ListView messageListListView = findViewById(R.id.messageList);
-        ArrayAdapter<String> messageListArrayAdapter = new ArrayAdapter<String>(this,R.layout.message_card, this.messageList);
+        messageListListView.setAdapter(null);
+        ArrayAdapter<String> messageListArrayAdapter = new ArrayAdapter<String>(this,R.layout.message_card, this.messageListString);
         messageListListView.setAdapter(messageListArrayAdapter);
+    }
+
+    private void populateCurrentUser(String email) {
+        Context context = this.getApplicationContext();
+        ProxyBuilder.SimpleCallback<User> callback = user -> setFields(user);
+        ServerSingleton.getInstance().getUserByEmail(context,callback, email);
+    }
+
+    private void setFields(User user) {
+        Log.i("a", "getuser: " + user);
+        CurrentUserSingleton.setFields(user);
     }
 }
