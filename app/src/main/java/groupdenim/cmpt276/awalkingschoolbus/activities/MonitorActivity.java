@@ -28,6 +28,7 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 //this class
 public class MonitorActivity extends AppCompatActivity {
 
+
     public static List<String> studentsBeingMonitoredWithName=new ArrayList<>();
     ArrayAdapter<String> adapter;
     ListView listView;
@@ -133,6 +134,9 @@ public class MonitorActivity extends AppCompatActivity {
         ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
         ServerSingleton.getInstance().stopMonitoringUser(getApplicationContext(),callback,
                 CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+
+        //removes someone from list of people user is monitoring
+        CurrentUserSingleton.getInstance(getApplicationContext()).getMonitorsUsers().remove(index);
 
     }
 

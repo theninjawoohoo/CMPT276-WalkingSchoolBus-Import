@@ -96,7 +96,11 @@ public class MonitoredByActivity extends AppCompatActivity {
         Long id=userList.get(index).getId();
 
         ProxyBuilder.SimpleCallback<Void> callback=tempo->setUserList(tempo,index);
-        ServerSingleton.getInstance().stopBeingMonitored(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+        ServerSingleton.getInstance().stopBeingMonitored(getApplicationContext(),callback,
+                CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+
+        //removes someone from list of people user is being monitored by
+        CurrentUserSingleton.getInstance(getApplicationContext()).getMonitoredByUsers().remove(index);
     }
 
     private void setUserList(Void tempo, int index) {

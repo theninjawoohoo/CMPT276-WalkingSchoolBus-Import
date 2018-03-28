@@ -8,6 +8,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
@@ -97,6 +101,15 @@ public class EditUserInfo extends AppCompatActivity {
             public void onClick(View view) {
                 //update the user object & send stuff back to the server
 
+                //check if email modified is valid or not
+                String input=editTextEmail.getText().toString();
+                if(!input.contains("@"))
+                {
+                    Toast.makeText(EditUserInfo.this,"Invalid Email",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 updatedCurrentUser.setName(editTextName.getText().toString());
                 updatedCurrentUser.setEmail(editTextEmail.getText().toString());
                 updatedCurrentUser.setAddress(editTextAddress.getText().toString());
@@ -111,10 +124,28 @@ public class EditUserInfo extends AppCompatActivity {
                 ServerSingleton.getInstance().editUserById(getApplicationContext(),callback,
                         CurrentUserSingleton.getInstance(getApplicationContext()).getEditUserId(),updatedCurrentUser);
 
+
+                //updates the CurrentUserSingleton object
+                CurrentUserSingleton instance=CurrentUserSingleton.getInstance(getApplicationContext());
+                //ie if we are modifying ourselves, then we update the currentUserSingleton instance
+                if(instance.getId()==updatedCurrentUser.getId()) {
+                    instance.setName(updatedCurrentUser.getName());
+                    instance.setEmail(updatedCurrentUser.getEmail());
+                    instance.setAddress(updatedCurrentUser.getAddress());
+                    instance.setTeacherName(updatedCurrentUser.getTeacherName());
+                    instance.setGrade(updatedCurrentUser.getGrade());
+                    instance.setCellPhone(updatedCurrentUser.getCellPhone());
+                    instance.setHomePhone(updatedCurrentUser.getHomePhone());
+                    instance.setEmergencyContactInfo(updatedCurrentUser.getEmergencyContactInfo());
+                }
+
+
                 finish();
             }
         });
     }
+
+
 
     public void resetEditTextFields(Button btnReset)
     {

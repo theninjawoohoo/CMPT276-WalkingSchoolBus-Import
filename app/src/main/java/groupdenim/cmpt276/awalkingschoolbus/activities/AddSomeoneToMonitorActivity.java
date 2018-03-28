@@ -64,7 +64,11 @@ public class AddSomeoneToMonitorActivity extends AppCompatActivity {
         Log.i("a", "setFieldsUserToMonitor: " + id);
 
         ProxyBuilder.SimpleCallback<List<User>> callback=userList->setUserList(userList);
-        ServerSingleton.getInstance().monitorUsers(getApplicationContext(),callback,CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+        ServerSingleton.getInstance().monitorUsers(getApplicationContext(),callback,
+                CurrentUserSingleton.getInstance(getApplicationContext()).getId(),id);
+
+        //adds user to be monitored to singleton
+        CurrentUserSingleton.getInstance(getApplicationContext()).getMonitorsUsers().add(user);
 
     }
 
