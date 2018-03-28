@@ -127,43 +127,43 @@ public class GroupMemberInfoFragment extends AppCompatDialogFragment {
         moreUserInfo.add(email);
 
         // Birth year
-        if (selectedUser.getBirthYear() != null) {
+        if (selectedUser.getBirthYear() != null && !selectedUser.getBirthYear().isEmpty()) {
             String birthYear = "Birth Year: " + selectedUser.getBirthYear();
             moreUserInfo.add(birthYear);
         }
 
         // Birth month
-        if (selectedUser.getBirthMonth() != null) {
+        if (selectedUser.getBirthMonth() != null && !selectedUser.getBirthMonth().isEmpty()) {
             String birthMonth = "Birth Month: " + selectedUser.getBirthMonth();
             moreUserInfo.add(birthMonth);
         }
 
         // Address
-        if (selectedUser.getAddress() != null) {
+        if (selectedUser.getAddress() != null && !selectedUser.getAddress().isEmpty()) {
             String adress = "Address: " + selectedUser.getAddress();
             moreUserInfo.add(adress);
         }
 
         // Cell Phone
-        if (selectedUser.getCellPhone() != null) {
+        if (selectedUser.getCellPhone() != null && !selectedUser.getCellPhone().isEmpty()) {
             String cell = "Cell #: " + selectedUser.getCellPhone();
             moreUserInfo.add(cell);
         }
 
         // Home phone
-        if (selectedUser.getHomePhone() != null) {
+        if (selectedUser.getHomePhone() != null && !selectedUser.getHomePhone().isEmpty()) {
             String home = "Home #: " + selectedUser.getHomePhone();
             moreUserInfo.add(home);
         }
 
         // Grade
-        if (selectedUser.getGrade() != null) {
+        if (selectedUser.getGrade() != null && !selectedUser.getGrade().isEmpty()) {
             String grade = "Grade: " + selectedUser.getGrade();
             moreUserInfo.add(grade);
         }
 
         // Teacher name
-        if (selectedUser.getTeacherName() != null) {
+        if (selectedUser.getTeacherName() != null && !selectedUser.getTeacherName().isEmpty()) {
             String teacher = "Teacher: " + selectedUser.getTeacherName();
             moreUserInfo.add(teacher);
         }

@@ -72,7 +72,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         linearLayout.addView(emailText);
 
         // Birth year
-        if (selectedUser.getBirthYear() != null) {
+        if (selectedUser.getBirthYear() != null && !selectedUser.getBirthYear().isEmpty()) {
             String birthYear = "Birth Year: " + selectedUser.getBirthYear();
             TextView yearText = new TextView(getActivity());
             yearText.setText(birthYear);
@@ -81,7 +81,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         }
 
         // Birth month
-        if (selectedUser.getBirthMonth() != null) {
+        if (selectedUser.getBirthMonth() != null && !selectedUser.getBirthMonth().isEmpty()) {
             String birthMonth = "Birth Month: " + selectedUser.getBirthMonth();
             TextView monthText = new TextView(getActivity());
             monthText.setText(birthMonth);
@@ -90,7 +90,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         }
 
         // Address
-        if (selectedUser.getAddress() != null) {
+        if (selectedUser.getAddress() != null && !selectedUser.getAddress().isEmpty()) {
             String address = "Address: " + selectedUser.getAddress();
             TextView addressText = new TextView(getActivity());
             addressText.setText(address);
@@ -99,7 +99,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         }
 
         // Cell Phone
-        if (selectedUser.getCellPhone() != null) {
+        if (selectedUser.getCellPhone() != null && !selectedUser.getCellPhone().isEmpty()) {
             String cell = "Cell #: " + selectedUser.getCellPhone();
             TextView cellText = new TextView(getActivity());
             cellText.setText(cell);
@@ -108,7 +108,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         }
 
         // Home phone
-        if (selectedUser.getHomePhone() != null) {
+        if (selectedUser.getHomePhone() != null && !selectedUser.getHomePhone().isEmpty()) {
             String home = "Home #: " + selectedUser.getHomePhone();
             TextView homeText = new TextView(getActivity());
             homeText.setText(home);
@@ -117,7 +117,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         }
 
         // Grade
-        if (selectedUser.getGrade() != null) {
+        if (selectedUser.getGrade() != null && !selectedUser.getGrade().isEmpty()) {
             String grade = "Grade: " + selectedUser.getGrade();
             TextView gradeText = new TextView(getActivity());
             gradeText.setText(grade);
@@ -126,7 +126,7 @@ public class MonitorInfoFragment extends AppCompatDialogFragment {
         }
 
         // Teacher name
-        if (selectedUser.getTeacherName() != null) {
+        if (selectedUser.getTeacherName() != null && !selectedUser.getTeacherName().isEmpty()) {
             String teacher = "Teacher: " + selectedUser.getTeacherName();
             TextView teacherText = new TextView(getActivity());
             teacherText.setText(teacher);
