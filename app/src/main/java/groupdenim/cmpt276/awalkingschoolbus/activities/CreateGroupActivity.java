@@ -35,7 +35,6 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
-import groupdenim.cmpt276.awalkingschoolbus.mapModels.placeObject;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
@@ -100,40 +99,39 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO: make it validate input then store input in new group
+                button.setEnabled(false);
                 getInput();
                 if (isInputValid()) {
-                    button.setEnabled(false);
                     sendInput();
+                } else {
+                    button.setEnabled(true);
                 }
-
-                if(!(theSearchBox.getText().toString().isEmpty())) {
-                    try {
-                        geoLocate();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
             }
         });
     }
 
     private void getInput() {
         EditText editGroupName = findViewById(R.id.editText_CreateGroupActivity_groupDescription);
-        editGroupName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(!(theSearchBox.getText().toString().isEmpty())) {
-                    try {
-                        geoLocate();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
         groupDescription = editGroupName.getText().toString();
+        if(!(theSearchBox.getText().toString().isEmpty())) {
+            try {
+                geoLocate();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+//        editGroupName.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if(!(theSearchBox.getText().toString().isEmpty())) {
+//                    try {
+//                        geoLocate();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
     }
 
     private void setupSearchButton() {
@@ -184,8 +182,6 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         Log.d(TAG, "Searching for location");
 
         String searchedLocation = theSearchBox.getText().toString();
-        Toast.makeText(CreateGroupActivity.this, searchedLocation , Toast.LENGTH_LONG).show();
-
         //Once the input is placed in the search box, we have to obtain a list of addresses
         Geocoder geocoder = new Geocoder(CreateGroupActivity.this);
         List<Address> listOfAddresses = new ArrayList<>();
@@ -203,6 +199,7 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         //Now Go To The location
         //And set the destination to send to the server
         if (listOfAddresses.size() > 0) {
+            Toast.makeText(CreateGroupActivity.this, searchedLocation , Toast.LENGTH_LONG).show();
             Address address = listOfAddresses.get(0);
             routeLatArray[1] = address.getLatitude();
             routeLngArray[1] = address.getLongitude();
@@ -212,30 +209,18 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
     private boolean isInputValid() {
         String errorMessage;
         if (groupDescription.length() < MIN_TEXT_LENGTH) {
-            errorMessage = "Description must be at least " + MIN_TEXT_LENGTH + " characters long.";
+            errorMessage = "Description must be at least " + MIN_TEXT_LENGTH + " characters long";
+        } else if (routeLatArray[1] == 0 && routeLngArray[1] == 0) {
+            errorMessage = "This location is not supported. Please try an address";
         } else {
             return true;
         }
         Toast.makeText(CreateGroupActivity.this, errorMessage,
-                Toast.LENGTH_SHORT).show();
+                Toast.LENGTH_LONG).show();
         return false;
     }
 
     private void sendInput() {
-        //CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(this);
-//        User currentUser = new User();
-//        currentUser.setId(CurrentUserSingleton.getInstance(CreateGroupActivity.this).getId());
-//        //Group group = new Group(groupDescription, new ArrayList<String>(), routeLatArray, routeLngArray, currentUser);
-//        Group group = new Group();
-//        group.setLeader(currentUser);
-//        group.setGroupDescription(groupDescription);
-//  //      group.setRouteLatArray(routeLatArray);
-////        group.setRouteLngArray(routeLngArray);
-//
-//        //Add the group and wait for a response
-//        ProxyBuilder.SimpleCallback<Group> callback = groups -> createGroupResponse(groups);
-//        ServerSingleton.getInstance().createNewGroup(CreateGroupActivity.this, callback, group);
-
         Group group = new Group();
         group.setGroupDescription(groupDescription);
         group.setId(3);

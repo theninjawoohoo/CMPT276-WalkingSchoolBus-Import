@@ -41,7 +41,6 @@ public class GroupInfoActivity extends AppCompatActivity {
     private Group groupToDisplay = new Group();
     private List<User> membersOfGroup = new ArrayList<>();
     private User groupLeader;
-    private final float TEXT_SIZE = 24;
     private static final String PUT_EXTRA = "groupdenim.cmpt276.awalkingschoolbus - double";
 
     @Override
@@ -85,77 +84,18 @@ public class GroupInfoActivity extends AppCompatActivity {
                 ServerSingleton.getInstance().getUserById(this, callback, user.getId());
             }
         } else {
-                //All members have been added to the membersOfGroup list, now containing their emails
-                populateFields(groupToDisplay.getGroupDescription(),
-                        R.id.linearLayout_GroupInfoActivity_GroupDescription);
-                populateFields(groupToDisplay.getLeader().getEmail(),
-                    R.id.linearLayout_GroupInfoActivity_GroupLeader);
-                //populateFields(tempDestination, R.id.linearLayout_GroupInfoActivity_Destination);
-                populateFields(groupToDisplay.getRouteLatArray()[0] + "",
-                        R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
-                populateList();
-                createAppropriateButtons();
-            String meetingSpot = "Not Specified";
-            String destinationSpot = "Not Specified";
-            try {
-                meetingSpot = geoEncoder(groupToDisplay.getRouteLatArray()[0],
-                                                groupToDisplay.getRouteLngArray()[0]);
-                destinationSpot = geoEncoder(groupToDisplay.getRouteLatArray()[1],
-                                                groupToDisplay.getRouteLngArray()[1]);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            //All members have been added to the membersOfGroup list, now containing their emails
-            populateFields(groupToDisplay.getGroupDescription(),
-                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
-            populateFields(groupToDisplay.getLeader().getEmail(),
-                R.id.linearLayout_GroupInfoActivity_GroupLeader);
-
-            populateFields(meetingSpot,
-                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
-            populateFields(destinationSpot,
-                    R.id.linearLayout_GroupInfoActivity_Destination);
+            populateTextViews();
             populateList();
             createAppropriateButtons();
         }
     }
 
-    private void getUsersResponse(User user) {
-        membersOfGroup.add(user);
-        Log.i("CHECKING_GROUP_RESPONSE", "Got group response!");
+    private void populateTextViews() {
+        populateFields(groupToDisplay.getGroupDescription(),
+                R.id.TextView_GroupInfoActivity_GroupDescription);
+        populateFields(groupToDisplay.getLeader().getEmail(),
+                R.id.TextView_GroupInfoActivity_GroupLeader);
 
-        String meetingSpot = "Meeting Not Specified";
-        String destinationSpot = "Destination Not Specified";
-        try {
-            meetingSpot = geoEncoder(groupToDisplay.getRouteLatArray()[0],
-                    groupToDisplay.getRouteLngArray()[0]);
-            destinationSpot = geoEncoder(groupToDisplay.getRouteLatArray()[1],
-                    groupToDisplay.getRouteLngArray()[1]);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        //Once needed data is retrieved from server, display the information
-        if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size() ||
-            groupToDisplay.getMemberUsers().size() == 0) {
-            //All members have been added to the membersOfGroup list, now containing their emails
-            populateFields(groupToDisplay.getGroupDescription(),
-                    R.id.linearLayout_GroupInfoActivity_GroupDescription);
-            populateFields(groupToDisplay.getLeader().getEmail(),
-                    R.id.linearLayout_GroupInfoActivity_GroupLeader);
-            populateFields(meetingSpot,
-                    R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
-            populateFields(destinationSpot,
-                    R.id.linearLayout_GroupInfoActivity_Destination);
-            populateList();
-            createAppropriateButtons();
-        }
-    }
-
-    public void updateUi() {
-        Log.i("UPDATE_UI", "fjkrwnfkj");
-        clearUi();
         String meetingSpot = "Not Specified";
         String destinationSpot = "Not Specified";
         try {
@@ -166,43 +106,54 @@ public class GroupInfoActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        updateGroupToDisplay();
-        populateFields(groupToDisplay.getGroupDescription(),
-                R.id.linearLayout_GroupInfoActivity_GroupDescription);
-        populateFields(groupToDisplay.getLeader().getEmail(),
-                R.id.linearLayout_GroupInfoActivity_GroupLeader);
-        populateFields(meetingSpot,
-                R.id.linearLayout_GroupInfoActivity_Meeting); //TEMP
         populateFields(destinationSpot,
-                R.id.linearLayout_GroupInfoActivity_Destination);
+                R.id.TextView_GroupInfoActivity_Destination);
+        populateFields(meetingSpot,
+                R.id.TextView_GroupInfoActivity_Meeting);
+    }
+
+    private void getUsersResponse(User user) {
+        membersOfGroup.add(user);
+        Log.i("CHECKING_GROUP_RESPONSE", "Got group response!");
+
+        //Once needed data is retrieved from server, display the information
+        if (membersOfGroup.size() == groupToDisplay.getMemberUsers().size() ||
+                groupToDisplay.getMemberUsers().size() == 0) {
+            //All members have been added to the membersOfGroup list, now containing their emails
+            populateTextViews();
+            populateList();
+            createAppropriateButtons();
+        }
+    }
+
+    public void updateUi() {
+        Log.i("UPDATE_UI", "fjkrwnfkj");
+        clearUi();
+        updateGroupToDisplay();
+        populateTextViews();
         populateList();
         createAppropriateButtons();
     }
 
     private void clearUi() {
-        final int FIELD_INDEX = 1;
-        LinearLayout layout;
-        layout = findViewById(R.id.linearLayout_GroupInfoActivity_GroupDescription);
-        layout.removeViewAt(FIELD_INDEX);
-        layout = findViewById(R.id.linearLayout_GroupInfoActivity_GroupLeader);
-        layout.removeViewAt(FIELD_INDEX);
-        layout = findViewById(R.id.linearLayout_GroupInfoActivity_Destination);
-        layout.removeViewAt(FIELD_INDEX);
-        layout = findViewById(R.id.linearLayout_GroupInfoActivity_Meeting);
-        layout.removeViewAt(FIELD_INDEX);
+        TextView text;
+        text = findViewById(R.id.TextView_GroupInfoActivity_GroupDescription);
+        text.setText(R.string.description_colon);
+        text = findViewById(R.id.TextView_GroupInfoActivity_GroupLeader);
+        text.setText(R.string.leader_colon);
+        text = findViewById(R.id.TextView_GroupInfoActivity_Destination);
+        text.setText(R.string.description_colon);
+        text = findViewById(R.id.TextView_GroupInfoActivity_Meeting);
+        text.setText(R.string.meeting_colon);
 
-        layout = findViewById(R.id.hlinearLayout_GroupInfoActivity_Buttons);
+        LinearLayout layout = findViewById(R.id.hlinearLayout_GroupInfoActivity_Buttons);
         layout.removeAllViews();
     }
 
-    private void populateFields(String name, int resId) {
-        LinearLayout layout = findViewById(resId);
-        TextView text = new TextView(this);
-        text.setText(name);
-        text.setTextSize(TEXT_SIZE);
-        text.setGravity(Gravity.LEFT);
-        layout.addView(text);
+    private void populateFields(String textToAdd, int resId) {
+        TextView text = findViewById(resId);
+        String currentText = text.getText().toString();
+        text.setText(currentText + " " + textToAdd);
     }
 
     private void populateList(){
@@ -457,11 +408,13 @@ public class GroupInfoActivity extends AppCompatActivity {
         Geocoder geocoder;
         List<Address> addresses;
         geocoder = new Geocoder(this, Locale.getDefault());
+        String failedDestination = "Lat: " + latitude + ", Long: " + longitude;
 
+        Log.d("GEO_ENCODER", "geoEncoder: latitude: " + latitude + " longitude: " + longitude);
         addresses = geocoder.getFromLocation(latitude, longitude, 1);
 
-        if(addresses.size() == 0) {
-            return "Not Specified/Coordinates Don't exist.";
+        if (addresses.size() == 0) {
+            return failedDestination;
         }
 
         return addresses.get(0).getAddressLine(0);
