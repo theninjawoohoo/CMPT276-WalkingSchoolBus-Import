@@ -59,15 +59,6 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
-    public void editUserById(Context context, ProxyBuilder.SimpleCallback<User> callback, long id) {
-        if (TOKEN != null) {
-            updateProxy(TOKEN);
-        }
-        Call<User> caller = proxy.editUserById(id);
-        ProxyBuilder.callProxy(context, caller, callback);
-    }
-
-
     public void getUserByEmail(Context context, ProxyBuilder.SimpleCallback<User> callback, String email) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
@@ -201,7 +192,7 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
-    public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List<Message>> callback, Long id) {
+public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List<Message>> callback, Long id) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
         }
@@ -257,11 +248,13 @@ public class ServerSingleton {
         Call<User> caller = proxy.editReadStatus(idMessage,id,true);
         ProxyBuilder.callProxy(context, caller, callback);
     }
-    public void editUserById(Context context,ProxyBuilder.SimpleCallback<User> callback, long id,User user){
-        if(TOKEN!=null)
-            updateProxy(TOKEN);
 
-        Call<User> caller=proxy.editUserById(id,user);
+    public void editUserById(Context context,ProxyBuilder.SimpleCallback<User> callback, Long id,User user){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+
+        Call<User> caller = proxy.editUserById(id,user);
         ProxyBuilder.callProxy(context,caller,callback);
     }
 

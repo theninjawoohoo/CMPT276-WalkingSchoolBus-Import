@@ -18,10 +18,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,16 +29,18 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
-import org.w3c.dom.Text;
 
-import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.R;
@@ -52,11 +50,12 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.GPSLocation;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
+
 /**
- * Created by wwwfl on 2018-03-25.
+ * Created by wwwfl on 2018-03-27.
  */
 
-public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class DashboardActivity extends AppCompatActivity implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener {
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -90,8 +89,6 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     //Changing/Dynamic Variables
     private GoogleMap Gmap;
     private boolean mLocationPermissionGranted = false;
-    private boolean isTracking = true;
-    private LatLng myLatLng;
 
     //Constant variables
     private final String TAG = "TAG";
@@ -99,68 +96,30 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final float DEFAULT_ZOOM = 14f;
-    private static final int WAIT_TIME = 30000;
 
+    //Array list of markers for children.
+    List<Marker> listOfChildrenMarkers = new ArrayList<>();
 
     //Location manager
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private LocationManager theLocManager;
-
-    //Markers
-    private Marker tempMarker;
-    private Marker mMarker;
-
-    //Some textView and buttons
-    private TextView latitudeText;
-    private TextView longitudeText;
-    private TextView timeStamp;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_walking_map);
+        setContentView(R.layout.activity_dashboard);
         checkGPSStatus();
         getLocationPermissions();
+        try {
+            populateMapWithChildren();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
-        //Setup the managers and buttons
-        theLocManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        latitudeText = (TextView) findViewById(R.id.latitude);
-        longitudeText = (TextView) findViewById(R.id.longitude);
-        timeStamp = (TextView) findViewById(R.id.timeStamp);
-
-        updateTracker();
     }
 
     private void initialize() {
-//        trackingStatus = (TextView) findViewById(R.id.trackMode);
-//        trackingStatus.setText(R.string.trueStatement);
-//        enableTracking = (Button) findViewById(R.id.btn_resume_tracking);
-//        disableTracking = (Button) findViewById(R.id.btn_stop_tracking);
-//
-//        enableTracking.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                trackingStatus.setText(R.string.trueStatement);
-//                if(isTracking) {
-//                    return;
-//                }
-//                updateTracker();
-//                isTracking = true;
-//
-//            }
-//        });
-//
-//        disableTracking.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                trackingStatus.setText(R.string.falseStatement);
-//                if(!isTracking) {
-//                    return;
-//                }
-//                isTracking = false;
-//            }
-//        });
+
     }
 
 
@@ -184,7 +143,7 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
                         }
                         else {
                             Log.d(TAG, "onComplete: current location cannot be found");
-                            Toast.makeText(WalkingMapActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DashboardActivity.this,"Where are you?", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -227,17 +186,6 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
         Log.d(TAG, "Camera moved to latitude" + latlng.latitude
                 + ", longitude " + latlng.longitude);
         Gmap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
-
-        MarkerOptions options = new MarkerOptions()
-                .position(latlng)
-                .title(title);
-
-        if(tempMarker != null) {
-            tempMarker.remove();
-        }
-        mMarker = Gmap.addMarker(options);
-        tempMarker = mMarker;
-
     }
 
     private void initializeMap() {
@@ -246,7 +194,7 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
 
         //Set the activity fragment to the map
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        mapFragment.getMapAsync(WalkingMapActivity.this);
+        mapFragment.getMapAsync(DashboardActivity.this);
     }
 
     //Prevents the app from crashing if GPS is turned off.
@@ -279,97 +227,81 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
         alert.show();
     }
 
-    private void updateTracker() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+    //Populate the map with your children
+    private void populateMapWithChildren() throws ParseException {
+        long id = CurrentUserSingleton.getInstance(DashboardActivity.this).getId();
+        List<User> childrenList = new ArrayList<>();
+
+        ProxyBuilder.SimpleCallback<List<User>> callback = list -> getChildren(list, childrenList) ;
+        ServerSingleton.getInstance().getMonitorUsers(this, callback, id);
+
+
+    }
+
+    private void getChildren(List<User> list, List<User> childrenList) {
+        for(User child : list) {
+            getChild(child.getEmail(), childrenList);
         }
 
-        //Ensure that the network provider is enabled.
-        //Courtesy of this video: https://www.youtube.com/watch?v=qS1E-Vrk60E
-        if (theLocManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            theLocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                    WAIT_TIME, 0, new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-                            //Get latitude and longitude
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
-                            latitudeText.setText("" + latitude);
-                            longitudeText.setText("" + longitude);
+    }
 
-                            LatLng yourLatLng = new LatLng(latitude, longitude);
-                            Geocoder geocoder = new Geocoder(getApplicationContext());
-                            try {
-                                List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                                String currentLocality = addressList.get(0).getLocality();
-                                Gmap.clear();
-                                moveCamera(yourLatLng, DEFAULT_ZOOM, currentLocality);
+    private void getChild(String email, List<User> childrenList) {
+        ProxyBuilder.SimpleCallback<User> callback = user -> gotUser(user, childrenList);
+        ServerSingleton.getInstance().getUserByEmail(this,callback,email);
 
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+    }
 
-                            //Code used from...
-                            //https://github.com/AllInOneYT/Project/blob/master/Android/MyApplication/app/src/main/java/myapp/myapplication/MainActivity.java
-                            long currentDate = System.currentTimeMillis();
-                            //Extract the date
-                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\nhh-mm-ss a");
-                            String dateString = sdf.format(currentDate);
-                            timeStamp.setText(dateString);
-
-                            sendCurrentLocationToServer(latitude, longitude, dateString);
-                        }
-
-                        @Override
-                        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                        }
-
-                        @Override
-                        public void onProviderEnabled(String s) {
-                            isTracking = true;
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String s) {
-                            isTracking = false;
-                        }
-                    });
-            }
+    private void gotUser(User user, List<User> childrenList) {
+        GPSLocation childLocation = user.getLastGpsLocation();
+        if(childLocation.getLat() != 0 && childLocation.getLng() != 0
+                && childLocation.getTimestamp() != null) {
+            Log.i("FUJ", "gotUser: " + childLocation.getTimestamp());
+            childrenList.add(user);
         }
-
-
-
-    //This class will have to get the singleton and send the user's current location to the server
-    private void sendCurrentLocationToServer(double latitude, double longitude, String date) {
-        GPSLocation yourLocation = new GPSLocation(latitude, longitude, date);
-        //yourLocation.setLat(1.3);
-        //Send the GPSLocation to the server.
-        long id = CurrentUserSingleton.getInstance(this).getId();
-
-
-        ProxyBuilder.SimpleCallback<User> callback= user -> getUser(user, yourLocation);
-        ServerSingleton.getInstance().getUserById(WalkingMapActivity.this, callback, id);
-
+        else {
+            Toast.makeText(DashboardActivity.this,"Child: " + user
+                            + " has not started walking" + "\n"
+                            + " Lat: " + childLocation.getLat() + "\n"
+                            + " Long: " + childLocation.getLng() + "\n"
+                            + " TimeStamp: " + childLocation.getTimestamp() + "\n"
+                    , Toast.LENGTH_LONG).show();
+            Log.i("FUJK", "gotUser: " + user.getLastGpsLocation().getLat());
+        }
+//        try {
+//            markerAdd(user);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
-    //server update
-    private void getUser(User currentUser, GPSLocation yourLocation) {
-        currentUser.setLastGpsLocation(yourLocation);
-        //currentUser.setLastGpsLocationLatitude(1.3);
-        currentUser.setTeacherName("I");
-        Log.i("FUJK", "getUser TEACHEr: " + currentUser.getLastGpsLocation().getLat());
-        long id = currentUser.getId();
-        ProxyBuilder.SimpleCallback<User> callback= user -> doNothing(user);
-        ServerSingleton.getInstance().editUserById(this,callback,id,currentUser);
+
+    private void markerAdd(User child) throws ParseException {
+        //Get latitude longitude coordinates
+        GPSLocation childLocation = child.getLastGpsLocation();
+        LatLng latlng = new LatLng(childLocation.getLat(), childLocation.getLng());
+
+        //Calculate the difference in the time
+        String timestamp = childLocation.getTimestamp();
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\nhh-mm-ss a");
+        Date date = sdf.parse(timestamp);
+
+        long differenceInSeconds = (System.currentTimeMillis() - date.getTime()) * 100;
+
+        //Get childDetails from server
+        String childDetails = "Email: " + child.getEmail() + "\n" +
+                "Time: " + childLocation.getTimestamp() + "\n" +
+                "Difference In Time: " + differenceInSeconds + " seconds" + "\n";
+
+        //Add a new marker
+        MarkerOptions newMarker = new MarkerOptions()
+                .position(latlng)
+                .title("Location of child")
+                .snippet(childDetails)
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
+
+        //Place it on the map
+        Gmap.addMarker(newMarker);
+
     }
-
-    private void doNothing(User user) {
-
-        //do nothing
-//        Log.i(TAG, "doNothing: " + user.getLastGpsLocation().toString());
-        Toast.makeText(WalkingMapActivity.this,"30 Seconds, Success, TEACHER: " + user.getLastGpsLocation().getLat(), Toast.LENGTH_SHORT).show();
-    }
-
 }

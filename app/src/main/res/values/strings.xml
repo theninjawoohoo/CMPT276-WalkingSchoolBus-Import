@@ -78,4 +78,10 @@
     <string name="tracking_mode">Tracking Mode:</string>
     <string name="trueStatement">True</string>
     <string name="falseStatement">False</string>
+    <string name="timestamp">TimeStamp:</string>
+    <string name="parent_dashboard">Parent Dashboard</string>
+    <string name="messenger">Messenger</string>
+    <string name="filter">Filter</string>
+    <string name="inbox">inbox</string>
+    <string name="refresh">Refresh</string>
 </resources>

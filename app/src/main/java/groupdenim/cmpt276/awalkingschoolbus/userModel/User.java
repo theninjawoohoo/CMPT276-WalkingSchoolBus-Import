@@ -20,7 +20,7 @@ public class User {
     private String grade;
     private String teacherName;
     private String emergencyContactInfo;
-    private GPSLocation lastGpsLocation;
+    private GPSLocation lastGpsLocation = new GPSLocation();
     private List<Group> leadsGroups = new ArrayList<>();
     private List<Group> memberOfGroups = new ArrayList<>();
     private List<User> monitoredByUsers = new ArrayList<>();
@@ -200,6 +200,10 @@ public class User {
 
     public void setLastGpsLocation(GPSLocation lastGpsLocation) {
         this.lastGpsLocation = lastGpsLocation;
+    }
+
+    public void setLastGpsLocationLatitude(double lat) {
+        this.lastGpsLocation.setLat(lat);
     }
 //        this.walkingGroups = walkingGroups;
 //    }

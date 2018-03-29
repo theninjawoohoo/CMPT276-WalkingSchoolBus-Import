@@ -76,8 +76,9 @@ public class MonitorActivity extends AppCompatActivity {
 
     public void getMonitorList(List<User> userList)
     {
-        for(User user : userList)
-            studentsBeingMonitoredWithName.add(user.getName()+"  "+user.getEmail());
+        for(User user : userList) {
+            studentsBeingMonitoredWithName.add(user.getName() + "  " + user.getEmail());
+        }
 
         adapter=new ArrayAdapter<String>(this,
                 R.layout.student_in_list,studentsBeingMonitoredWithName );
