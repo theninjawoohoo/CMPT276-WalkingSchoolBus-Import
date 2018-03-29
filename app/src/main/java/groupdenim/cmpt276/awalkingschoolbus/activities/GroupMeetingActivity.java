@@ -44,6 +44,12 @@ public class GroupMeetingActivity extends AppCompatActivity{
         initialize();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initialize();
+    }
+
     private void initialize() {
         serverRetrieve();
 
