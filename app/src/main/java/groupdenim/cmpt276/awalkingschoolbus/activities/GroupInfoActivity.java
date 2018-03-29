@@ -456,7 +456,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     private String geoEncoder(double latitude, double longitude) throws IOException {
         Geocoder geocoder;
         List<Address> addresses;
-        geocoder = new Geocoder(this, Locale.getDefault());
+        geocoder = new Geocoder(GroupInfoActivity.this, Locale.getDefault());
 
         addresses = geocoder.getFromLocation(latitude, longitude, 1);
 

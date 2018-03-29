@@ -190,11 +190,13 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
-    public void editUserById(Context context,ProxyBuilder.SimpleCallback<User> callback, long id,User user){
-        if(TOKEN!=null)
-            updateProxy(TOKEN);
 
-        Call<User> caller=proxy.editUserById(id,user);
+    public void editUserById(Context context,ProxyBuilder.SimpleCallback<User> callback, Long id,User user){
+        if(TOKEN!=null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<User> caller = proxy.editUserById(id,user);
         ProxyBuilder.callProxy(context,caller,callback);
     }
 

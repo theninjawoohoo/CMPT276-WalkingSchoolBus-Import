@@ -11,7 +11,7 @@
         android:id="@+id/btnMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="184dp"
+        android:layout_marginBottom="220dp"
         android:layout_marginStart="40dp"
         android:text="@string/switch_to_mapView"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,16 +22,19 @@
         android:id="@+id/btn_monitor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="11dp"
         android:layout_marginTop="8dp"
         android:text="@string/switch_to_monitoring"
-        app:layout_constraintStart_toStartOf="@+id/btnMap"
-        app:layout_constraintTop_toBottomOf="@+id/btnMap" />
+        app:layout_constraintEnd_toStartOf="@+id/btn_dashboard"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnMap"
+        android:layout_marginLeft="11dp" />
 
     <Button
         android:id="@+id/btnLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:text="@string/switch_to_logout"
         app:layout_constraintStart_toStartOf="@+id/btn_monitor"
         app:layout_constraintTop_toBottomOf="@+id/btn_monitor" />
@@ -55,20 +58,45 @@
         android:id="@+id/editInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="104dp"
         android:text="@string/edit_info"
         app:layout_constraintBottom_toTopOf="@+id/btn_monitor"
         app:layout_constraintStart_toEndOf="@+id/btn_monitor"
-        android:layout_marginLeft="30dp" />
+        android:layout_marginLeft="104dp" />
 
     <Button
         android:id="@+id/btn_start_walking"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="56dp"
+        android:layout_marginTop="8dp"
         android:text="@string/start_walking"
         app:layout_constraintStart_toEndOf="@+id/btn_monitor"
-        app:layout_constraintTop_toBottomOf="@+id/btn_monitor" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_monitor"
+        android:layout_marginLeft="56dp" />
+
+    <Button
+        android:id="@+id/btn_dashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="23dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/parent_dashboard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_monitor"
+        app:layout_constraintTop_toBottomOf="@+id/editInfo"
+        android:layout_marginRight="23dp" />
+
+    <Button
+        android:id="@+id/btn_messaging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="120dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/messenger"
+        app:layout_constraintEnd_toEndOf="@+id/btn_start_walking"
+        app:layout_constraintTop_toBottomOf="@+id/btn_start_walking"
+        android:layout_marginRight="120dp" />
 
 </android.support.constraint.ConstraintLayout>

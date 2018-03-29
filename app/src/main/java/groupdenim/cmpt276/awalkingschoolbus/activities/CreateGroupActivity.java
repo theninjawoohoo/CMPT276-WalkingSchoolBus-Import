@@ -209,6 +209,7 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         }
     }
 
+    //Checks for valid input for description
     private boolean isInputValid() {
         String errorMessage;
         if (groupDescription.length() < MIN_TEXT_LENGTH) {

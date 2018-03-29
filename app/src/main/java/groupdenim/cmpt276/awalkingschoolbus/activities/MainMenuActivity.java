@@ -5,7 +5,7 @@ package groupdenim.cmpt276.awalkingschoolbus.activities;
 //Tutorials used below
 //https://www.youtube.com/watch?v=M0bYvXlhgSI
 
-import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,9 @@ import android.widget.Toast;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
@@ -33,9 +35,6 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 
 public class MainMenuActivity extends AppCompatActivity {
 
-    private LocationRequest mLocationRequest;
-    private static Context contexta;
-    private String TOKEN;
     //Some const ints
     private static final String TAG = "MainActivity";
     private static final String LOGIN = "";
@@ -52,7 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
         }
         initializeLogout();
         initializeWalkingWithGroup();
-
+        initializeParentDashBoard();
     }
 
     @Override
@@ -159,7 +158,8 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
-// This button will make the user begin sending coordinates to the server.
+    //This button will make the user begin sending coordinates to the server.
+    //User should press startWalking when walking with group
     private void initializeWalkingWithGroup() {
 
         Button btnStartWalking = (Button) findViewById(R.id.btn_start_walking);
@@ -172,6 +172,17 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+    //This button will display a list of walking groups your child is in
+    private void initializeParentDashBoard() {
+        Button parentDashBoard = (Button) findViewById(R.id.btn_dashboard);
+        parentDashBoard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, DashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 
 
 }
