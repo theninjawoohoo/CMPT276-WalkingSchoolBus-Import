@@ -237,11 +237,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     private void populateMapWithChildren() throws ParseException {
         long id = CurrentUserSingleton.getInstance(DashboardActivity.this).getId();
         List<User> childrenList = new ArrayList<>();
-
         ProxyBuilder.SimpleCallback<List<User>> callback = list -> getChildren(list, childrenList) ;
         ServerSingleton.getInstance().getMonitorUsers(this, callback, id);
-
-
     }
 
     private void getChildren(List<User> list, List<User> childrenList) {
@@ -259,16 +256,41 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
 
     private void gotUser(User user, List<User> childrenList) {
         GPSLocation childLocation = user.getLastGpsLocation();
-        if(childLocation.getLat() != 0 && childLocation.getLng() != 0
-                && childLocation.getTimestamp() != null) {
+
+        ProxyBuilder.SimpleCallback<GPSLocation> callback = location -> getLocation(location, childrenList,user);
+        ServerSingleton.getInstance().getLastGpsLocation(this,callback,user.getId());
+//        if(childLocation.getLat() != 0 && childLocation.getLng() != 0
+//                && childLocation.getTimestamp() != null) {
+//            childrenList.add(user);
+//        }
+//        else {
+//            Toast.makeText(DashboardActivity.this,"Child: " + user
+//                            + " has not started walking" + "\n"
+//                            + " Lat: " + childLocation.getLat() + "\n"
+//                            + " Long: " + childLocation.getLng() + "\n"
+//                            + " TimeStamp: " + childLocation.getTimestamp() + "\n"
+//                    , Toast.LENGTH_LONG).show();
+//            Log.i("TEST", "gotUser: " + user.getLastGpsLocation().getLat());
+//        }
+//        try {
+//            markerAdd(user);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+
+    }
+
+    private void getLocation(GPSLocation location, List<User> childrenList, User user) {
+        if(location.getLat() != 0 && location.getLng() != 0
+                && location.getTimestamp() != null) {
             childrenList.add(user);
         }
         else {
             Toast.makeText(DashboardActivity.this,"Child: " + user
                             + " has not started walking" + "\n"
-                            + " Lat: " + childLocation.getLat() + "\n"
-                            + " Long: " + childLocation.getLng() + "\n"
-                            + " TimeStamp: " + childLocation.getTimestamp() + "\n"
+                            + " Lat: " + location.getLat() + "\n"
+                            + " Long: " + location.getLng() + "\n"
+                            + " TimeStamp: " + location.getTimestamp() + "\n"
                     , Toast.LENGTH_LONG).show();
             Log.i("TEST", "gotUser: " + user.getLastGpsLocation().getLat());
         }
@@ -277,7 +299,6 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
     }
 
 

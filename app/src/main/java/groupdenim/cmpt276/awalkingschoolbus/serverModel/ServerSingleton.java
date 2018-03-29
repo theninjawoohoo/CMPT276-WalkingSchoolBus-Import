@@ -268,7 +268,7 @@ public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List
         ProxyBuilder.callProxy(context,caller,callback);
     }
 
-    public void GetLastGpsLocation(Context context, ProxyBuilder.SimpleCallback<GPSLocation> callback, Long id){
+    public void getLastGpsLocation(Context context, ProxyBuilder.SimpleCallback<GPSLocation> callback, Long id){
         if(TOKEN!=null){
             updateProxy(TOKEN);
         }
