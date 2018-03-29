@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="groupdenim.cmpt276.awalkingschoolbus.activities.Messaging">
+    tools:context="groupdenim.cmpt276.awalkingschoolbus.activities.MessagingActivity">
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/Button_sendMessage_Messaging"
@@ -18,7 +18,8 @@
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@android:drawable/ic_input_add" />
+        app:srcCompat="@android:drawable/ic_input_add"
+        android:layout_marginRight="24dp" />
 
     <LinearLayout
         android:id="@+id/linearLayout3"
@@ -63,6 +64,7 @@
         android:gravity="left"
         android:text="@string/sendMessageToGroup"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginLeft="8dp" />
 
 </android.support.constraint.ConstraintLayout>

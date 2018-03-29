@@ -92,11 +92,20 @@
         android:id="@+id/btn_messaging"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="120dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="12dp"
         android:text="@string/messenger"
+        app:layout_constraintStart_toStartOf="@+id/btnLogout"
+        app:layout_constraintTop_toBottomOf="@+id/btnLogout" />
+
+    <Button
+        android:id="@+id/btn_panic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="1dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/panic"
         app:layout_constraintEnd_toEndOf="@+id/btn_start_walking"
         app:layout_constraintTop_toBottomOf="@+id/btn_start_walking"
-        android:layout_marginRight="120dp" />
+        android:layout_marginRight="1dp" />
 
 </android.support.constraint.ConstraintLayout>

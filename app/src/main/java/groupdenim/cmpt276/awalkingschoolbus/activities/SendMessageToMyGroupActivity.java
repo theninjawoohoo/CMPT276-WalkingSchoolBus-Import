@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +19,7 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 
-public class SendMessageToMyGroup extends AppCompatActivity {
+public class SendMessageToMyGroupActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +44,7 @@ public class SendMessageToMyGroup extends AppCompatActivity {
                 long groupId = Long.parseLong(groupdIdString);
 
                 ProxyBuilder.SimpleCallback<Message> callback = messageSent -> sendMessage(messageSent);
-                ServerSingleton.getInstance().sendMessageToGroup(SendMessageToMyGroup.this,callback,groupId,message);
+                ServerSingleton.getInstance().sendMessageToGroup(SendMessageToMyGroupActivity.this,callback,groupId,message);
 
                 finish();
             }

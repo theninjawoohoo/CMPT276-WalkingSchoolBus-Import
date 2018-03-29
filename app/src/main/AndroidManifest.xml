@@ -44,6 +44,16 @@
             android:configChanges="orientation"/>
         <activity android:name=".activities.DashboardActivity" android:screenOrientation="portrait"
             android:configChanges="orientation"/>
+        <activity android:name=".activities.MessagingActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity android:name=".activities.ViewMessageActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity android:name=".activities.SendMessageActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity android:name=".activities.PanicButtonActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
+        <activity android:name=".activities.SendMessageToMyGroupActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation"/>
         <activity android:name=".activities.EditUserInfo" android:screenOrientation="portrait"
             android:configChanges="orientation"/>
         <activity android:name=".activities.RegisterActivity" android:screenOrientation="portrait"

@@ -13,7 +13,7 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 
-public class SendMessage extends AppCompatActivity {
+public class SendMessageActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,9 +33,9 @@ public class SendMessage extends AppCompatActivity {
                 Message message = new Message();
                 message.setText(text.getText().toString());
                 message.setEmergency(false);
-                long id = CurrentUserSingleton.getInstance(SendMessage.this).getId();
+                long id = CurrentUserSingleton.getInstance(SendMessageActivity.this).getId();
                 ProxyBuilder.SimpleCallback<Message> callback = messageSent -> sendMessage(messageSent);
-                ServerSingleton.getInstance().sendMessageToParents(SendMessage.this,callback,id,message);
+                ServerSingleton.getInstance().sendMessageToParents(SendMessageActivity.this,callback,id,message);
                 finish();
             }
         });

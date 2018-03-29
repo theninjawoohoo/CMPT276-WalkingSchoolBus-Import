@@ -12,7 +12,7 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 
-public class PanicButton extends AppCompatActivity {
+public class PanicButtonActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,8 +22,8 @@ public class PanicButton extends AppCompatActivity {
     }
 
     private void setupPanicButton() {
-        Button panicButton =findViewById(R.id.panicButton);
-
+        Button panicButton = findViewById(R.id.panicButton);
+        panicButton.setEnabled(true);
         panicButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -31,10 +31,11 @@ public class PanicButton extends AppCompatActivity {
                 Message message = new Message();
                 message.setText(text.getText().toString());
                 message.setEmergency(true);
-                long id = CurrentUserSingleton.getInstance(PanicButton.this).getId();
+                long id = CurrentUserSingleton.getInstance(PanicButtonActivity.this).getId();
                 ProxyBuilder.SimpleCallback<Message> callback = messageSent -> sent(messageSent);
-                ServerSingleton.getInstance().sendMessageToParents(PanicButton.this,callback,id,message);
+                ServerSingleton.getInstance().sendMessageToParents(PanicButtonActivity.this,callback,id,message);
 //                finish();
+                panicButton.setEnabled(false);
             }
         });
     }

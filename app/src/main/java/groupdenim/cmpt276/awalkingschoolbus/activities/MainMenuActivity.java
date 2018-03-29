@@ -5,9 +5,7 @@ package groupdenim.cmpt276.awalkingschoolbus.activities;
 //Tutorials used below
 //https://www.youtube.com/watch?v=M0bYvXlhgSI
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
@@ -19,16 +17,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.R;
-import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
@@ -52,6 +46,8 @@ public class MainMenuActivity extends AppCompatActivity {
         initializeLogout();
         initializeWalkingWithGroup();
         initializeParentDashBoard();
+        initializeMessaging();
+        initializePanicButton();
     }
 
     @Override
@@ -179,6 +175,28 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainMenuActivity.this, DashboardActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initializeMessaging() {
+        Button messagingMenu = (Button) findViewById(R.id.btn_messaging);
+        messagingMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = MessagingActivity.makeIntent(MainMenuActivity.this);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void initializePanicButton() {
+        Button panicButton = (Button) findViewById(R.id.btn_panic);
+        panicButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, PanicButtonActivity.class);
                 startActivity(intent);
             }
         });

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="groupdenim.cmpt276.awalkingschoolbus.activities.ViewMessage">
+    tools:context="groupdenim.cmpt276.awalkingschoolbus.activities.ViewMessageActivity">
 
     <TextView
         android:id="@+id/textViewFrom"

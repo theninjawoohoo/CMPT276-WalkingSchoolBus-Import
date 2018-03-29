@@ -64,7 +64,7 @@
     <string name="message">Messages: </string>
     <string name="messageTextView">Message: </string>
     <string name="from_text">From: </string>
-    <string name="panic">I NEED HELP</string>
+    <string name="panic">PANIC!</string>
     <string name="messageDescription">Send a message to all parents and those who monitor you</string>
     <string name="sendMessageToGroup">Send a message a group you lead</string>
     <string name="edit_info">Edit Info</string>

@@ -6,16 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
-import java.util.List;
-
 import groupdenim.cmpt276.awalkingschoolbus.R;
-import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
-import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
-import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
-import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
-public class ViewMessage extends AppCompatActivity {
+public class ViewMessageActivity extends AppCompatActivity {
 
     private static TextView fromUserTextView;
     private static TextView messageTextView;
@@ -55,7 +49,7 @@ public class ViewMessage extends AppCompatActivity {
     }
 
     public static Intent makeIntent(Context context, String userName, String text) {
-        Intent intent = new Intent(context, ViewMessage.class);
+        Intent intent = new Intent(context, ViewMessageActivity.class);
         intent.putExtra(INTENTUSER, userName);
         intent.putExtra(INTENTMESSAGE, text);
         return intent;

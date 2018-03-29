@@ -22,7 +22,7 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
-public class Messaging extends AppCompatActivity {
+public class MessagingActivity extends AppCompatActivity {
 
     List<String> messageListString = new ArrayList<>();
     List<String> names = new ArrayList<>();
@@ -44,7 +44,7 @@ public class Messaging extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Messaging.this,SendMessageToMyGroup.class);
+                Intent intent = new Intent(MessagingActivity.this,SendMessageToMyGroupActivity.class);
                 startActivity(intent);
             }
         });
@@ -86,9 +86,9 @@ public class Messaging extends AppCompatActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 long messageId = messagesList.get(i).getId();
-                long userId = CurrentUserSingleton.getInstance(Messaging.this).getId();
+                long userId = CurrentUserSingleton.getInstance(MessagingActivity.this).getId();
                 editReadStatus(messageId,userId,messagesList.get(i));
-                Intent intent = ViewMessage.makeIntent(Messaging.this,names.get(i), messagesList.get(i).getText());
+                Intent intent = ViewMessageActivity.makeIntent(MessagingActivity.this,names.get(i), messagesList.get(i).getText());
                 startActivity(intent);
             }
         });
@@ -97,7 +97,7 @@ public class Messaging extends AppCompatActivity {
     private void editReadStatus(long messageId, long userId, Message message) {
         if (!getIsRead(message)) {
             ProxyBuilder.SimpleCallback<User> callback = user -> setStatus(user);
-            ServerSingleton.getInstance().editReadStatusForMessage(Messaging.this,callback,messageId, userId);
+            ServerSingleton.getInstance().editReadStatusForMessage(MessagingActivity.this,callback,messageId, userId);
         }
     }
 
@@ -122,7 +122,7 @@ public class Messaging extends AppCompatActivity {
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Messaging.this,SendMessage.class);
+                Intent intent = new Intent(MessagingActivity.this,SendMessageActivity.class);
                 startActivity(intent);
             }
         });
@@ -156,7 +156,7 @@ public class Messaging extends AppCompatActivity {
     }
 
     public static Intent makeIntent(Context context) {
-        Intent intent = new Intent(context,Messaging.class);
+        Intent intent = new Intent(context,MessagingActivity.class);
         return intent;
     }
 
