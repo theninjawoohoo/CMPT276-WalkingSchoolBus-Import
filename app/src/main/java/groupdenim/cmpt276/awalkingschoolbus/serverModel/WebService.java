@@ -3,6 +3,7 @@ package groupdenim.cmpt276.awalkingschoolbus.serverModel;
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -33,12 +34,16 @@ public interface WebService {
     String FEED_STOPMONITORING = "/users/{idA}/monitorsUsers/{idB}";
     String FEED_STOPBEINGMONITORED = "/users/{idA}/monitoredByUsers/{idB}";
     String FEED_DELETEGROUP = "/groups/{id}";
-    String FEED_EDITUSERBYID = "/users/{id}";
     String FEED_CREATEGROUP = "/groups";
+    String FEED_EDITUSERBYID = "/users/{id}";
     String FEED_ADDTOGROUP = "/groups/{id}/memberUsers";
     String FEED_REMOVEFROMGROUP = "/groups/{groupId}/memberUsers/{userId}";
+    String FEED_GETALLMESSAGES = "/messages";
+    String FEED_GETMESSAGESFORUSER= "/messages";
+    String FEED_SENDMESSAGETOPARENTS = "/messages/toparentsof/{userId}";
+    String FEED_SENDMESSAGETOGROUPS = "/messages/togroup/{groupId}";
+    String FEED_EDITREADSTATUS = "/messages/{messageId}/readby/{userId}";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
-
 
 
     //@Headers("apiKey: " + APIKEY)
@@ -112,4 +117,27 @@ public interface WebService {
     @DELETE(FEED_REMOVEFROMGROUP)
     Call<Void> removeMemberFromGroup(@Path("groupId") long groupId,
                                      @Path("userId") long userId);
+
+    @GET(FEED_GETALLMESSAGES)
+    Call<List<Message>> getAllMessages();
+
+    @GET(FEED_GETMESSAGESFORUSER)
+    Call<List<Message>> getMessageForUser(@Query("foruser") long id);
+
+    @GET(FEED_GETMESSAGESFORUSER)
+    Call<List<Message>> getMessageForUserReadOrUnread(@Query("foruser") long id, @Query("status") String unread);
+
+
+    @POST(FEED_SENDMESSAGETOPARENTS)
+    Call<Message> sendMessageToParents(@Path("userId") long id, @Body Message message);
+
+    @POST(FEED_SENDMESSAGETOGROUPS)
+    Call<Message> sendMessageToGroup(@Path("groupId") long id, @Body Message message);
+
+    @POST(FEED_EDITUSERBYID)
+    Call<User> editUserById(@Path("id") long id);
+
+    @POST(FEED_EDITREADSTATUS)
+    Call<User> editReadStatus(@Path("messageId") long idMessage, @Path("userId") long id, @Body boolean trueOrFalse);
+
 }

@@ -6,6 +6,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import retrofit2.Call;
 
@@ -57,6 +58,15 @@ public class ServerSingleton {
         Call<User> caller = proxy.getUserById(id);
         ProxyBuilder.callProxy(context, caller, callback);
     }
+
+    public void editUserById(Context context, ProxyBuilder.SimpleCallback<User> callback, long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+        Call<User> caller = proxy.editUserById(id);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
 
     public void getUserByEmail(Context context, ProxyBuilder.SimpleCallback<User> callback, String email) {
         if (TOKEN != null) {
@@ -181,6 +191,7 @@ public class ServerSingleton {
         Call<Void> caller = proxy.removeMemberFromGroup(groupId, userId);
         ProxyBuilder.callProxy(context, caller, callback);
     }
+
     public void getMonitoredUsers(Context context, ProxyBuilder.SimpleCallback<List<User>> callback, Long id) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
@@ -190,6 +201,62 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
+    public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List<Message>> callback, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<List<Message>> caller = proxy.getMessageForUser(id);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void getUnreadMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List<Message>> callback, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        String unread = "unread";
+        Call<List<Message>> caller = proxy.getMessageForUserReadOrUnread(id,unread);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void sendMessageToParents(Context context, ProxyBuilder.SimpleCallback<Message> callback, Long id, Message message) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<Message> caller = proxy.sendMessageToParents(id, message);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void sendMessageToGroup(Context context, ProxyBuilder.SimpleCallback<Message> callback, Long groupId, Message message) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<Message> caller = proxy.sendMessageToGroup(groupId, message);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+
+    public void getReadMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List<Message>> callback, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        String read = "read";
+        Call<List<Message>> caller = proxy.getMessageForUserReadOrUnread(id,read);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
+    public void editReadStatusForMessage(Context context, ProxyBuilder.SimpleCallback<User> callback, Long idMessage, Long id) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<User> caller = proxy.editReadStatus(idMessage,id,true);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
     public void editUserById(Context context,ProxyBuilder.SimpleCallback<User> callback, long id,User user){
         if(TOKEN!=null)
             updateProxy(TOKEN);
