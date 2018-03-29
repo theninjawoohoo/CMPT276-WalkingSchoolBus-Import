@@ -358,7 +358,7 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     private void getUser(User currentUser, GPSLocation yourLocation) {
         currentUser.setLastGpsLocation(yourLocation);
         //currentUser.setLastGpsLocationLatitude(1.3);
-        currentUser.setTeacherName("I");
+//        currentUser.setTeacherName("I");
         Log.i("FUJK", "getUser TEACHEr: " + currentUser.getLastGpsLocation().getLat());
         long id = currentUser.getId();
         ProxyBuilder.SimpleCallback<User> callback= user -> doNothing(user);

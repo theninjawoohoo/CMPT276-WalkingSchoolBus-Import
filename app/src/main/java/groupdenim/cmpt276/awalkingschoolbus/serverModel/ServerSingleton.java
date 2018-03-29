@@ -5,6 +5,7 @@ import android.widget.Toast;
 
 import java.util.List;
 
+import groupdenim.cmpt276.awalkingschoolbus.userModel.GPSLocation;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
@@ -257,6 +258,16 @@ public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List
         Call<User> caller = proxy.editUserById(id,user);
         ProxyBuilder.callProxy(context,caller,callback);
     }
+
+    public void setLastGpsLocation(Context context, ProxyBuilder.SimpleCallback<User> callback, Long id, GPSLocation location){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+
+        Call<User> caller = proxy.setLastGpsLocation(id,location);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
+
 
 
 }

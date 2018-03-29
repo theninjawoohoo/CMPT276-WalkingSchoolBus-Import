@@ -202,11 +202,10 @@ public class User {
         this.lastGpsLocation = lastGpsLocation;
     }
 
-    public void setLastGpsLocationLatitude(double lat) {
-        this.lastGpsLocation.setLat(lat);
-    }
-//        this.walkingGroups = walkingGroups;
+//    public void setLastGpsLocationLatitude(double lat) {
+//        this.lastGpsLocation.setLat(lat);
 //    }
+
 
     public String getHref() {
         return href;

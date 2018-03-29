@@ -1,10 +1,14 @@
 package groupdenim.cmpt276.awalkingschoolbus.userModel;
 
 
+import com.google.gson.annotations.SerializedName;
 
 public class GPSLocation {
+    @SerializedName("lat")
     private double lat;
+    @SerializedName("lng")
     private double lng;
+    @SerializedName("timestamp")
     private String timestamp;
 
     public GPSLocation(double lat, double lng, String timestamp) {
@@ -18,7 +22,6 @@ public class GPSLocation {
     }
 
     public double getLat() {
-
         return lat;
     }
 
