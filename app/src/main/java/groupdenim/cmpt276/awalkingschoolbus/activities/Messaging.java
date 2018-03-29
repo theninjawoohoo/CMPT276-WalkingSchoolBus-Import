@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -32,11 +33,22 @@ public class Messaging extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messaging);
         setupCallToServer();
-        setupSendMessageButton();
+        setupSendMessageToParentsButton();
+        setupSendMessageToGroupsButton();
         setupListenerForMessageClick();
         setupUIRefresh();
     }
 
+    private void setupSendMessageToGroupsButton() {
+        Button send = findViewById(R.id.sendMessageToGroup);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Messaging.this,SendMessageToMyGroup.class);
+                startActivity(intent);
+            }
+        });
+    }
 
 
     private void setupUIRefresh() {
@@ -105,7 +117,7 @@ public class Messaging extends AppCompatActivity {
     }
 
 
-    private void setupSendMessageButton() {
+    private void setupSendMessageToParentsButton() {
         FloatingActionButton sendMessage = findViewById(R.id.Button_sendMessage_Messaging);
         sendMessage.setOnClickListener(new View.OnClickListener() {
             @Override

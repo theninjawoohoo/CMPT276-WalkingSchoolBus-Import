@@ -47,7 +47,9 @@
         <activity android:name=".activities.GroupMeetingActivity" />
         <activity android:name=".activities.Messaging" />
         <activity android:name=".activities.SendMessage" />
-        <activity android:name=".activities.ViewMessage"></activity>
+        <activity android:name=".activities.ViewMessage" />
+        <activity android:name=".activities.SendMessageToMyGroup" />
+        <activity android:name=".activities.PanicButton"></activity>
     </application>
 
 </manifest>

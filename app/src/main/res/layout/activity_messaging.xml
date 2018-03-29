@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginRight="8dp"
         android:clickable="true"
         android:focusable="true"
         android:visibility="visible"
@@ -38,7 +38,7 @@
         <ListView
             android:id="@+id/messageList"
             android:layout_width="match_parent"
-            android:layout_height="488dp"
+            android:layout_height="472dp"
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
@@ -50,6 +50,19 @@
 
         </ListView>
 
+
+
     </LinearLayout>
+
+    <Button
+        android:id="@+id/sendMessageToGroup"
+        android:layout_width="207dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:gravity="left"
+        android:text="@string/sendMessageToGroup"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

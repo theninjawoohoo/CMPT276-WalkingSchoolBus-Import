@@ -39,7 +39,8 @@ public interface WebService {
     String FEED_REMOVEFROMGROUP = "/groups/{groupId}/memberUsers/{userId}";
     String FEED_GETALLMESSAGES = "/messages";
     String FEED_GETMESSAGESFORUSER= "/messages";
-    String FEED_SENDMESSAGEBYID= "/messages/toparentsof/{userId}";
+    String FEED_SENDMESSAGETOPARENTS = "/messages/toparentsof/{userId}";
+    String FEED_SENDMESSAGETOGROUPS = "/messages/togroup/{groupId}";
     String FEED_EDITREADSTATUS = "/messages/{messageId}/readby/{userId}";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
@@ -123,8 +124,11 @@ public interface WebService {
     Call<List<Message>> getMessageForUserReadOrUnread(@Query("foruser") long id, @Query("status") String unread);
 
 
-    @POST(FEED_SENDMESSAGEBYID)
-    Call<Message> sendMessageById(@Path("userId") long id, @Body Message message);
+    @POST(FEED_SENDMESSAGETOPARENTS)
+    Call<Message> sendMessageToParents(@Path("userId") long id, @Body Message message);
+
+    @POST(FEED_SENDMESSAGETOGROUPS)
+    Call<Message> sendMessageToGroup(@Path("groupId") long id, @Body Message message);
 
     @POST(FEED_EDITUSERBYID)
     Call<User> editUserById(@Path("id") long id);

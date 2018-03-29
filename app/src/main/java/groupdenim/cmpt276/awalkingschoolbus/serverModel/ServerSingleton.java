@@ -218,14 +218,24 @@ public class ServerSingleton {
         ProxyBuilder.callProxy(context, caller, callback);
     }
 
-    public void sendMessageById(Context context, ProxyBuilder.SimpleCallback<Message> callback, Long id, Message message) {
+    public void sendMessageToParents(Context context, ProxyBuilder.SimpleCallback<Message> callback, Long id, Message message) {
         if (TOKEN != null) {
             updateProxy(TOKEN);
         }
 
-        Call<Message> caller = proxy.sendMessageById(id, message);
+        Call<Message> caller = proxy.sendMessageToParents(id, message);
         ProxyBuilder.callProxy(context, caller, callback);
     }
+
+    public void sendMessageToGroup(Context context, ProxyBuilder.SimpleCallback<Message> callback, Long groupId, Message message) {
+        if (TOKEN != null) {
+            updateProxy(TOKEN);
+        }
+
+        Call<Message> caller = proxy.sendMessageToGroup(groupId, message);
+        ProxyBuilder.callProxy(context, caller, callback);
+    }
+
 
     public void getReadMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List<Message>> callback, Long id) {
         if (TOKEN != null) {
