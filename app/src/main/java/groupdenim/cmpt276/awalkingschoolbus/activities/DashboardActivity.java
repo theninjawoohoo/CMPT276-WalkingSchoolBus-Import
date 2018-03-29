@@ -18,6 +18,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -103,6 +105,9 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
     //Location manager
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
+    //Buttons
+    private Button refreshButton;
+    private Button filterButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -115,7 +120,8 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        initFilterButton();
+        initRefreshButton();
     }
 
     private void initialize() {
@@ -255,7 +261,6 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         GPSLocation childLocation = user.getLastGpsLocation();
         if(childLocation.getLat() != 0 && childLocation.getLng() != 0
                 && childLocation.getTimestamp() != null) {
-            Log.i("FUJ", "gotUser: " + childLocation.getTimestamp());
             childrenList.add(user);
         }
         else {
@@ -265,7 +270,7 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
                             + " Long: " + childLocation.getLng() + "\n"
                             + " TimeStamp: " + childLocation.getTimestamp() + "\n"
                     , Toast.LENGTH_LONG).show();
-            Log.i("FUJK", "gotUser: " + user.getLastGpsLocation().getLat());
+            Log.i("TEST", "gotUser: " + user.getLastGpsLocation().getLat());
         }
 //        try {
 //            markerAdd(user);
@@ -303,5 +308,31 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         //Place it on the map
         Gmap.addMarker(newMarker);
 
+    }
+
+    public void initRefreshButton() {
+        refreshButton = findViewById(R.id.btn_refresh);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gmap.clear();
+                try {
+                    populateMapWithChildren();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+    }
+
+    public void initFilterButton() {
+        filterButton = findViewById(R.id.btn_filter);
+        filterButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(DashboardActivity.this,"Next Iteration", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
