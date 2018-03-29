@@ -272,11 +272,11 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
                     , Toast.LENGTH_LONG).show();
             Log.i("TEST", "gotUser: " + user.getLastGpsLocation().getLat());
         }
-//        try {
-//            markerAdd(user);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            markerAdd(user);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -287,16 +287,15 @@ public class DashboardActivity extends AppCompatActivity implements OnMapReadyCa
         LatLng latlng = new LatLng(childLocation.getLat(), childLocation.getLng());
 
         //Calculate the difference in the time
-        String timestamp = childLocation.getTimestamp();
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\nhh-mm-ss a");
-        Date date = sdf.parse(timestamp);
-
-        long differenceInSeconds = (System.currentTimeMillis() - date.getTime()) * 100;
+//        String timestamp = childLocation.getTimestamp();
+//        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\nhh-mm-ss a");
+//        Date date = sdf.parse(timestamp);
+//
+//        long differenceInSeconds = (System.currentTimeMillis() - date.getTime()) * 100;
 
         //Get childDetails from server
         String childDetails = "Email: " + child.getEmail() + "\n" +
-                "Time: " + childLocation.getTimestamp() + "\n" +
-                "Difference In Time: " + differenceInSeconds + " seconds" + "\n";
+                "Time: " + childLocation.getTimestamp() + "\n";
 
         //Add a new marker
         MarkerOptions newMarker = new MarkerOptions()

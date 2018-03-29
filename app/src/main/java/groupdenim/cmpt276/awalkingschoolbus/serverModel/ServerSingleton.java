@@ -259,15 +259,23 @@ public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List
         ProxyBuilder.callProxy(context,caller,callback);
     }
 
-    public void setLastGpsLocation(Context context, ProxyBuilder.SimpleCallback<User> callback, Long id, GPSLocation location){
+    public void setLastGpsLocation(Context context, ProxyBuilder.SimpleCallback<GPSLocation> callback, Long id, GPSLocation location){
         if(TOKEN!=null){
             updateProxy(TOKEN);
         }
 
-        Call<User> caller = proxy.setLastGpsLocation(id,location);
+        Call<GPSLocation> caller = proxy.setLastGpsLocation(id,location);
         ProxyBuilder.callProxy(context,caller,callback);
     }
 
+    public void GetLastGpsLocation(Context context, ProxyBuilder.SimpleCallback<GPSLocation> callback, Long id){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+
+        Call<GPSLocation> caller = proxy.setLastGpsLocation(id);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
 
 
 }

@@ -45,6 +45,7 @@ public interface WebService {
     String FEED_SENDMESSAGETOGROUPS = "/messages/togroup/{groupId}";
     String FEED_EDITREADSTATUS = "/messages/{messageId}/readby/{userId}";
     String FEED_SETLASTGPSLOCATION = "/users/{id}/lastGpsLocation";
+    String FEED_GETLASTGPSLOCATION = "/users/{id}/lastGpsLocation";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -143,6 +144,9 @@ public interface WebService {
     Call<User> editReadStatus(@Path("messageId") long idMessage, @Path("userId") long id, @Body boolean trueOrFalse);
 
     @POST(FEED_SETLASTGPSLOCATION)
-    Call<User> setLastGpsLocation(@Path("id") long id, @Body GPSLocation location);
+    Call<GPSLocation> setLastGpsLocation(@Path("id") long id, @Body GPSLocation location);
+
+    @GET (FEED_GETLASTGPSLOCATION)
+    Call<GPSLocation> setLastGpsLocation(@Path("id") long id);
 
 }

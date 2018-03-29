@@ -42,8 +42,12 @@ import com.google.android.gms.tasks.Task;
 import org.w3c.dom.Text;
 
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
@@ -133,34 +137,7 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void initialize() {
-//        trackingStatus = (TextView) findViewById(R.id.trackMode);
-//        trackingStatus.setText(R.string.trueStatement);
-//        enableTracking = (Button) findViewById(R.id.btn_resume_tracking);
-//        disableTracking = (Button) findViewById(R.id.btn_stop_tracking);
-//
-//        enableTracking.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                trackingStatus.setText(R.string.trueStatement);
-//                if(isTracking) {
-//                    return;
-//                }
-//                updateTracker();
-//                isTracking = true;
-//
-//            }
-//        });
-//
-//        disableTracking.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                trackingStatus.setText(R.string.falseStatement);
-//                if(!isTracking) {
-//                    return;
-//                }
-//                isTracking = false;
-//            }
-//        });
+
     }
 
 
@@ -311,13 +288,14 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
 
                             //Code used from...
                             //https://github.com/AllInOneYT/Project/blob/master/Android/MyApplication/app/src/main/java/myapp/myapplication/MainActivity.java
-                            long currentDate = System.currentTimeMillis();
-                            //Extract the date
-                            SimpleDateFormat sdf = new SimpleDateFormat("MMM dd yyyy\nhh-mm-ss a");
-                            String dateString = sdf.format(currentDate);
-                            timeStamp.setText(dateString);
+                            TimeZone tz = TimeZone.getTimeZone("UTC");
+                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+                            df.setTimeZone(tz);
+                            String nowAsISO = df.format(new Date());
 
-                            sendCurrentLocationToServer(latitude, longitude, dateString);
+                            timeStamp.setText(nowAsISO);
+                            Log.d("SADN", nowAsISO);
+                            sendCurrentLocationToServer(latitude, longitude, nowAsISO);
                         }
 
                         @Override
@@ -361,15 +339,16 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
 //        currentUser.setTeacherName("I");
         Log.i("FUJK", "getUser TEACHEr: " + currentUser.getLastGpsLocation().getLat());
         long id = currentUser.getId();
-        ProxyBuilder.SimpleCallback<User> callback= user -> doNothing(user);
-        ServerSingleton.getInstance().editUserById(this,callback,id,currentUser);
+        ProxyBuilder.SimpleCallback<GPSLocation> callback= location -> doNothing(location);
+        ServerSingleton.getInstance().setLastGpsLocation(this,callback,id, yourLocation);
     }
 
-    private void doNothing(User user) {
+    private void doNothing(GPSLocation location) {
 
         //do nothing
 //        Log.i(TAG, "doNothing: " + user.getLastGpsLocation().toString());
-        Toast.makeText(WalkingMapActivity.this,"30 Seconds, Success, TEACHER: " + user.getLastGpsLocation().getLat(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(WalkingMapActivity.this,"30 Seconds, Success, LAT: " + location.getLat() +
+                        "LONG: "+ location.getLng(), Toast.LENGTH_SHORT).show();
     }
 
 }
