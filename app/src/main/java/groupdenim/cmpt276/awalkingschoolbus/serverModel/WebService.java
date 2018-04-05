@@ -48,8 +48,9 @@ public interface WebService {
     String FEED_EDITREADSTATUS = "/messages/{messageId}/readby/{userId}";
     String FEED_SETLASTGPSLOCATION = "/users/{id}/lastGpsLocation";
     String FEED_GETLASTGPSLOCATION = "/users/{id}/lastGpsLocation";
-    String FEED_GETPENDINGPERMISSION = "/permissions?userId=5&statusForUser=PENDING";
+    String FEED_GETPENDINGPERMISSION = "/permissions";
     String FEED_APPROVEORDENYPERMISSION = "/permissions/{Id}";
+    String FEED_GETALLPERMISSIONSFORUSER= "/permissions";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -160,5 +161,7 @@ public interface WebService {
     @POST(FEED_APPROVEORDENYPERMISSION)
     Call<PermissionRequest> approveOrDenyPermission(@Path("Id") long id);
 
+    @GET(FEED_GETALLPERMISSIONSFORUSER)
+    Call<List<PermissionRequest>> getAllPermissionForUsers(@Query("userId") long id);
 
 }
