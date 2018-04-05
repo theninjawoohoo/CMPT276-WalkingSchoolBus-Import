@@ -162,7 +162,7 @@ public interface WebService {
     @POST(FEED_APPROVEORDENYPERMISSION)
     Call<PermissionRequest> approveOrDenyPermission(@Path("Id") long id, @Body String status);
 
-    @POST(FEED_GETONEPERMISSION)
+    @GET(FEED_GETONEPERMISSION)
     Call<PermissionRequest> getOnePermission(@Path("id") long id);
 
     @GET(FEED_GETALLPERMISSIONSFORUSER)
