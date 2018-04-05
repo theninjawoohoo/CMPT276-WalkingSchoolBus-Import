@@ -43,6 +43,7 @@ public class MainMenuActivity extends AppCompatActivity {
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
+        launchQuizActivity();
         initializeLogout();
         initializeWalkingWithGroup();
         initializeParentDashBoard();
@@ -118,6 +119,18 @@ public class MainMenuActivity extends AppCompatActivity {
                 ProxyBuilder.SimpleCallback<List<Group>> callback = groups -> groupListResponse(groups);
                 ServerSingleton.getInstance().getGroupList(MainMenuActivity.this, callback);
                 btnMap.setEnabled(false);
+            }
+        });
+    }
+
+    public void launchQuizActivity()
+    {
+        Button btnQuiz=findViewById(R.id.btnQuiz);
+        btnQuiz.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(MainMenuActivity.this,QuizActivity.class);
+                startActivity(intent);
             }
         });
     }

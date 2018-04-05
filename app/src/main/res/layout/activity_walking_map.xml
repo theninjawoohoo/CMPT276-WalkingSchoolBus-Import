@@ -51,7 +51,7 @@
         android:layout_toRightOf="@+id/textView7" />
 
     <TextView
-        android:id="@+id/textView17"
+        android:id="@+id/txtViewQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -64,15 +64,15 @@
         android:id="@+id/timeStamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/textView17"
-        android:layout_toEndOf="@+id/textView17"
-        android:layout_toRightOf="@+id/textView17" />
+        android:layout_alignTop="@+id/txtViewQuestion"
+        android:layout_toEndOf="@+id/txtViewQuestion"
+        android:layout_toRightOf="@+id/txtViewQuestion" />
 
     <Button
         android:id="@+id/walkToDestination"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/textView17"
+        android:layout_above="@+id/txtViewQuestion"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:text="@string/pick_a_location_to_walk_to"/>

@@ -11,7 +11,7 @@ import java.util.List;
 //this is a singleton class
 public class Gamification {
 
-    private int quizID;
+    private int quizID=0;    //starts from 0, then we initialize the acitivty with whatever id we have in the quizID field
     private int imageID;
     private int titleID;
     private int points;
