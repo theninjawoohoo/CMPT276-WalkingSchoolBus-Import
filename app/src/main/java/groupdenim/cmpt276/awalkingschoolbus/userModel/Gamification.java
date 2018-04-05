@@ -8,6 +8,7 @@ import java.util.List;
  * Created by niragmehta on 2018-04-02.
  */
 
+//this is a singleton class
 public class Gamification {
 
     private int quizID;
@@ -29,6 +30,8 @@ public class Gamification {
     }
 
 
+
+    //not sure of needed
     @Override
     public String toString() {
         return "Gamification{" +

@@ -11,7 +11,6 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,9 +25,10 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-
-        <activity android:name=".activities.LoginActivity"
-            android:label="@string/title_activity_login" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activities.LoginActivity"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="portrait" />
         <activity android:name=".activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -36,42 +36,79 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.MainMenuActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.MapActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.WalkingMapActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.DashboardActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.MessagingActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.ViewMessageActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.SendMessageActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.PanicButtonActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.SendMessageToMyGroupActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.EditUserInfo" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.RegisterActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.MonitorActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.MonitoredByActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.GroupInfoActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.CreateGroupActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.AddSomeoneToMonitorActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.AddSomeoneToMonitorYouActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
-        <activity android:name=".activities.GroupMeetingActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation"/>
+        <activity
+            android:name=".activities.MainMenuActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MapActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.WalkingMapActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.DashboardActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MessagingActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.ViewMessageActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SendMessageActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PanicButtonActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.SendMessageToMyGroupActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.EditUserInfo"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RegisterActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MonitorActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MonitoredByActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.GroupInfoActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.CreateGroupActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AddSomeoneToMonitorActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.AddSomeoneToMonitorYouActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.GroupMeetingActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activities.QuizActivity"></activity>
     </application>
 
 </manifest>
