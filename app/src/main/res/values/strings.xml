@@ -84,4 +84,5 @@
     <string name="filter">Filter</string>
     <string name="inbox">inbox</string>
     <string name="refresh">Refresh</string>
+    <string name="pick_a_location_to_walk_to">Pick a location to walk to</string>
 </resources>

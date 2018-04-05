@@ -68,4 +68,13 @@
         android:layout_toEndOf="@+id/textView17"
         android:layout_toRightOf="@+id/textView17" />
 
+    <Button
+        android:id="@+id/walkToDestination"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textView17"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/pick_a_location_to_walk_to"/>
+
 </RelativeLayout>

@@ -44,6 +44,7 @@ import org.w3c.dom.Text;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,7 @@ import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
  * Created by wwwfl on 2018-03-25.
  */
 
-public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyCallback,
+public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyCallback, LocationListener,
         GoogleApiClient.OnConnectionFailedListener {
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -94,8 +95,6 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     //Changing/Dynamic Variables
     private GoogleMap Gmap;
     private boolean mLocationPermissionGranted = false;
-    private boolean isTracking = true;
-    private LatLng myLatLng;
 
     //Constant variables
     private final String TAG = "TAG";
@@ -105,10 +104,14 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     private static final float DEFAULT_ZOOM = 14f;
     private static final int WAIT_TIME = 30000;
 
+    //Array to store your possible walking locations
+    private List<String> listOfPossiblePlaces = new ArrayList<>();
 
     //Location manager
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private LocationManager theLocManager;
+    private Button pickYourDestination;
+
 
     //Markers
     private Marker tempMarker;
@@ -132,12 +135,27 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
         latitudeText = (TextView) findViewById(R.id.latitude);
         longitudeText = (TextView) findViewById(R.id.longitude);
         timeStamp = (TextView) findViewById(R.id.timeStamp);
+        pickYourDestination = (Button) findViewById(R.id.walkToDestination);
 
         updateTracker();
     }
 
+    @Override
+    public void onPause() {
+        theLocManager.removeUpdates(this);
+        super.onPause();
+    }
+
     private void initialize() {
 
+
+
+        pickYourDestination.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
 
@@ -264,57 +282,9 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
         //Ensure that the network provider is enabled.
         //Courtesy of this video: https://www.youtube.com/watch?v=qS1E-Vrk60E
         if (theLocManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            theLocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
-                    WAIT_TIME, 0, new LocationListener() {
-                        @Override
-                        public void onLocationChanged(Location location) {
-                            //Get latitude and longitude
-                            double latitude = location.getLatitude();
-                            double longitude = location.getLongitude();
-                            latitudeText.setText("" + latitude);
-                            longitudeText.setText("" + longitude);
-
-                            LatLng yourLatLng = new LatLng(latitude, longitude);
-                            Geocoder geocoder = new Geocoder(getApplicationContext());
-                            try {
-                                List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                                String currentLocality = addressList.get(0).getLocality();
-                                Gmap.clear();
-                                moveCamera(yourLatLng, DEFAULT_ZOOM, currentLocality);
-
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                            //Code used from...
-                            //https://github.com/AllInOneYT/Project/blob/master/Android/MyApplication/app/src/main/java/myapp/myapplication/MainActivity.java
-                            TimeZone tz = TimeZone.getTimeZone("UTC");
-                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-                            df.setTimeZone(tz);
-                            String nowAsISO = df.format(new Date());
-
-                            timeStamp.setText(nowAsISO);
-                            Log.d("SADN", nowAsISO);
-                            sendCurrentLocationToServer(latitude, longitude, nowAsISO);
-                        }
-
-                        @Override
-                        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-                        }
-
-                        @Override
-                        public void onProviderEnabled(String s) {
-                            isTracking = true;
-                        }
-
-                        @Override
-                        public void onProviderDisabled(String s) {
-                            isTracking = false;
-                        }
-                    });
-            }
+            theLocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, WAIT_TIME, 0, this);
         }
+    }
 
 
 
@@ -337,7 +307,7 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
         currentUser.setLastGpsLocation(yourLocation);
         //currentUser.setLastGpsLocationLatitude(1.3);
 //        currentUser.setTeacherName("I");
-        Log.i("FUJK", "getUser TEACHEr: " + currentUser.getLastGpsLocation().getLat());
+        Log.i("FUJK", "getUser Teacher: " + currentUser.getLastGpsLocation().getLat());
         long id = currentUser.getId();
         ProxyBuilder.SimpleCallback<GPSLocation> callback= location -> doNothing(location);
         ServerSingleton.getInstance().setLastGpsLocation(this,callback,id, yourLocation);
@@ -351,4 +321,51 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
                         "LONG: "+ location.getLng(), Toast.LENGTH_SHORT).show();
     }
 
+    @Override
+    public void onLocationChanged(Location location) {
+        //Get latitude and longitude
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        latitudeText.setText("" + latitude);
+        longitudeText.setText("" + longitude);
+
+        LatLng yourLatLng = new LatLng(latitude, longitude);
+        Geocoder geocoder = new Geocoder(getApplicationContext());
+        try {
+            List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
+            String currentLocality = addressList.get(0).getLocality();
+            Gmap.clear();
+            moveCamera(yourLatLng, DEFAULT_ZOOM, currentLocality);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        //Code used from...
+        //https://github.com/AllInOneYT/Project/blob/master/Android/MyApplication/app/src/main/java/myapp/myapplication/MainActivity.java
+        TimeZone tz = TimeZone.getTimeZone("UTC");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+        df.setTimeZone(tz);
+        String nowAsISO = df.format(new Date());
+
+        timeStamp.setText(nowAsISO);
+        Log.d("SADN", nowAsISO);
+        sendCurrentLocationToServer(latitude, longitude, nowAsISO);
+    }
+
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
 }
