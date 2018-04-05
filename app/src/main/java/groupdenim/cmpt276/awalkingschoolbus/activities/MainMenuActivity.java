@@ -48,6 +48,7 @@ public class MainMenuActivity extends AppCompatActivity {
         initializeParentDashBoard();
         initializeMessaging();
         initializePanicButton();
+        initializeRequests();
     }
 
     @Override
@@ -202,5 +203,15 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
-
+    private void initializeRequests() {
+        Button btnMonitor = (Button) findViewById(R.id.btn_requests);
+        btnMonitor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //uncomment after
+                Intent intent = new Intent(MainMenuActivity.this, RequestsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }
