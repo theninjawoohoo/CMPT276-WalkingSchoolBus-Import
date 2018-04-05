@@ -50,6 +50,7 @@ public interface WebService {
     String FEED_GETLASTGPSLOCATION = "/users/{id}/lastGpsLocation";
     String FEED_GETPENDINGPERMISSION = "/permissions";
     String FEED_APPROVEORDENYPERMISSION = "/permissions/{Id}";
+    String FEED_GETONEPERMISSION = "/permissions/{id}";
     String FEED_GETALLPERMISSIONSFORUSER= "/permissions";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
@@ -159,7 +160,10 @@ public interface WebService {
     Call<List<PermissionRequest>> getPendingPermission(@Query("userId") long id, @Query("statusForUser") String status);
 
     @POST(FEED_APPROVEORDENYPERMISSION)
-    Call<PermissionRequest> approveOrDenyPermission(@Path("Id") long id);
+    Call<PermissionRequest> approveOrDenyPermission(@Path("Id") long id, @Body String status);
+
+    @POST(FEED_GETONEPERMISSION)
+    Call<PermissionRequest> getOnePermission(@Path("id") long id);
 
     @GET(FEED_GETALLPERMISSIONSFORUSER)
     Call<List<PermissionRequest>> getAllPermissionForUsers(@Query("userId") long id);
