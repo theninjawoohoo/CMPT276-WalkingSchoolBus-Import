@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -26,6 +25,8 @@ import java.util.Locale;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoAddFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoDeleteFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoJoinFragment;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoLeadFragment;
+import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoLeaderLeaveFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoLeaveFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupInfoRemoveFragment;
 import groupdenim.cmpt276.awalkingschoolbus.fragments.GroupMemberInfoFragment;
@@ -67,7 +68,11 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         ProxyBuilder.SimpleCallback<User> callback = returnedUser ->
                 getGroupLeaderResponse(returnedUser);
-        ServerSingleton.getInstance().getUserById(this, callback, group.getLeader().getId());
+        if (group.getLeader() != null) {
+            ServerSingleton.getInstance().getUserById(this, callback, group.getLeader().getId());
+        } else {
+            getUsersInGroupFromServer();
+        }
     }
 
     private void getGroupLeaderResponse(User user) {
@@ -93,8 +98,13 @@ public class GroupInfoActivity extends AppCompatActivity {
     private void populateTextViews() {
         populateFields(groupToDisplay.getGroupDescription(),
                 R.id.TextView_GroupInfoActivity_GroupDescription);
-        populateFields(groupToDisplay.getLeader().getEmail(),
-                R.id.TextView_GroupInfoActivity_GroupLeader);
+        if (groupLeader != null) {
+            populateFields(groupToDisplay.getLeader().getEmail(),
+                    R.id.TextView_GroupInfoActivity_GroupLeader);
+        } else {
+            populateFields("No leader",
+                    R.id.TextView_GroupInfoActivity_GroupLeader);
+        }
 
         String meetingSpot = "Not Specified";
         String destinationSpot = "Not Specified";
@@ -178,7 +188,8 @@ public class GroupInfoActivity extends AppCompatActivity {
                         CurrentUserSingleton.getInstance(GroupInfoActivity.this);
                 boolean canView = false;
                 // Check if they are a leader
-                if (currentUser.getId().equals(groupToDisplay.getLeader().getId())) {
+                if (groupToDisplay.getLeader() != null &&
+                        currentUser.getId().equals(groupToDisplay.getLeader().getId())) {
                     canView = true;
                 }
                 for (User user : membersOfGroup) {
@@ -231,7 +242,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.hlinearLayout_GroupInfoActivity_Buttons);
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(GroupInfoActivity.this);
 
-        if (!groupLeader.getId().equals(userSingleton.getId())) {
+        if (groupLeader == null || !groupLeader.getId().equals(userSingleton.getId())) {
             //Check if the current user is in the group or not
             boolean isInGroup = false;
             for (Group group : userSingleton.getMemberOfGroups()) {
@@ -244,8 +255,14 @@ public class GroupInfoActivity extends AppCompatActivity {
                 createLeaveButton(layout);
             } else {
                 createJoinButton(layout);
+                if (groupLeader == null) {
+                    // TODO: make it so you can request leadership any time you're not the leader
+                    // and it sends a request if leader is not null or if you have a parent.
+                    createRequestLeadershipButton(layout);
+                }
             }
         } else {
+            createLeaderLeaveButton(layout);
             createDeleteButton(layout);
         }
 
@@ -255,7 +272,7 @@ public class GroupInfoActivity extends AppCompatActivity {
             //Get a list of the ids for comparing
             List<Long> monitorListId = new ArrayList<>();
             for (User user : monitoringList) {
-                if (!user.getId().equals(groupLeader.getId())) {
+                if (groupLeader == null || !user.getId().equals(groupLeader.getId())) {
                     monitorListId.add(user.getId());
                 }
             }
@@ -324,6 +341,27 @@ public class GroupInfoActivity extends AppCompatActivity {
         layout.addView(button);
     }
 
+    private void createLeaderLeaveButton(LinearLayout layout) {
+        Button button = new Button(this);
+        button.setText(R.string.leave);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("groupName", groupToDisplay.getGroupDescription());
+                bundle.putLong("groupId", groupToDisplay.getId());
+                bundle.putLong("userId",
+                        CurrentUserSingleton.getInstance(GroupInfoActivity.this).getId());
+
+                FragmentManager manager = getSupportFragmentManager();
+                GroupInfoLeaderLeaveFragment dialog = new GroupInfoLeaderLeaveFragment();
+                dialog.setArguments(bundle);
+                dialog.show(manager, "MessageDialog");
+            }
+        });
+        layout.addView(button);
+    }
+
     private void createJoinButton(LinearLayout layout) {
         Button button = new Button(this);
         button.setText(R.string.join);
@@ -345,6 +383,27 @@ public class GroupInfoActivity extends AppCompatActivity {
         layout.addView(button);
     }
 
+    private void createRequestLeadershipButton(LinearLayout layout) {
+        Button button = new Button(this);
+        button.setText(R.string.lead);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putString("groupName", groupToDisplay.getGroupDescription());
+                bundle.putLong("groupId", groupToDisplay.getId());
+                bundle.putLong("userId",
+                        CurrentUserSingleton.getInstance(GroupInfoActivity.this).getId());
+
+                FragmentManager manager = getSupportFragmentManager();
+                GroupInfoLeadFragment dialog = new GroupInfoLeadFragment();
+                dialog.setArguments(bundle);
+                dialog.show(manager, "MessageDialog");
+            }
+        });
+        layout.addView(button);
+    }
+
     private void createAddButton(LinearLayout layout) {
         Button buttonAdd = new Button(this);
         buttonAdd.setText(R.string.add);
@@ -354,7 +413,11 @@ public class GroupInfoActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("groupName", groupToDisplay.getGroupDescription());
                 bundle.putLong("groupId", groupToDisplay.getId());
-                bundle.putLong("leaderId", groupLeader.getId());
+                if (groupLeader != null) {
+                    bundle.putLong("leaderId", groupLeader.getId());
+                } else {
+                    bundle.putLong("leaderId", 0);
+                }
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoAddFragment dialog = new GroupInfoAddFragment();
@@ -374,7 +437,11 @@ public class GroupInfoActivity extends AppCompatActivity {
                 Bundle bundle = new Bundle();
                 bundle.putString("groupName", groupToDisplay.getGroupDescription());
                 bundle.putLong("groupId", groupToDisplay.getId());
-                bundle.putLong("leaderId", groupLeader.getId());
+                if (groupLeader != null) {
+                    bundle.putLong("leaderId", groupLeader.getId());
+                } else {
+                    bundle.putLong("leaderId", 0);
+                }
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoRemoveFragment dialog = new GroupInfoRemoveFragment();
@@ -420,4 +487,12 @@ public class GroupInfoActivity extends AppCompatActivity {
         return addresses.get(0).getAddressLine(0);
     }
 
+    public void setLeader(User user) {
+        this.groupLeader = user;
+        groupToDisplay.setLeader(user);
+    }
+
+    public Group getGroup() {
+        return groupToDisplay;
+    }
 }
