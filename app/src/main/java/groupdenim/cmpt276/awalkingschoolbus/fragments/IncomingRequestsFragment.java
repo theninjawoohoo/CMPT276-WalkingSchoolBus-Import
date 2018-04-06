@@ -33,7 +33,7 @@ public class IncomingRequestsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_incoming_requests, container, false);
 
         populateListView();
-        setupLongClickListener();
+        //setupLongClickListener();
         return view;
     }
 
@@ -49,6 +49,7 @@ public class IncomingRequestsFragment extends Fragment {
         List<String> requestStringList = getStringListFrom(listOfRequests);
         ArrayAdapter adapter = new ArrayAdapter(getContext(),R.layout.message_card,requestStringList);
         list.setAdapter(adapter);
+
     }
 
     private List<String> getStringListFrom(List<PermissionRequest> listOfRequests) {

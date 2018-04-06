@@ -27,7 +27,7 @@ public class MyRequestsFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_my_requests, container, false);
         populateListView();
-        setupLongClickListener();
+        //setupLongClickListener();
         return view;
     }
 
@@ -54,7 +54,7 @@ public class MyRequestsFragment extends Fragment {
     }
 
     private void setupLongClickListener() {
-        ListView list = getView().findViewById(R.id.incomingRequestList);
+        ListView list = getView().findViewById(R.id.myRequests);
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
