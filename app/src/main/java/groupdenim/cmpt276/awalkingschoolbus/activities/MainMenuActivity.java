@@ -26,6 +26,7 @@ import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.PermissionRequest;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -50,6 +51,7 @@ public class MainMenuActivity extends AppCompatActivity {
         initializePanicButton();
         initializeRequests();
     }
+
 
     @Override
     protected void onResume() {

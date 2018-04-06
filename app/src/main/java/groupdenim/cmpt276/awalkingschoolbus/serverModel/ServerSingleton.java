@@ -284,10 +284,10 @@ public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List
             updateProxy(TOKEN);
         }
 
-        PermissionStatus status = PermissionStatus.PENDING;
-        String statustoSend = "\"" + status + "\"";
+        String statusToSend = PermissionStatus.PENDING + "";
+        String test = " \" PENDING \" ";
 
-        Call<List<PermissionRequest>> caller = proxy.getPendingPermission(id,statustoSend);
+        Call<List<PermissionRequest>> caller = proxy.getPendingPermission(id,statusToSend);
         ProxyBuilder.callProxy(context,caller,callback);
     }
 
@@ -306,6 +306,15 @@ public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List
         }
 
         Call<PermissionRequest> caller = proxy.getOnePermission(id);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
+
+    public void getAllPermission(Context context, ProxyBuilder.SimpleCallback<List<PermissionRequest>> callback, Long id){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+
+        Call<List<PermissionRequest>> caller = proxy.getAllPermissionForUsers(id);
         ProxyBuilder.callProxy(context,caller,callback);
     }
 

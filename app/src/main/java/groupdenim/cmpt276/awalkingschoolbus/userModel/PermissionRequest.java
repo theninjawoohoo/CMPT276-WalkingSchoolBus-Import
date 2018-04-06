@@ -112,4 +112,20 @@ public class PermissionRequest {
     public void setHref(String href) {
         this.href = href;
     }
+
+    @Override
+    public String toString() {
+        String toReturn = "{ \n id: " + id + ","
+                + "\naction: " + action + ","
+                + "\nstatus: " + status + ","
+                + "\nuserA: " + userA + ","
+                + "\nuserB: " + userB + ","
+                + "\nstatus: " + status + ","
+                + "\ngroupG: " + groupG + ","
+                + "\nrequestingUser: " + requestingUser + ","
+                + "\nmessage: " + message + ","
+                + "\nhref: " + href
+                + "\n}";
+        return toReturn;
+    }
 }
