@@ -13,11 +13,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.maps.CameraUpdateFactory;
 
+import java.time.Instant;
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
@@ -31,6 +34,7 @@ public class MainMenuActivity extends AppCompatActivity {
 
     //Some const ints
     private static final String TAG = "MainActivity";
+    private static final String WELCOME = "Hey! Welcome: ";
     private static final String LOGIN = "";
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
@@ -43,12 +47,14 @@ public class MainMenuActivity extends AppCompatActivity {
         if(doesGoogleMapsWork()) {
             initializeMapButton();
         }
+        welcomeTheUser();
         launchQuizActivity();
         initializeLogout();
         initializeWalkingWithGroup();
         initializeParentDashBoard();
         initializeMessaging();
         initializePanicButton();
+        initializeShopButton();
     }
 
     @Override
@@ -215,5 +221,23 @@ public class MainMenuActivity extends AppCompatActivity {
         });
     }
 
+    private void initializeShopButton() {
+        Button shopButton = (Button) findViewById(R.id.btn_shop);
+        shopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainMenuActivity.this, ShopActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void welcomeTheUser() {
+        CurrentUserSingleton.updateUserSingleton(MainMenuActivity.this);
+        CurrentUserSingleton currentUser = CurrentUserSingleton.getInstance(MainMenuActivity.this);
+        TextView greetingView = (TextView) findViewById(R.id.txt_welcome);
+        greetingView.setText(WELCOME + currentUser.getName());
+
+    }
 
 }

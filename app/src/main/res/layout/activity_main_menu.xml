@@ -45,14 +45,14 @@
         android:layout_height="250dp"
 
         android:layout_marginBottom="110dp"
-        android:layout_marginStart="56dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="114dp"
         app:layout_constraintBottom_toBottomOf="@+id/editInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         app:srcCompat="@drawable/bus"
-        android:layout_marginLeft="56dp" />
+        android:layout_marginLeft="80dp" />
 
     <Button
         android:id="@+id/editInfo"
@@ -119,8 +119,30 @@
         android:text="Quiz"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.944" />
+        app:layout_constraintVertical_bias="0.931" />
+
+    <TextView
+        android:id="@+id/txt_welcome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text=""
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="@+id/imageView2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_shop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="9dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/shop"
+        app:layout_constraintBottom_toTopOf="@+id/btn_monitor"
+        app:layout_constraintEnd_toStartOf="@+id/editInfo"
+        android:layout_marginRight="20dp" />
 
 </android.support.constraint.ConstraintLayout>

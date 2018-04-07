@@ -85,4 +85,9 @@
     <string name="inbox">inbox</string>
     <string name="refresh">Refresh</string>
     <string name="pick_a_location_to_walk_to">Pick a location to walk to</string>
+    <string name="your_points">Your Points:</string>
+    <string name="buy_nicknames">Buy Nicknames</string>
+    <string name="buy_icons">Buy Icons</string>
+    <string name="your_own_title">Your own title</string>
+    <string name="shop">Shop</string>
 </resources>
