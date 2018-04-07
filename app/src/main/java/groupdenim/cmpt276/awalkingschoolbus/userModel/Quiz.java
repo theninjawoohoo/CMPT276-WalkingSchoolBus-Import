@@ -6,8 +6,6 @@ package groupdenim.cmpt276.awalkingschoolbus.userModel;
 
 public class Quiz {
 
-
-
     public static final String[] questions={"What is the world's largest desert?",
             "Where is Mount Everest located?",
             "Where is the Eiffel tower located?",
@@ -89,6 +87,7 @@ public class Quiz {
     "House of Lancaster"};
                                                //6 7 8 9 10 11 12 13  14 15
     public static final int[] answers={2,3,4,3,3,1,1,4,3,2,  2, 1, 4, 3,  3};
+
 
 
 }

@@ -30,6 +30,10 @@ public class CurrentUserSingleton {
     private String grade;
     private String teacherName;
     private String emergencyContactInfo;
+    //added currentPoints and totalPointsEarned, both in CurrentUserSingleton and User class
+    private int currentPoints;
+    private int totalPointsEarned;
+
     private GPSLocation lastGpsLocation;
     private List<Message> unreadMessages;
     private List<Message> readMessages;
@@ -80,6 +84,9 @@ public class CurrentUserSingleton {
         instance.setLastGpsLocation(user.getLastGpsLocation());
         instance.setUnreadMessages(user.getUnreadMessages());
         instance.setReadMessages(user.getReadMessages());
+
+        instance.setCurrentPoints(user.getCurrentPoints());
+        instance.setTotalPointsEarned(user.getTotalPointsEarned());
     }
 
     public String getBirthYear() {
@@ -92,6 +99,22 @@ public class CurrentUserSingleton {
 
     public String getBirthMonth() {
         return birthMonth;
+    }
+
+    public int getCurrentPoints() {
+        return currentPoints;
+    }
+
+    public void setCurrentPoints(int currentPoints) {
+        this.currentPoints = currentPoints;
+    }
+
+    public int getTotalPointsEarned() {
+        return totalPointsEarned;
+    }
+
+    public void setTotalPointsEarned(int totalPointsEarned) {
+        this.totalPointsEarned = totalPointsEarned;
     }
 
     public void setBirthMonth(String birthMonth) {

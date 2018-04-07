@@ -20,6 +20,8 @@ public class User {
     private String grade;
     private String teacherName;
     private String emergencyContactInfo;
+    private int currentPoints;
+    private int totalPointsEarned;
     private GPSLocation lastGpsLocation = new GPSLocation();
     private List<Group> leadsGroups = new ArrayList<>();
     private List<Group> memberOfGroups = new ArrayList<>();
@@ -74,6 +76,27 @@ public class User {
         leadsGroups=user.getLeadsGroups();
         unreadMessages=user.getUnreadMessages();
         readMessages=user.getReadMessages();
+
+        //added current points and total points earned
+        currentPoints=user.getCurrentPoints();
+        totalPointsEarned=user.getTotalPointsEarned();
+
+    }
+
+    public int getCurrentPoints() {
+        return currentPoints;
+    }
+
+    public void setCurrentPoints(int currentPoints) {
+        this.currentPoints = currentPoints;
+    }
+
+    public int getTotalPointsEarned() {
+        return totalPointsEarned;
+    }
+
+    public void setTotalPointsEarned(int totalPointsEarned) {
+        this.totalPointsEarned = totalPointsEarned;
     }
 
     public List<Message> getUnreadMessages() {

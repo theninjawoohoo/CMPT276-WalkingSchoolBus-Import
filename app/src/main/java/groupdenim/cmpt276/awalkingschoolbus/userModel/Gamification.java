@@ -15,8 +15,7 @@ public class Gamification {
     private int imageID;
     private int titleID;
     private int points;
-    List<Integer> quizzesSolved=new ArrayList<>();
-    boolean quizAttempted=false;
+    List<Integer> quizzesSolved=new ArrayList<>(Quiz.questions.length);
     Date date;
 
     //singleton object
@@ -25,25 +24,41 @@ public class Gamification {
     public static Gamification getInstance()
     {
         if(instance==null)
+        {
             instance=new Gamification();
+            for(int i=0;i<Quiz.questions.length;i++)
+                instance.quizzesSolved.add(i,0);
+        }
         return instance;
     }
 
 
 
-    //not sure of needed
-    @Override
-    public String toString() {
-        return "Gamification{" +
-                "quizID=" + quizID +
-                ", imageID=" + imageID +
-                ", titleID=" + titleID +
-                ", points=" + points +
-                ", quizzesSolved=" + quizzesSolved.toString() +
-                ", quizAttempted=" + quizAttempted +
-                ", date=" + date +
-                '}';
+
+    //utility functions
+
+    public void setQuizzedSolvedAtIndex()
+    {
+        quizzesSolved.set(quizID,1);
     }
+
+    public void incrementQuizID()
+    {
+        //from 0 to length-1
+        if(quizID<Quiz.questions.length-1)
+            quizID=quizID+1;
+    }
+    public void decrementQuizID()
+    {
+        if(quizID>0)
+            quizID=quizID-1;
+    }
+
+    public void incrementPointsByTen()
+    {
+        points=points+10;
+    }
+
 
 
 
@@ -86,14 +101,6 @@ public class Gamification {
 
     public void setQuizzesSolved(List<Integer> quizzesSolved) {
         this.quizzesSolved = quizzesSolved;
-    }
-
-    public boolean isQuizAttempted() {
-        return quizAttempted;
-    }
-
-    public void setQuizAttempted(boolean quizAttempted) {
-        this.quizAttempted = quizAttempted;
     }
 
     public Date getDate() {
