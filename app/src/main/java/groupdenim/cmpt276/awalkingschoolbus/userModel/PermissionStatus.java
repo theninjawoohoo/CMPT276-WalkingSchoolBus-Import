@@ -7,5 +7,5 @@ package groupdenim.cmpt276.awalkingschoolbus.userModel;
 public enum PermissionStatus {
     PENDING,
     APPROVED,
-    DENIED
+    PermissionStatus, DENIED
 }

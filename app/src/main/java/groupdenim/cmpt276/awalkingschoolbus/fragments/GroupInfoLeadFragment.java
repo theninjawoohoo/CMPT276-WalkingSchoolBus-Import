@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class GroupInfoLeadFragment extends AppCompatDialogFragment {
         groupName = getArguments().getString("groupName");
         groupId = getArguments().getLong("groupId");
         userId = getArguments().getLong("userId");
+        boolean hasParent = getArguments().getBoolean("hasParent");
+        boolean hasLeader = getArguments().getBoolean("hasLeader");
 
         //Create view
         View v = LayoutInflater.from(getActivity())
@@ -57,10 +60,17 @@ public class GroupInfoLeadFragment extends AppCompatDialogFragment {
 
                     @Override
                     public void onClick(View view) {
-                        ProxyBuilder.SimpleCallback<Group> callback = returnedGroup ->
-                                getGroupByIdResponse(dialog, returnedGroup);
-                        ServerSingleton.getInstance().getGroupById(getActivity(), callback,
-                                groupId);
+                        if (hasParent || hasLeader) {
+                            ProxyBuilder.SimpleCallback<Group> callback = returnedGroup ->
+                                    getGroupByIdResponseForRequest(dialog, returnedGroup);
+                            ServerSingleton.getInstance().getGroupById(getActivity(), callback,
+                                    groupId);
+                        } else {
+                            ProxyBuilder.SimpleCallback<Group> callback = returnedGroup ->
+                                    getGroupByIdResponse(dialog, returnedGroup);
+                            ServerSingleton.getInstance().getGroupById(getActivity(), callback,
+                                    groupId);
+                        }
                         buttonYes.setEnabled(false);
                         buttonCancel.setEnabled(false);
                         dialog.setCanceledOnTouchOutside(false);
@@ -70,6 +80,28 @@ public class GroupInfoLeadFragment extends AppCompatDialogFragment {
         });
 
         return dialog;
+    }
+
+    public void getGroupByIdResponseForRequest(AlertDialog dialog, Group group) {
+        ProxyBuilder.SimpleCallback<User> callback = returnedUser ->
+                getUserByIdResponseForRequest(dialog, group, returnedUser);
+        ServerSingleton.getInstance().getUserById(getActivity(), callback,
+                userId);
+    }
+
+    public void getUserByIdResponseForRequest(AlertDialog dialog, Group group, User user) {
+        group.setLeader(user);
+        ProxyBuilder.SimpleCallback<Group> callback = returnedList ->
+                getAddLeaderResponseForRequest(dialog, group, user);
+        ServerSingleton.getInstance().updateGroupById(getActivity(), callback,
+                groupId, group);
+    }
+
+    public void getAddLeaderResponseForRequest(AlertDialog dialog, Group group, User user){
+        Log.i("ADD_RESPONSE", "Got response from add member");
+        Toast.makeText(getActivity(), "Request sent", Toast.LENGTH_SHORT).show();
+        getActivity().finish();
+        dialog.dismiss();
     }
 
     public void getGroupByIdResponse(AlertDialog dialog, Group group) {

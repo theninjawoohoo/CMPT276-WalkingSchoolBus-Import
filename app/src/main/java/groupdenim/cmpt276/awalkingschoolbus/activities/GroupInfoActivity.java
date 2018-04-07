@@ -242,6 +242,11 @@ public class GroupInfoActivity extends AppCompatActivity {
         LinearLayout layout = findViewById(R.id.hlinearLayout_GroupInfoActivity_Buttons);
         CurrentUserSingleton userSingleton = CurrentUserSingleton.getInstance(GroupInfoActivity.this);
 
+        //Check if the current user is the leader
+        if (groupLeader == null || !groupLeader.getId().equals(userSingleton.getId())) {
+            createRequestLeadershipButton(layout);
+        }
+
         if (groupLeader == null || !groupLeader.getId().equals(userSingleton.getId())) {
             //Check if the current user is in the group or not
             boolean isInGroup = false;
@@ -255,11 +260,6 @@ public class GroupInfoActivity extends AppCompatActivity {
                 createLeaveButton(layout);
             } else {
                 createJoinButton(layout);
-                if (groupLeader == null) {
-                    // TODO: make it so you can request leadership any time you're not the leader
-                    // and it sends a request if leader is not null or if you have a parent.
-                    createRequestLeadershipButton(layout);
-                }
             }
         } else {
             createLeaderLeaveButton(layout);
@@ -389,11 +389,16 @@ public class GroupInfoActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CurrentUserSingleton currentUserSingleton =
+                        CurrentUserSingleton.getInstance(GroupInfoActivity.this);
                 Bundle bundle = new Bundle();
                 bundle.putString("groupName", groupToDisplay.getGroupDescription());
                 bundle.putLong("groupId", groupToDisplay.getId());
-                bundle.putLong("userId",
-                        CurrentUserSingleton.getInstance(GroupInfoActivity.this).getId());
+                bundle.putLong("userId", currentUserSingleton.getId());
+                boolean hasParent = currentUserSingleton.getMonitoredByUsers().size() > 0;
+                bundle.putBoolean("hasParent", hasParent);
+                boolean hasLeader = groupLeader != null;
+                bundle.putBoolean("hasLeader", hasLeader);
 
                 FragmentManager manager = getSupportFragmentManager();
                 GroupInfoLeadFragment dialog = new GroupInfoLeadFragment();

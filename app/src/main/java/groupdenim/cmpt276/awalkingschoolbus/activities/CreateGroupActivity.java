@@ -55,6 +55,8 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
     private Button buttonCancel;
     private Button buttonCreate;
 
+    private boolean sendRequest = false;
+
     //Search box that looks for a google place.
     private AutoCompleteTextView theSearchBox;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
@@ -128,18 +130,6 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
                 e.printStackTrace();
             }
         }
-//        editGroupName.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                if(!(theSearchBox.getText().toString().isEmpty())) {
-//                    try {
-//                        geoLocate();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        });
     }
 
     private void setupSearchButton() {
@@ -207,7 +197,6 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         //Now Go To The location
         //And set the destination to send to the server
         if (listOfAddresses.size() > 0) {
-            Toast.makeText(CreateGroupActivity.this, searchedLocation , Toast.LENGTH_LONG).show();
             Address address = listOfAddresses.get(0);
             routeLatArray[1] = address.getLatitude();
             routeLngArray[1] = address.getLongitude();
@@ -230,13 +219,19 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
     }
 
     private void sendInput() {
+        CurrentUserSingleton currentUserSingleton =
+                CurrentUserSingleton.getInstance(CreateGroupActivity.this);
+
         Group group = new Group();
         group.setGroupDescription(groupDescription);
         group.setId(3);
         group.setRouteLatArray(routeLatArray);
         group.setRouteLngArray(routeLngArray);
         User user = new User();
-        user.setId(CurrentUserSingleton.getInstance(CreateGroupActivity.this).getId());
+        user.setId(currentUserSingleton.getId());
+        if (currentUserSingleton.getMonitoredByUsers().size() > 0) {
+            sendRequest = true;
+        }
         group.setLeader(user);
         Log.i("a", "sendInput: " + group);
         ProxyBuilder.SimpleCallback<Group> callback = groupa -> createGroupResponse(groupa);
@@ -254,6 +249,10 @@ public class CreateGroupActivity extends AppCompatActivity implements GoogleApiC
         //Update the mapSingleton group list and go back to map activity
         MapSingleton mapSingleton = MapSingleton.getInstance();
         mapSingleton.convertGroupsToMeetingPlaces(groups);
+        if (sendRequest) {
+            Toast.makeText(CreateGroupActivity.this,
+                    "Request for leadership sent", Toast.LENGTH_SHORT).show();
+        }
         Intent intent = new Intent(CreateGroupActivity.this, MapActivity.class);
         startActivity(intent);
         finish();

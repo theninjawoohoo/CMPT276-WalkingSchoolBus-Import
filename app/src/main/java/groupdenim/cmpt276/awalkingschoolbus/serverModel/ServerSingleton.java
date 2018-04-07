@@ -295,7 +295,7 @@ public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List
         if(TOKEN!=null){
             updateProxy(TOKEN);
         }
-        String statusToSend = "\"" + status + "\"";
+        String statusToSend = status.toString();//"\"" + status + "\"";
         Call<PermissionRequest> caller = proxy.approveOrDenyPermission(id, statusToSend);
         ProxyBuilder.callProxy(context,caller,callback);
     }
