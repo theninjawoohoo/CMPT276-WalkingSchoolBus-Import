@@ -62,7 +62,7 @@ public class QuizActivity extends AppCompatActivity {
     public void setUserFields(User user)
     {
         updatedCurrentUser.deepCopyUserFields(user);
-        gameInstance.setPoints(updatedCurrentUser.getTotalPointsEarned());
+        gameInstance.setPoints(updatedCurrentUser.getCurrentPoints());
         txtViewPoints.setText(Integer.toString(gameInstance.getPoints()));
     }
 
@@ -102,7 +102,7 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==1)
                 {
                     //correct answer
-                    currentPoints+=10;
+                    currentPoints=updatedCurrentUser.getCurrentPoints()+10;
                     int points=updatedCurrentUser.getTotalPointsEarned()+10;
                     updatedCurrentUser.setTotalPointsEarned(points);
                     updatedCurrentUser.setCurrentPoints(currentPoints);
@@ -141,7 +141,7 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==2)
                 {
                     //correct answer
-                    currentPoints+=10;
+                    currentPoints=updatedCurrentUser.getCurrentPoints()+10;
                     int points=updatedCurrentUser.getTotalPointsEarned()+10;
                     updatedCurrentUser.setTotalPointsEarned(points);
                     updatedCurrentUser.setCurrentPoints(currentPoints);
@@ -176,7 +176,7 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==3)
                 {
                     //correct answer
-                    currentPoints+=10;
+                    currentPoints=updatedCurrentUser.getCurrentPoints()+10;
                     int points=updatedCurrentUser.getTotalPointsEarned()+10;
                     updatedCurrentUser.setTotalPointsEarned(points);
                     updatedCurrentUser.setCurrentPoints(currentPoints);
@@ -209,7 +209,7 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==4)
                 {
                     //correct answer
-                    currentPoints+=10;
+                    currentPoints=updatedCurrentUser.getCurrentPoints()+10;
                     int points=updatedCurrentUser.getTotalPointsEarned()+10;
                     updatedCurrentUser.setTotalPointsEarned(points);
                     updatedCurrentUser.setCurrentPoints(currentPoints);
