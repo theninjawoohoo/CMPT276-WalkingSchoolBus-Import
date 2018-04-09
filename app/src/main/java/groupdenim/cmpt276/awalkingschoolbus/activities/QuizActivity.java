@@ -63,6 +63,7 @@ public class QuizActivity extends AppCompatActivity {
     {
         updatedCurrentUser.deepCopyUserFields(user);
         gameInstance.setPoints(updatedCurrentUser.getTotalPointsEarned());
+        txtViewPoints.setText(Integer.toString(gameInstance.getPoints()));
     }
 
     public void setFields()
