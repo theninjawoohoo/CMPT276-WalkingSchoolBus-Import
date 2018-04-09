@@ -21,7 +21,7 @@ public class Gamification {
     Date date;
 
     //singleton object
-    private static Gamification instance;
+    private static Gamification instance = new Gamification();
 
     public static Gamification getInstance()
     {
@@ -33,7 +33,6 @@ public class Gamification {
         }
         return instance;
     }
-
 
 
 
