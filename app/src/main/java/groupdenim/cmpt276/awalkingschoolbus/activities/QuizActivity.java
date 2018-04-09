@@ -8,8 +8,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import groupdenim.cmpt276.awalkingschoolbus.R;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
+import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Gamification;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Quiz;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
 public class QuizActivity extends AppCompatActivity {
 
@@ -21,10 +25,21 @@ public class QuizActivity extends AppCompatActivity {
     Button buttonD;
     Gamification gameInstance=Gamification.getInstance();
 
+    public static User updatedCurrentUser;
+    int currentPoints=0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+
+
+        updatedCurrentUser=new User();
+        //we get the current user
+        ProxyBuilder.SimpleCallback<User> callback= user -> setUserFields(user);
+        ServerSingleton.getInstance().getUserById(getApplicationContext(),callback,
+                CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+
 
 
         buttonA=findViewById(R.id.btnOptionA);
@@ -42,6 +57,12 @@ public class QuizActivity extends AppCompatActivity {
 
         goBack();
 
+    }
+
+    public void setUserFields(User user)
+    {
+        updatedCurrentUser.deepCopyUserFields(user);
+        gameInstance.setPoints(updatedCurrentUser.getTotalPointsEarned());
     }
 
     public void setFields()
@@ -80,6 +101,15 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==1)
                 {
                     //correct answer
+                    currentPoints+=10;
+                    int points=updatedCurrentUser.getTotalPointsEarned()+10;
+                    updatedCurrentUser.setTotalPointsEarned(points);
+                    updatedCurrentUser.setCurrentPoints(currentPoints);
+
+                    ProxyBuilder.SimpleCallback<User> callback=user-> updateUserFunction(user);
+                    ServerSingleton.getInstance().editUserById(getApplicationContext(),callback,
+                            CurrentUserSingleton.getInstance(getApplicationContext()).getId(),updatedCurrentUser);
+
                     gameInstance.setQuizzedSolvedAtIndex();
                     gameInstance.incrementPointsByTen();
                     setFields();
@@ -89,6 +119,8 @@ public class QuizActivity extends AppCompatActivity {
             }
         });
     }
+
+
     public void pressButtonB()
     {
         buttonB.setOnClickListener(new View.OnClickListener() {
@@ -108,6 +140,15 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==2)
                 {
                     //correct answer
+                    currentPoints+=10;
+                    int points=updatedCurrentUser.getTotalPointsEarned()+10;
+                    updatedCurrentUser.setTotalPointsEarned(points);
+                    updatedCurrentUser.setCurrentPoints(currentPoints);
+
+                    ProxyBuilder.SimpleCallback<User> callback=user-> updateUserFunction(user);
+                    ServerSingleton.getInstance().editUserById(getApplicationContext(),callback,
+                            CurrentUserSingleton.getInstance(getApplicationContext()).getId(),updatedCurrentUser);
+
                     gameInstance.setQuizzedSolvedAtIndex();
                     gameInstance.incrementPointsByTen();
                     setFields();
@@ -134,6 +175,15 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==3)
                 {
                     //correct answer
+                    currentPoints+=10;
+                    int points=updatedCurrentUser.getTotalPointsEarned()+10;
+                    updatedCurrentUser.setTotalPointsEarned(points);
+                    updatedCurrentUser.setCurrentPoints(currentPoints);
+
+                    ProxyBuilder.SimpleCallback<User> callback=user-> updateUserFunction(user);
+                    ServerSingleton.getInstance().editUserById(getApplicationContext(),callback,
+                            CurrentUserSingleton.getInstance(getApplicationContext()).getId(),updatedCurrentUser);
+
                     gameInstance.setQuizzedSolvedAtIndex();
                     gameInstance.incrementPointsByTen();
                     setFields();
@@ -158,6 +208,15 @@ public class QuizActivity extends AppCompatActivity {
                 if(Quiz.answers[gameInstance.getQuizID()]==4)
                 {
                     //correct answer
+                    currentPoints+=10;
+                    int points=updatedCurrentUser.getTotalPointsEarned()+10;
+                    updatedCurrentUser.setTotalPointsEarned(points);
+                    updatedCurrentUser.setCurrentPoints(currentPoints);
+
+                    ProxyBuilder.SimpleCallback<User> callback=user-> updateUserFunction(user);
+                    ServerSingleton.getInstance().editUserById(getApplicationContext(),callback,
+                            CurrentUserSingleton.getInstance(getApplicationContext()).getId(),updatedCurrentUser);
+
                     gameInstance.setQuizzedSolvedAtIndex();
                     gameInstance.incrementPointsByTen();
                     setFields();
@@ -193,7 +252,8 @@ public class QuizActivity extends AppCompatActivity {
 
     }
 
-
+    private void updateUserFunction(User user) {
+    }
 
 
     public void goBack()
