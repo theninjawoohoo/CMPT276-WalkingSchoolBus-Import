@@ -19,6 +19,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -55,6 +56,7 @@ import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.GPSLocation;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
 /**
@@ -105,13 +107,13 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     private static final int WAIT_TIME = 30000;
 
     //Array to store your possible walking locations
-    private List<String> listOfPossiblePlaces = new ArrayList<>();
+    private List<Group> listOfYourGroups = new ArrayList<>();
 
     //Location manager
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private LocationManager theLocManager;
     private Button pickYourDestination;
-
+    private LatLng yourDestination;
 
     //Markers
     private Marker tempMarker;
@@ -147,13 +149,30 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     }
 
     private void initialize() {
+        getListOfYourGroups();
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+        dialogBuilder.setTitle("Your groups");
 
+        ArrayAdapter<Group> dataAdapter = new ArrayAdapter<Group>(this,
+                android.R.layout.simple_list_item_1, listOfYourGroups);
 
+        dialogBuilder.setAdapter(dataAdapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Group selectedGroup = listOfYourGroups.get(i);
+                yourDestination = new LatLng(selectedGroup.getRouteLatArray()[1], selectedGroup.getRouteLngArray()[1]);
+                Toast.makeText(WalkingMapActivity.this, "You have selected "
+                        + selectedGroup.getGroupDescription(), Toast.LENGTH_LONG).show();
+                moveCamera(yourDestination, DEFAULT_ZOOM, selectedGroup.getGroupDescription());
+            }
+        });
+
+        AlertDialog dialog = dialogBuilder.create();
 
         pickYourDestination.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                dialog.show();
             }
         });
     }
@@ -317,7 +336,7 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
 
         //do nothing
 //        Log.i(TAG, "doNothing: " + user.getLastGpsLocation().toString());
-        Toast.makeText(WalkingMapActivity.this,"30 Seconds, Success, LAT: " + location.getLat() +
+        Toast.makeText(WalkingMapActivity.this,"Success, LAT: " + location.getLat() +
                         "LONG: "+ location.getLng(), Toast.LENGTH_SHORT).show();
     }
 
@@ -334,8 +353,6 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
         try {
             List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
             String currentLocality = addressList.get(0).getLocality();
-            Gmap.clear();
-            moveCamera(yourLatLng, DEFAULT_ZOOM, currentLocality);
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -367,5 +384,11 @@ public class WalkingMapActivity extends AppCompatActivity implements OnMapReadyC
     @Override
     public void onProviderDisabled(String s) {
 
+    }
+
+    public void getListOfYourGroups() {
+        CurrentUserSingleton.updateUserSingleton(WalkingMapActivity.this);
+        CurrentUserSingleton currentUser = CurrentUserSingleton.getInstance(WalkingMapActivity.this);
+        listOfYourGroups = currentUser.getMemberOfGroups();
     }
 }

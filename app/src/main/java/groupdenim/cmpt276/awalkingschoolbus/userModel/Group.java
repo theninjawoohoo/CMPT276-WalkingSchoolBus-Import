@@ -92,4 +92,9 @@ public class Group {
     public void setLeader(User leader) {
         this.leader = leader;
     }
+
+    @Override
+    public String toString() {
+        return groupDescription;
+    }
 }

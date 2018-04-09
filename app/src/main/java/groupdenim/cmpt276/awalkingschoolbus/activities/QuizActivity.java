@@ -91,7 +91,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(gameInstance.getQuizzesSolved().get(gameInstance.getQuizID())==1)
                 {
-                    Toast.makeText(getApplicationContext(),"Question attempted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Question already attempted",Toast.LENGTH_SHORT).show();
                     return;
                 }
                 else
