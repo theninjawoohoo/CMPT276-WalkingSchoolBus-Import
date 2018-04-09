@@ -195,6 +195,7 @@ public class ProxyBuilder {
             Request originalRequest = chain.request();
 
             Request.Builder builder = originalRequest.newBuilder();
+            builder.header("permissions-enabled", "true");
             // Add API header
             if (apiKey != null) {
                 builder.header("apiKey", apiKey);

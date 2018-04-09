@@ -145,4 +145,13 @@
         app:layout_constraintEnd_toStartOf="@+id/editInfo"
         android:layout_marginRight="20dp" />
 
+    <Button
+        android:id="@+id/btn_requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="108dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/requests"
+        android:layout_marginRight="108dp" />
+
 </android.support.constraint.ConstraintLayout>

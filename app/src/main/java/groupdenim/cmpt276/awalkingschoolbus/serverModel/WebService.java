@@ -5,6 +5,8 @@ import java.util.List;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.GPSLocation;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.PermissionRequest;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.PermissionStatus;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -46,6 +48,10 @@ public interface WebService {
     String FEED_EDITREADSTATUS = "/messages/{messageId}/readby/{userId}";
     String FEED_SETLASTGPSLOCATION = "/users/{id}/lastGpsLocation";
     String FEED_GETLASTGPSLOCATION = "/users/{id}/lastGpsLocation";
+    String FEED_GETPENDINGPERMISSION = "/permissions";
+    String FEED_APPROVEORDENYPERMISSION = "/permissions/{Id}";
+    String FEED_GETONEPERMISSION = "/permissions/{id}";
+    String FEED_GETALLPERMISSIONSFORUSER= "/permissions";
     String APIKEY= "394ECE0B-5BF9-41C4-B9F6-261B0678ED23";
 
 
@@ -146,7 +152,20 @@ public interface WebService {
     @POST(FEED_SETLASTGPSLOCATION)
     Call<GPSLocation> setLastGpsLocation(@Path("id") long id, @Body GPSLocation location);
 
-    @GET (FEED_GETLASTGPSLOCATION)
+    @GET(FEED_GETLASTGPSLOCATION)
     Call<GPSLocation> setLastGpsLocation(@Path("id") long id);
+
+
+    @GET(FEED_GETPENDINGPERMISSION)
+    Call<List<PermissionRequest>> getPendingPermission(@Query("userId") long id, @Query("statusForUser") String status);
+
+    @POST(FEED_APPROVEORDENYPERMISSION)
+    Call<PermissionRequest> approveOrDenyPermission(@Path("Id") long id, @Body String status);
+
+    @GET(FEED_GETONEPERMISSION)
+    Call<PermissionRequest> getOnePermission(@Path("id") long id);
+
+    @GET(FEED_GETALLPERMISSIONSFORUSER)
+    Call<List<PermissionRequest>> getAllPermissionForUsers(@Query("userId") long id);
 
 }

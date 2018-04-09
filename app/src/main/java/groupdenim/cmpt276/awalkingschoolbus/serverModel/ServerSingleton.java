@@ -8,6 +8,8 @@ import java.util.List;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.GPSLocation;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Message;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.PermissionRequest;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.PermissionStatus;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 import retrofit2.Call;
 
@@ -274,6 +276,45 @@ public void getMessagesForUser(Context context, ProxyBuilder.SimpleCallback<List
         }
 
         Call<GPSLocation> caller = proxy.setLastGpsLocation(id);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
+
+    public void getPendingPermissions(Context context, ProxyBuilder.SimpleCallback<List<PermissionRequest>> callback, Long id){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+
+        String statusToSend = PermissionStatus.PENDING + "";
+        String test = " \" PENDING \" ";
+
+        Call<List<PermissionRequest>> caller = proxy.getPendingPermission(id,statusToSend);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
+
+    public void approveOrDeny (Context context, ProxyBuilder.SimpleCallback<PermissionRequest> callback, Long id, PermissionStatus status){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+        String statusToSend = status.toString();//"\"" + status + "\"";
+        Call<PermissionRequest> caller = proxy.approveOrDenyPermission(id, statusToSend);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
+
+    public void getOnePermission(Context context, ProxyBuilder.SimpleCallback<PermissionRequest> callback, Long id){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+
+        Call<PermissionRequest> caller = proxy.getOnePermission(id);
+        ProxyBuilder.callProxy(context,caller,callback);
+    }
+
+    public void getAllPermission(Context context, ProxyBuilder.SimpleCallback<List<PermissionRequest>> callback, Long id){
+        if(TOKEN!=null){
+            updateProxy(TOKEN);
+        }
+
+        Call<List<PermissionRequest>> caller = proxy.getAllPermissionForUsers(id);
         ProxyBuilder.callProxy(context,caller,callback);
     }
 

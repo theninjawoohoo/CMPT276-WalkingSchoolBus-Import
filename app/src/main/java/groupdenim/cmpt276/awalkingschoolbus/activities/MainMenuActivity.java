@@ -29,6 +29,7 @@ import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.PermissionRequest;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -55,7 +56,9 @@ public class MainMenuActivity extends AppCompatActivity {
         initializeMessaging();
         initializePanicButton();
         initializeShopButton();
+        initializeRequests();
     }
+
 
     @Override
     protected void onResume() {
@@ -240,4 +243,15 @@ public class MainMenuActivity extends AppCompatActivity {
 
     }
 
+    private void initializeRequests() {
+        Button btnMonitor = (Button) findViewById(R.id.btn_requests);
+        btnMonitor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //uncomment after
+                Intent intent = new Intent(MainMenuActivity.this, RequestsActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
 }
