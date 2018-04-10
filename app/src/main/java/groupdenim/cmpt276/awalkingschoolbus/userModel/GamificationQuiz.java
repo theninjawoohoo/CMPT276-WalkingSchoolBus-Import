@@ -54,6 +54,9 @@ public class GamificationQuiz {
     }
 
 
+
+
+
     //getters and setters
     public int getQuizID() {
         return quizID;
