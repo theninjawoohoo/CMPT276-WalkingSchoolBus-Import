@@ -73,7 +73,7 @@ public class RequestInfoFragment extends AppCompatDialogFragment {
         usersToDisplay.add(user);
         if (usersToDisplay.size() == responseIds.length) {
             displayMessage(v);
-            if (currentUserRequestStatus.equals("PENDING") && showIncomingRequest) {
+            if (currentUserRequestStatus.equals("PENDING") && currentRequestStatus.equals("PENDING") && showIncomingRequest) {
                 initializeApproveButton(v);
                 initializeDenyButton(v);
             }
@@ -162,6 +162,9 @@ public class RequestInfoFragment extends AppCompatDialogFragment {
         for (PermissionRequest permissionRequest : currentRequests) {
             if (permissionRequest.getId() == requestId) {
                 changedRequest = permissionRequest;
+                if (status.toString().equals("DENIED")) {
+                    break;
+                }
                 for (PermissionRecord permissionRecord : permissionRequest.getAuthorizors()) {
                     if (!permissionRecord.getStatus().toString().equals(status.toString())) {
                         statusChanged = false;

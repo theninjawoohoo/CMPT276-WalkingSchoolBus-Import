@@ -45,26 +45,33 @@ public class CustomRequestListAdapter extends ArrayAdapter<String> {
         }
 
         TextView text = view.findViewById(R.id.textView_request);
-        List<PermissionRecord> permissionRecords = requestsForMe.get(position).getAuthorizors();
-        PermissionStatus currentUserStatus = PermissionStatus.PENDING;
-        CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(getContext());
-        for (PermissionRecord permissionRecord : permissionRecords) {
-            for (User user : permissionRecord.getUsers()) {
-                if (user.getId().equals(currentUserSingleton.getId())) {
-                    currentUserStatus = permissionRecord.getStatus();
+        if (!requestsForMe.get(position).getStatus().equals(PermissionStatus.PENDING)) {
+            // If overall status is not pending, no need to reply
+            text.setBackgroundColor(Color.GRAY);
+            text.setText(items.get(position));
+        } else {
+            // Otherwise, check if the current user has applied and change colour accordingly
+            List<PermissionRecord> permissionRecords = requestsForMe.get(position).getAuthorizors();
+            PermissionStatus currentUserStatus = PermissionStatus.PENDING;
+            CurrentUserSingleton currentUserSingleton = CurrentUserSingleton.getInstance(getContext());
+            for (PermissionRecord permissionRecord : permissionRecords) {
+                for (User user : permissionRecord.getUsers()) {
+                    if (user.getId().equals(currentUserSingleton.getId())) {
+                        currentUserStatus = permissionRecord.getStatus();
+                    }
                 }
             }
-        }
 
-        if (items.get(position) != null ) {
-            switch (currentUserStatus) {
-                case PENDING:
-                    text.setBackgroundColor(Color.GREEN);
-                    break;
-                default:
-                    text.setBackgroundColor(Color.GRAY);
+            if (items.get(position) != null) {
+                switch (currentUserStatus) {
+                    case PENDING:
+                        text.setBackgroundColor(Color.GREEN);
+                        break;
+                    default:
+                        text.setBackgroundColor(Color.GRAY);
+                }
+                text.setText(items.get(position));
             }
-            text.setText(items.get(position));
         }
 
         return view;
