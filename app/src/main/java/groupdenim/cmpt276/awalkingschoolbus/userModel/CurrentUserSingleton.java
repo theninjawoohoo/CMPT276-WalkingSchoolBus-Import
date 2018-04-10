@@ -34,6 +34,8 @@ public class CurrentUserSingleton {
     private int currentPoints;
     private int totalPointsEarned;
 
+    private String customJSON;
+
     private GPSLocation lastGpsLocation;
     private List<Message> unreadMessages;
     private List<Message> readMessages;
@@ -87,6 +89,7 @@ public class CurrentUserSingleton {
 
         instance.setCurrentPoints(user.getCurrentPoints());
         instance.setTotalPointsEarned(user.getTotalPointsEarned());
+        instance.setCustomJSON(user.getCustomJson());
     }
 
     public String getBirthYear() {
@@ -266,6 +269,14 @@ public class CurrentUserSingleton {
 
     public void setEditUserId(Long editUserId) {
         this.editUserId = editUserId;
+    }
+
+    public String getCustomJSON() {
+        return customJSON;
+    }
+
+    public void setCustomJSON(String customJSON) {
+        this.customJSON = customJSON;
     }
 
 }

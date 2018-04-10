@@ -1,7 +1,6 @@
 package groupdenim.cmpt276.awalkingschoolbus.userModel;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,25 +8,20 @@ import java.util.List;
  */
 
 //this is a singleton class
-public class Gamification {
-
-
+public class GamificationQuiz {
 
     private int quizID=0;    //starts from 0, then we initialize the acitivty with whatever id we have in the quizID field
-    private int imageID;
-    private int titleID;
     private int points;
     List<Integer> quizzesSolved=new ArrayList<>(Quiz.questions.length);
-    Date date;
 
     //singleton object
-    private static Gamification instance = new Gamification();
+    private static GamificationQuiz instance;
 
-    public static Gamification getInstance()
+    public static GamificationQuiz getInstance()
     {
         if(instance==null)
         {
-            instance=new Gamification();
+            instance=new GamificationQuiz();
             for(int i=0;i<Quiz.questions.length;i++)
                 instance.quizzesSolved.add(i,0);
         }
@@ -37,7 +31,6 @@ public class Gamification {
 
 
     //utility functions
-
     public void setQuizzedSolvedAtIndex()
     {
         quizzesSolved.set(quizID,1);
@@ -61,8 +54,6 @@ public class Gamification {
     }
 
 
-
-
     //getters and setters
     public int getQuizID() {
         return quizID;
@@ -72,25 +63,10 @@ public class Gamification {
         this.quizID = quizID;
     }
 
-    public int getImageID() {
-        return imageID;
-    }
-
-    public void setImageID(int imageID) {
-        this.imageID = imageID;
-    }
-
-    public int getTitleID() {
-        return titleID;
-    }
-
-    public void setTitleID(int titleID) {
-        this.titleID = titleID;
-    }
-
     public int getPoints() {
         return points;
     }
+
 
     public void setPoints(int points) {
         this.points = points;
@@ -104,11 +80,4 @@ public class Gamification {
         this.quizzesSolved = quizzesSolved;
     }
 
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
 }

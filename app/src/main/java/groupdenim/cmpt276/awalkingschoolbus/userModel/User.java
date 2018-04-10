@@ -22,6 +22,7 @@ public class User {
     private String emergencyContactInfo;
     private int currentPoints;
     private int totalPointsEarned;
+    private String customJson;
     private GPSLocation lastGpsLocation = new GPSLocation();
     private List<Group> leadsGroups = new ArrayList<>();
     private List<Group> memberOfGroups = new ArrayList<>();
@@ -80,6 +81,7 @@ public class User {
         //added current points and total points earned
         currentPoints=user.getCurrentPoints();
         totalPointsEarned=user.getTotalPointsEarned();
+        customJson = user.getCustomJson();
 
     }
 
@@ -285,4 +287,11 @@ public class User {
     }
 
 
+    public String getCustomJson() {
+        return customJson;
+    }
+
+    public void setCustomJson(String customJson) {
+        this.customJson = customJson;
+    }
 }

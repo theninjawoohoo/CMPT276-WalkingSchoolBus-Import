@@ -82,5 +82,6 @@ public class GroupInfoDeleteFragment extends AppCompatDialogFragment {
         userSingleton.setLeadsGroups(groupList);
 
         getActivity().finish();
+
     }
 }

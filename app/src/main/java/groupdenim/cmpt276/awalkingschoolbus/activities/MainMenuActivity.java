@@ -18,18 +18,17 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.maps.CameraUpdateFactory;
 
-import java.time.Instant;
 import java.util.List;
 
 import groupdenim.cmpt276.awalkingschoolbus.userModel.CurrentUserSingleton;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.GamificationQuiz;
 import groupdenim.cmpt276.awalkingschoolbus.userModel.Group;
 import groupdenim.cmpt276.awalkingschoolbus.R;
 import groupdenim.cmpt276.awalkingschoolbus.mapModels.MapSingleton;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ProxyBuilder;
 import groupdenim.cmpt276.awalkingschoolbus.serverModel.ServerSingleton;
-import groupdenim.cmpt276.awalkingschoolbus.userModel.PermissionRequest;
+import groupdenim.cmpt276.awalkingschoolbus.userModel.User;
 
 public class MainMenuActivity extends AppCompatActivity {
 
@@ -57,6 +56,7 @@ public class MainMenuActivity extends AppCompatActivity {
         initializePanicButton();
         initializeShopButton();
         initializeRequests();
+        initializeUserPoints();
     }
 
 
@@ -236,10 +236,9 @@ public class MainMenuActivity extends AppCompatActivity {
     }
 
     private void welcomeTheUser() {
-        CurrentUserSingleton.updateUserSingleton(MainMenuActivity.this);
-        CurrentUserSingleton currentUser = CurrentUserSingleton.getInstance(MainMenuActivity.this);
+        String userName = CurrentUserSingleton.getInstance(MainMenuActivity.this).getName();
         TextView greetingView = (TextView) findViewById(R.id.txt_welcome);
-        greetingView.setText(WELCOME + currentUser.getName());
+        greetingView.setText(WELCOME + userName);
 
     }
 
@@ -253,5 +252,17 @@ public class MainMenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void initializeUserPoints() {
+        ProxyBuilder.SimpleCallback<User> callback= user -> setFields(user);
+        ServerSingleton.getInstance().getUserById(getApplicationContext(),callback,
+                CurrentUserSingleton.getInstance(getApplicationContext()).getId());
+    }
+
+    private void setFields(User user) {
+        GamificationQuiz gamificationQuiz = GamificationQuiz.getInstance();
+        gamificationQuiz.setPoints(user.getCurrentPoints());
+
     }
 }

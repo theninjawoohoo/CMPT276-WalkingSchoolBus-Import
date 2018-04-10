@@ -88,7 +88,7 @@
     <string name="your_points">Your Points:</string>
     <string name="buy_nicknames">Buy Nicknames</string>
     <string name="buy_icons">Buy Icons</string>
-    <string name="your_own_title">Your own title</string>
+    <string name="your_own_title">Buy Custom Nickname</string>
     <string name="shop">Shop</string>
     <string name="quiz">Quiz</string>
     <string name="lead">Lead</string>
@@ -98,4 +98,5 @@
     <string name="requests">Requests</string>
     <string name="approve">Approve</string>
     <string name="deny">Deny</string>
+    <string name="tap_me_to_look_for_cooler_names">Switch List</string>
 </resources>

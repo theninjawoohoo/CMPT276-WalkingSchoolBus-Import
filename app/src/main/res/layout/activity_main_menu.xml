@@ -11,11 +11,14 @@
         android:id="@+id/btnMap"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="220dp"
+        android:layout_marginBottom="232dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="40dp"
         android:text="@string/switch_to_mapView"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btn_shop"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginRight="8dp"
         android:layout_marginLeft="40dp" />
 
     <Button
@@ -50,7 +53,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/editInfo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/bus"
         android:layout_marginLeft="80dp" />
 
@@ -80,13 +83,13 @@
         android:id="@+id/btn_dashboard"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="23dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="8dp"
         android:text="@string/parent_dashboard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_monitor"
         app:layout_constraintTop_toBottomOf="@+id/editInfo"
-        android:layout_marginRight="23dp" />
+        android:layout_marginRight="15dp" />
 
     <Button
         android:id="@+id/btn_messaging"
@@ -122,17 +125,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.931" />
+        app:layout_constraintVertical_bias="0.912" />
 
     <TextView
         android:id="@+id/txt_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="1dp"
         android:text=""
         android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/imageView2"
         app:layout_constraintStart_toStartOf="@+id/imageView2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
 
     <Button
         android:id="@+id/btn_shop"
@@ -149,9 +153,10 @@
         android:id="@+id/btn_requests"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="108dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="1dp"
         android:text="@string/requests"
-        android:layout_marginRight="108dp" />
+        app:layout_constraintBaseline_toBaselineOf="@+id/btn_start_walking"
+        app:layout_constraintStart_toEndOf="@+id/btnLogout"
+        android:layout_marginLeft="1dp" />
 
 </android.support.constraint.ConstraintLayout>
