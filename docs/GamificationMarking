@@ -8,3 +8,15 @@ Upon buying a nickname he has to hit refresh on the store page to view his new b
 -Switching of more expensive names.
 -Custom Name.
 -The ability to unlock the purchases.
+
+The quiz part of the gamification lets you play a a quiz
+- each question can only be attempted once
+- Lets you move forward and backward through the quiz
+- Updates the points the user wins and saves them to the server
+
+also if you get a bunch of nulls
+
+Logout.
+Login with
+USer: abc@123
+password: 1234
